@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Vir on Hackers Fight Club Blog</title>
+    <link>https://albertnath.github.io/hfc-blog/authors/vir/</link>
+    <description>Recent content in Vir on Hackers Fight Club Blog</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 16 Feb 2025 09:12:08 -0600</lastBuildDate>
+    <atom:link href="https://albertnath.github.io/hfc-blog/authors/vir/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HTB Cyber Apocalypse 2025 | CyberAttack WriteUp</title>
+      <link>https://albertnath.github.io/hfc-blog/posts/writeup-test/</link>
+      <pubDate>Sun, 16 Feb 2025 09:12:08 -0600</pubDate>
+      <guid>https://albertnath.github.io/hfc-blog/posts/writeup-test/</guid>
+      <description>&lt;h1 id=&#34;introducción&#34;&gt;Introducción&lt;/h1&gt;&#xA;&lt;p&gt;Recientemente se llevó a cabo el CTF anual de HackTheBox &amp;ldquo;Cyber Apocalypse&amp;rdquo;. Uno de los retos que más me gustó dentro de la categoría &amp;ldquo;Web&amp;rdquo; fue &amp;ldquo;Cyber Attack&amp;rdquo;. Como todos los retos de este CTF, este está ambientado en el mundo fantástico de Eldoria. Se nos presenta una aplicación web destinada a atacar a los enemigos de Malakar.&lt;/p&gt;&#xA;&lt;p&gt;A grandes rasgos, el reto requería explotar una inyección CRLF, una vulnerabilidad de tipo SSRF y una inyección de comandos. Adicionalmente para lograr resolverlo, fue necesario comprender algo llamado &amp;ldquo;ambigüedad semántica&amp;rdquo; en servidores Apache y aplicar un pequeño truco en IPv6 para conseguir inyectar comandos. Para resolver el reto, se nos provee el código fuente de la aplicación y archivos de configuración del servidor web.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

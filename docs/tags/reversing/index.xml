@@ -4,58 +4,16 @@
     <title>Reversing on Hackers Fight Club Blog</title>
     <link>https://albertnath.github.io/hfc-blog/tags/reversing/</link>
     <description>Recent content in Reversing on Hackers Fight Club Blog</description>
-    <generator>Hugo -- gohugo.io</generator>
+    <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 16 Feb 2025 09:12:08 -0600</lastBuildDate><atom:link href="https://albertnath.github.io/hfc-blog/tags/reversing/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 16 Feb 2025 09:12:08 -0600</lastBuildDate>
+    <atom:link href="https://albertnath.github.io/hfc-blog/tags/reversing/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Reversing Basicos: Arquitectura de Computadoras</title>
       <link>https://albertnath.github.io/hfc-blog/posts/reversing-basics/</link>
       <pubDate>Sun, 16 Feb 2025 09:12:08 -0600</pubDate>
-      
       <guid>https://albertnath.github.io/hfc-blog/posts/reversing-basics/</guid>
-      <description>&lt;h1 id=&#34;básicos&#34;&gt;Básicos&lt;/h1&gt;
-&lt;p&gt;Toda la memoria está indexada en hexadecimal. En la memoria viven las instrucciones en ensamblador.&lt;/p&gt;
-&lt;p&gt;Dependiendo de la arquitectura, tendremos entre 8 y 32 registros. Un registro puede verse como variables globales. Permiten realizar opreaciones aritmético-lógicas según su tipo. El tamaño de estos registros depende de la arquitectura del procesador (32 o 64 bits).&lt;/p&gt;
-&lt;p&gt;Si los números que manejamos son más grandes que el tamaño máximo de nuestros registros, tendremos que &lt;strong&gt;dividir el número entre más de un registro&lt;/strong&gt;. Si a pesar de esto el espacio es insuficiente, tendremos que echar mano de &lt;strong&gt;la memoria&lt;/strong&gt; que no esté ocupada.&lt;/p&gt;</description>
-      <content>&lt;h1 id=&#34;básicos&#34;&gt;Básicos&lt;/h1&gt;
-&lt;p&gt;Toda la memoria está indexada en hexadecimal. En la memoria viven las instrucciones en ensamblador.&lt;/p&gt;
-&lt;p&gt;Dependiendo de la arquitectura, tendremos entre 8 y 32 registros. Un registro puede verse como variables globales. Permiten realizar opreaciones aritmético-lógicas según su tipo. El tamaño de estos registros depende de la arquitectura del procesador (32 o 64 bits).&lt;/p&gt;
-&lt;p&gt;Si los números que manejamos son más grandes que el tamaño máximo de nuestros registros, tendremos que &lt;strong&gt;dividir el número entre más de un registro&lt;/strong&gt;. Si a pesar de esto el espacio es insuficiente, tendremos que echar mano de &lt;strong&gt;la memoria&lt;/strong&gt; que no esté ocupada.&lt;/p&gt;
-&lt;p&gt;Uno de los registros más importantes es &lt;strong&gt;Program Counter (PC)&lt;/strong&gt; que inidica al procesador la dirección de memoria con la siguiente instrucción a ejecutar. También es conocido como &lt;strong&gt;Instruction Pointer&lt;/strong&gt;.&lt;/p&gt;
-&lt;h2 id=&#34;heap-y-stack&#34;&gt;Heap y stack&lt;/h2&gt;
-&lt;p&gt;Son dos estructuras de datos asociadas a cualquier proceso. El stack se encuentra al inicio del espacio de memoria asignado al proceso y crece &amp;ldquo;hacia abajo&amp;rdquo;. Tiene registros especiales asociados:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;strong&gt;Stack Pointer (SP/ESP/RSP)&lt;/strong&gt; apunta a la dirección en memoria que está al tope de la pila.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;caché&#34;&gt;Caché&lt;/h2&gt;
-&lt;p&gt;Idealmente, todo un proceso debería usar solo registros, pero esto es poco probable que ocurra (el software moderno es pesado).&lt;/p&gt;
-&lt;p&gt;Los accesos a memoria &lt;strong&gt;son caros&lt;/strong&gt;, por lo que aprovechamos el caché de un CPU (estructuras de memoria especiales y muy rápidas) que almacenan direcciones de memoria si se usan frequentemente.&lt;/p&gt;
-&lt;h1 id=&#34;instrucciones-de-asm&#34;&gt;Instrucciones de ASM&lt;/h1&gt;
-&lt;p&gt;Ensamblador es un lenguaje de muy bajo nivel que permite comunicarnos casi directamente con el CPU. Se basa en &lt;strong&gt;instrucciones&lt;/strong&gt;, que operan con los registros de una CPU.&lt;/p&gt;
-&lt;p&gt;La sintaxis de este lenguaje puede variar según la arquitectura y las convenciones, AT&amp;amp;T o Intel. La sintaxis y convención más usada es IA32 de Intel (presente desde el mítico i386).&lt;/p&gt;
-&lt;h2 id=&#34;banderas&#34;&gt;Banderas&lt;/h2&gt;
-&lt;p&gt;Algunas de las instrucciones a contiunación modifican registros especiales llamados &lt;strong&gt;banderas&lt;/strong&gt;, que indican información adicional tras una operación.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;zeroflag&lt;/code&gt; 1 si el último valor calculado fue cero, en otro caso su valor es 0.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;instrucciones-básicas&#34;&gt;Instrucciones básicas&lt;/h2&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;mov &amp;lt;reg_destino&amp;gt;, &amp;lt;valor&amp;gt;&lt;/code&gt; mueve el valor al registro especificado &lt;code&gt;reg_destino&lt;/code&gt;. Notemos que el valor puede ser otro registro. Si el valor es del tipo &lt;code&gt;[addr]&lt;/code&gt;, entonces trae un valor de una dirección en memoria &lt;code&gt;addr&lt;/code&gt; y lo carga en el registro destino.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;add &amp;lt;reg_destino&amp;gt;, &amp;lt;valor&amp;gt;&lt;/code&gt; suma el valor al contenido del registro, el resultado se almacena en el registro destino.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;sub &amp;lt;reg_destino&amp;gt;, &amp;lt;valor&amp;gt;&lt;/code&gt; resta el valor al contenido del registro, el resultado se almacena en el registro destino.&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;push &amp;lt;valor&amp;gt;&lt;/code&gt; agrega un valor a la pila y hace que SP apunte a la nueva dirección en el tope. ``&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;pop &amp;lt;reg_dest&amp;gt;&lt;/code&gt; el valor que está al tope de la pila es sacado y almacenado en el registro destino y el SP es decrementado.&lt;/li&gt;
-&lt;/ul&gt;
-&lt;h2 id=&#34;instrucciones-de-flujo-de-control&#34;&gt;Instrucciones de flujo de control&lt;/h2&gt;
-&lt;p&gt;Estas instrucciones ayudan a modificar o definir un fliujo que el programa debería seguir.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;jmp &amp;lt;addr&amp;gt;&lt;/code&gt; el PC se mueve a la dirección especificada&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;je &amp;lt;addr&amp;gt;&lt;/code&gt; si &lt;code&gt;zeroflag&lt;/code&gt; esta activa, ve a la dirección especificada&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;call&lt;/code&gt; una mezcla entre &lt;code&gt;push&lt;/code&gt;, &lt;code&gt;jmp&lt;/code&gt; y &lt;code&gt;ret&lt;/code&gt;. Primero pone en el tope de la pila la dirección de la siguiente instrucción a ejecutar, luego, va a la dirección de una función especificada y al terminar, ejecuta &lt;code&gt;ret&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;ret&lt;/code&gt; hace &lt;code&gt;pop&lt;/code&gt; a la pila y pone la dirección en PC.&lt;/li&gt;
-&lt;/ul&gt;
-</content>
+      <description>&lt;h1 id=&#34;básicos&#34;&gt;Básicos&lt;/h1&gt;&#xA;&lt;p&gt;Toda la memoria está indexada en hexadecimal. En la memoria viven las instrucciones en ensamblador.&lt;/p&gt;&#xA;&lt;p&gt;Dependiendo de la arquitectura, tendremos entre 8 y 32 registros. Un registro puede verse como variables globales. Permiten realizar opreaciones aritmético-lógicas según su tipo. El tamaño de estos registros depende de la arquitectura del procesador (32 o 64 bits).&lt;/p&gt;&#xA;&lt;p&gt;Si los números que manejamos son más grandes que el tamaño máximo de nuestros registros, tendremos que &lt;strong&gt;dividir el número entre más de un registro&lt;/strong&gt;. Si a pesar de esto el espacio es insuficiente, tendremos que echar mano de &lt;strong&gt;la memoria&lt;/strong&gt; que no esté ocupada.&lt;/p&gt;</description>
     </item>
-    
   </channel>
 </rss>
