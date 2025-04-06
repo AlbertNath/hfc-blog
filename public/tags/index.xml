@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Hackers Fight Club Blog</title>
+    <link>//localhost:1313/tags/</link>
+    <description>Recent content in Tags on Hackers Fight Club Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 16 Feb 2025 09:12:30 -0600</lastBuildDate><atom:link href="//localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Pentesting</title>
+      <link>//localhost:1313/tags/pentesting/</link>
+      <pubDate>Sun, 16 Feb 2025 09:12:30 -0600</pubDate>
+      
+      <guid>//localhost:1313/tags/pentesting/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Revshells</title>
+      <link>//localhost:1313/tags/revshells/</link>
+      <pubDate>Sun, 16 Feb 2025 09:12:30 -0600</pubDate>
+      
+      <guid>//localhost:1313/tags/revshells/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Binary Explotation</title>
+      <link>//localhost:1313/tags/binary-explotation/</link>
+      <pubDate>Sun, 16 Feb 2025 09:12:08 -0600</pubDate>
+      
+      <guid>//localhost:1313/tags/binary-explotation/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>Reversing</title>
+      <link>//localhost:1313/tags/reversing/</link>
+      <pubDate>Sun, 16 Feb 2025 09:12:08 -0600</pubDate>
+      
+      <guid>//localhost:1313/tags/reversing/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+  </channel>
+</rss>
