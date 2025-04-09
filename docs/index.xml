@@ -2,24 +2,24 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Home on Hackers Fight Club Blog</title>
-    <link>/</link>
+    <link>https://albertnath.github.io/hfc-blog/</link>
     <description>Recent content in Home on Hackers Fight Club Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 20 Feb 2025 21:44:12 -0600</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 20 Feb 2025 21:44:12 -0600</lastBuildDate><atom:link href="https://albertnath.github.io/hfc-blog/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About</title>
-      <link>/about/</link>
+      <link>https://albertnath.github.io/hfc-blog/about/</link>
       <pubDate>Thu, 20 Feb 2025 21:44:12 -0600</pubDate>
       
-      <guid>/about/</guid>
+      <guid>https://albertnath.github.io/hfc-blog/about/</guid>
       <description>Hackers Fight Club Blog Blog con contenido acerca de ciberseguridad.
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam elementum justo vitae nulla fringilla, ultricies aliquam magna dignissim. Etiam at ante arcu. Sed nisl sem, blandit et sem et, iaculis dapibus eros. Aliquam efficitur pretium lacus, eu facilisis eros congue laoreet. Duis venenatis mattis nisi sit amet tempus. Cras ut nulla et velit hendrerit vulputate. Donec iaculis vitae lectus eu egestas.</description>
       <content>&lt;h1 id=&#34;hackers-fight-club-blog&#34;&gt;Hackers Fight Club Blog&lt;/h1&gt;
 &lt;p&gt;Blog con contenido acerca de ciberseguridad.&lt;/p&gt;
 &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam elementum justo vitae nulla fringilla, ultricies aliquam magna dignissim. Etiam at ante arcu. Sed nisl sem, blandit et sem et, iaculis dapibus eros. Aliquam efficitur pretium lacus, eu facilisis eros congue laoreet. Duis venenatis mattis nisi sit amet tempus. Cras ut nulla et velit hendrerit vulputate. Donec iaculis vitae lectus eu egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.&lt;/p&gt;
 &lt;p&gt;Morbi auctor purus at ligula faucibus fringilla. Nam nisl lorem, faucibus sed magna sit amet, vestibulum aliquam arcu. Cras enim nulla, consectetur vel dolor ut, dapibus interdum felis. Sed sapien diam, tincidunt at luctus eget, ullamcorper sed dolor. Phasellus facilisis quam lorem, ac volutpat diam ullamcorper id. Nullam in accumsan massa. Etiam faucibus eget tortor eu pretium. Mauris mauris sapien, tincidunt eu mauris eget, pretium iaculis turpis. Fusce non turpis in sem viverra eleifend et vel tellus.&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;HFCLogo&#34; src=&#34;/img/mainlogo.jpg&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;HFCLogo&#34; src=&#34;https://albertnath.github.io/hfc-blog/img/mainlogo.jpg&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Donec sit amet facilisis odio, nec aliquam dui. Cras fringilla metus ac consectetur condimentum. Pellentesque aliquam ornare nisi nec varius. Duis eu eleifend libero. Sed lorem purus, consectetur in egestas vitae, condimentum vel purus. Integer molestie tortor felis, nec interdum est fermentum quis. Morbi aliquet sit amet libero sed ultricies. Cras hendrerit purus ullamcorper felis consequat, ac fermentum mi sodales. Integer bibendum tortor in est pulvinar, eu varius lacus faucibus. Nunc ullamcorper, nisi at hendrerit malesuada, erat lectus euismod arcu, vel convallis neque odio et metus.&lt;/p&gt;
 &lt;p&gt;Praesent faucibus accumsan elit, a elementum turpis. Pellentesque vitae dui ac ante sollicitudin cursus at a magna. Sed arcu nisl, suscipit nec pellentesque pharetra, egestas eget lorem. In dapibus ex urna, non laoreet purus pellentesque vitae. Nulla imperdiet turpis lectus, at pellentesque purus feugiat id. Morbi sit amet mattis mi. Nunc quis porttitor tellus. Aenean vehicula odio eu imperdiet consectetur. Vivamus tristique sapien rhoncus euismod sollicitudin. Phasellus ut congue dolor. Donec ultrices placerat tincidunt. Proin tempus euismod quam a convallis.&lt;/p&gt;
 &lt;p&gt;Maecenas augue leo, mattis id nunc at, volutpat mattis tellus. In quis lectus et elit ullamcorper mollis sed in augue. Nullam nec ante vitae lectus facilisis suscipit. Integer tristique nibh ac nisl pellentesque, non dictum turpis suscipit. Nam in interdum nunc. Maecenas eget dolor odio. Sed scelerisque aliquam dapibus. Fusce gravida lorem id lacinia vestibulum. Vivamus nec libero consequat diam tempus lacinia nec ac mi. Nulla quis nunc eu arcu commodo iaculis. Vestibulum ac lorem risus.&lt;/p&gt;
@@ -28,10 +28,10 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam elementum justo v
     
     <item>
       <title>HTB-Init-test-skills</title>
-      <link>/posts/htb-init-test-skills/</link>
+      <link>https://albertnath.github.io/hfc-blog/posts/htb-init-test-skills/</link>
       <pubDate>Sun, 16 Feb 2025 09:12:30 -0600</pubDate>
       
-      <guid>/posts/htb-init-test-skills/</guid>
+      <guid>https://albertnath.github.io/hfc-blog/posts/htb-init-test-skills/</guid>
       <description>Module Getting Started: Knowledge check We get an IP adress target $TARGET which we have to pwn.
 First, we make a simple nmap scan to get open services, versions and ports:
 nmap -sV --open -oA start-skills-init-recon $TARGET We get two services:
@@ -180,20 +180,20 @@ binary can be used with root privileges without password by all users:&lt;/p&gt;
     
     <item>
       <title>Another Post</title>
-      <link>/posts/another-post/</link>
+      <link>https://albertnath.github.io/hfc-blog/posts/another-post/</link>
       <pubDate>Sun, 16 Feb 2025 09:12:08 -0600</pubDate>
       
-      <guid>/posts/another-post/</guid>
+      <guid>https://albertnath.github.io/hfc-blog/posts/another-post/</guid>
       <description></description>
       <content></content>
     </item>
     
     <item>
       <title>HTB Cyber Apocalypse 2025 | CyberAttack WriteUp</title>
-      <link>/posts/writeup-test/</link>
+      <link>https://albertnath.github.io/hfc-blog/posts/writeup-test/</link>
       <pubDate>Sun, 16 Feb 2025 09:12:08 -0600</pubDate>
       
-      <guid>/posts/writeup-test/</guid>
+      <guid>https://albertnath.github.io/hfc-blog/posts/writeup-test/</guid>
       <description>Introducción Recientemente se llevó a cabo el CTF anual de HackTheBox &amp;ldquo;Cyber Apocalypse&amp;rdquo;. Uno de los retos que más me gustó dentro de la categoría &amp;ldquo;Web&amp;rdquo; fue &amp;ldquo;Cyber Attack&amp;rdquo;. Como todos los retos de este CTF, este está ambientado en el mundo fantástico de Eldoria. Se nos presenta una aplicación web destinada a atacar a los enemigos de Malakar.
 A grandes rasgos, el reto requería explotar una inyección CRLF, una vulnerabilidad de tipo SSRF y una inyección de comandos.</description>
       <content>&lt;h1 id=&#34;introducción&#34;&gt;Introducción&lt;/h1&gt;
@@ -201,13 +201,13 @@ A grandes rasgos, el reto requería explotar una inyección CRLF, una vulnerabil
 &lt;p&gt;A grandes rasgos, el reto requería explotar una inyección &lt;em&gt;CRLF&lt;/em&gt;, una vulnerabilidad de tipo &lt;em&gt;SSRF&lt;/em&gt; y una inyección de comandos. Adicionalmente para lograr resolverlo, fue necesario comprender algo llamado &amp;ldquo;&lt;strong&gt;ambigüedad semántica&lt;/strong&gt;&amp;rdquo; en servidores Apache y aplicar un pequeño truco en IPv6 para conseguir inyectar comandos. Para resolver el reto, se nos provee el código fuente de la aplicación y archivos de configuración del servidor web.&lt;/p&gt;
 &lt;h1 id=&#34;desarrollo&#34;&gt;Desarrollo&lt;/h1&gt;
 &lt;p&gt;La aplicación muestra un formulario permite introducir el nombre del usuario y el nombre de dominio o dirección IP a atacar. El siguiente ejemplo muestra el funcionamiento de la aplicación al usarla para &amp;ldquo;atacar&amp;rdquo; un nombre de dominio.&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;Welcome to Eldoria Landpage&#34; src=&#34;/img/test-writeup/1.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;Welcome to Eldoria Landpage&#34; src=&#34;https://albertnath.github.io/hfc-blog/img/test-writeup/1.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Al enviar el formulario, regresa un mensaje indicando que el ataque fue exitoso. Dicho mensaje se obtiene del parámetro &lt;code&gt;result&lt;/code&gt; en la URL.&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;2&#34; src=&#34;/img/test-writeup/2.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;2&#34; src=&#34;https://albertnath.github.io/hfc-blog/img/test-writeup/2.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;El siguiente ejemplo muestra el uso de la funcionalidad de atacar una dirección IP.&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;3&#34; src=&#34;/img/test-writeup/3.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;3&#34; src=&#34;https://albertnath.github.io/hfc-blog/img/test-writeup/3.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Sin embargo, en este caso recibimos un error (Forbidden), pues no tenemos permitido interactuar con el recurso &lt;code&gt;/cgi-bin/attack-ip&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;4&#34; src=&#34;/img/test-writeup/4.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;4&#34; src=&#34;https://albertnath.github.io/hfc-blog/img/test-writeup/4.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Esto se entiende al ver el archivo de configuración apache2.conf, pues permite la interacción con dicho script únicamente si la petición HTTP se origina en el propio servidor:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-http&#34; data-lang=&#34;http&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;ServerName CyberAttack 
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
@@ -439,10 +439,10 @@ Parece haber una inyección de comandos, pues el parámetro &lt;code&gt;target&l
     
     <item>
       <title>Reversing Basicos: Arquitectura de Computadoras</title>
-      <link>/posts/reversing-basics/</link>
+      <link>https://albertnath.github.io/hfc-blog/posts/reversing-basics/</link>
       <pubDate>Sun, 16 Feb 2025 09:12:08 -0600</pubDate>
       
-      <guid>/posts/reversing-basics/</guid>
+      <guid>https://albertnath.github.io/hfc-blog/posts/reversing-basics/</guid>
       <description>Básicos Toda la memoria está indexada en hexadecimal. En la memoria viven las instrucciones en ensamblador.
 Dependiendo de la arquitectura, tendremos entre 8 y 32 registros. Un registro puede verse como variables globales. Permiten realizar opreaciones aritmético-lógicas según su tipo. El tamaño de estos registros depende de la arquitectura del procesador (32 o 64 bits).
 Si los números que manejamos son más grandes que el tamaño máximo de nuestros registros, tendremos que dividir el número entre más de un registro.</description>

@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Reversing on Hackers Fight Club Blog</title>
-    <link>/tags/reversing/</link>
+    <link>https://albertnath.github.io/hfc-blog/tags/reversing/</link>
     <description>Recent content in Reversing on Hackers Fight Club Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 16 Feb 2025 09:12:08 -0600</lastBuildDate><atom:link href="/tags/reversing/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 16 Feb 2025 09:12:08 -0600</lastBuildDate><atom:link href="https://albertnath.github.io/hfc-blog/tags/reversing/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Reversing Basicos: Arquitectura de Computadoras</title>
-      <link>/posts/reversing-basics/</link>
+      <link>https://albertnath.github.io/hfc-blog/posts/reversing-basics/</link>
       <pubDate>Sun, 16 Feb 2025 09:12:08 -0600</pubDate>
       
-      <guid>/posts/reversing-basics/</guid>
+      <guid>https://albertnath.github.io/hfc-blog/posts/reversing-basics/</guid>
       <description>Básicos Toda la memoria está indexada en hexadecimal. En la memoria viven las instrucciones en ensamblador.
 Dependiendo de la arquitectura, tendremos entre 8 y 32 registros. Un registro puede verse como variables globales. Permiten realizar opreaciones aritmético-lógicas según su tipo. El tamaño de estos registros depende de la arquitectura del procesador (32 o 64 bits).
 Si los números que manejamos son más grandes que el tamaño máximo de nuestros registros, tendremos que dividir el número entre más de un registro.</description>

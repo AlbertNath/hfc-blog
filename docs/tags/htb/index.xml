@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>HTB on Hackers Fight Club Blog</title>
-    <link>/tags/htb/</link>
+    <link>https://albertnath.github.io/hfc-blog/tags/htb/</link>
     <description>Recent content in HTB on Hackers Fight Club Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 16 Feb 2025 09:12:08 -0600</lastBuildDate><atom:link href="/tags/htb/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 16 Feb 2025 09:12:08 -0600</lastBuildDate><atom:link href="https://albertnath.github.io/hfc-blog/tags/htb/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>HTB Cyber Apocalypse 2025 | CyberAttack WriteUp</title>
-      <link>/posts/writeup-test/</link>
+      <link>https://albertnath.github.io/hfc-blog/posts/writeup-test/</link>
       <pubDate>Sun, 16 Feb 2025 09:12:08 -0600</pubDate>
       
-      <guid>/posts/writeup-test/</guid>
+      <guid>https://albertnath.github.io/hfc-blog/posts/writeup-test/</guid>
       <description>Introducción Recientemente se llevó a cabo el CTF anual de HackTheBox &amp;ldquo;Cyber Apocalypse&amp;rdquo;. Uno de los retos que más me gustó dentro de la categoría &amp;ldquo;Web&amp;rdquo; fue &amp;ldquo;Cyber Attack&amp;rdquo;. Como todos los retos de este CTF, este está ambientado en el mundo fantástico de Eldoria. Se nos presenta una aplicación web destinada a atacar a los enemigos de Malakar.
 A grandes rasgos, el reto requería explotar una inyección CRLF, una vulnerabilidad de tipo SSRF y una inyección de comandos.</description>
       <content>&lt;h1 id=&#34;introducción&#34;&gt;Introducción&lt;/h1&gt;
@@ -20,13 +20,13 @@ A grandes rasgos, el reto requería explotar una inyección CRLF, una vulnerabil
 &lt;p&gt;A grandes rasgos, el reto requería explotar una inyección &lt;em&gt;CRLF&lt;/em&gt;, una vulnerabilidad de tipo &lt;em&gt;SSRF&lt;/em&gt; y una inyección de comandos. Adicionalmente para lograr resolverlo, fue necesario comprender algo llamado &amp;ldquo;&lt;strong&gt;ambigüedad semántica&lt;/strong&gt;&amp;rdquo; en servidores Apache y aplicar un pequeño truco en IPv6 para conseguir inyectar comandos. Para resolver el reto, se nos provee el código fuente de la aplicación y archivos de configuración del servidor web.&lt;/p&gt;
 &lt;h1 id=&#34;desarrollo&#34;&gt;Desarrollo&lt;/h1&gt;
 &lt;p&gt;La aplicación muestra un formulario permite introducir el nombre del usuario y el nombre de dominio o dirección IP a atacar. El siguiente ejemplo muestra el funcionamiento de la aplicación al usarla para &amp;ldquo;atacar&amp;rdquo; un nombre de dominio.&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;Welcome to Eldoria Landpage&#34; src=&#34;/img/test-writeup/1.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;Welcome to Eldoria Landpage&#34; src=&#34;https://albertnath.github.io/hfc-blog/img/test-writeup/1.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Al enviar el formulario, regresa un mensaje indicando que el ataque fue exitoso. Dicho mensaje se obtiene del parámetro &lt;code&gt;result&lt;/code&gt; en la URL.&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;2&#34; src=&#34;/img/test-writeup/2.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;2&#34; src=&#34;https://albertnath.github.io/hfc-blog/img/test-writeup/2.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;El siguiente ejemplo muestra el uso de la funcionalidad de atacar una dirección IP.&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;3&#34; src=&#34;/img/test-writeup/3.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;3&#34; src=&#34;https://albertnath.github.io/hfc-blog/img/test-writeup/3.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Sin embargo, en este caso recibimos un error (Forbidden), pues no tenemos permitido interactuar con el recurso &lt;code&gt;/cgi-bin/attack-ip&lt;/code&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;img alt=&#34;4&#34; src=&#34;/img/test-writeup/4.png&#34;&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt=&#34;4&#34; src=&#34;https://albertnath.github.io/hfc-blog/img/test-writeup/4.png&#34;&gt;&lt;/p&gt;
 &lt;p&gt;Esto se entiende al ver el archivo de configuración apache2.conf, pues permite la interacción con dicho script únicamente si la petición HTTP se origina en el propio servidor:&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-http&#34; data-lang=&#34;http&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;ServerName CyberAttack 
 &lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#960050;background-color:#1e0010&#34;&gt;
