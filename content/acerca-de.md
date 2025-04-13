@@ -12,7 +12,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam elementum justo v
 
 Morbi auctor purus at ligula faucibus fringilla. Nam nisl lorem, faucibus sed magna sit amet, vestibulum aliquam arcu. Cras enim nulla, consectetur vel dolor ut, dapibus interdum felis. Sed sapien diam, tincidunt at luctus eget, ullamcorper sed dolor. Phasellus facilisis quam lorem, ac volutpat diam ullamcorper id. Nullam in accumsan massa. Etiam faucibus eget tortor eu pretium. Mauris mauris sapien, tincidunt eu mauris eget, pretium iaculis turpis. Fusce non turpis in sem viverra eleifend et vel tellus.
 
-![HFCLogo](/img/mainlogo.jpg)
+{{< image src="/img/mainlogo.jpg" alt="HFC Logo" position="center" >}}
 
 Donec sit amet facilisis odio, nec aliquam dui. Cras fringilla metus ac consectetur condimentum. Pellentesque aliquam ornare nisi nec varius. Duis eu eleifend libero. Sed lorem purus, consectetur in egestas vitae, condimentum vel purus. Integer molestie tortor felis, nec interdum est fermentum quis. Morbi aliquet sit amet libero sed ultricies. Cras hendrerit purus ullamcorper felis consequat, ac fermentum mi sodales. Integer bibendum tortor in est pulvinar, eu varius lacus faucibus. Nunc ullamcorper, nisi at hendrerit malesuada, erat lectus euismod arcu, vel convallis neque odio et metus.
 

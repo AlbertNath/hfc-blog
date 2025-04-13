@@ -1,12 +1,15 @@
-baseurl = "/"
+baseurl = "https://albertnath.github.io/hfc-blog/"
+canonifyURLs = true
 languageCode = "en-us"
 # Add it only if you keep the theme in the `themes` directory.
 # Remove it if you use the theme as a remote Hugo Module.
 theme = "terminal"
 pagination.pagerSize = 5
+#canonifyURLs = true
 
 [taxonomies]
 author = "authors"
+tag = "tags"
 
 # Required for Chroma and the custom syntax highlighting.
 [markup.highlight]
@@ -42,7 +45,7 @@ showLastUpdated = false
 # updatedDatePrefix = "Updated"
 
 # whether to show a page's estimated reading time
-# readingTime = false # default
+readingTime = true
 
 # whether to show a table of contents
 # can be overridden in a page's front-matter
@@ -62,7 +65,7 @@ showLastUpdated = false
 # This value can be customized according to Hugo documentation:
 # https://gohugo.io/functions/time/format/
 # Default value (no changes needed):
-# dateFormat = "2006-01-02"
+dateFormat = "02-01-2006"
 # Example format, with date, time, and timezone abbreviation:
 # dateFormat = "2006-01-02 3:04:06 PM MST"
 

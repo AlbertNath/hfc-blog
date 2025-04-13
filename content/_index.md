@@ -6,4 +6,6 @@ title = 'Home'
 
 Un showcase sencillito.
 
-![HFCLogo](/img/mainlogo.jpg)
+{{< image src="img/mainlogo.jpg" alt="Example image" position="center" >}}
+
+<!-- ![HFCLogo](/img/mainlogo.jpg) -->

