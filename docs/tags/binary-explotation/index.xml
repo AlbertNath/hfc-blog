@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Binary Explotation on Hackers Fight Club Blog</title>
+    <link>https://albertnath.github.io/hfc-blog/tags/binary-explotation/</link>
+    <description>Recent content in Binary Explotation on Hackers Fight Club Blog</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <lastBuildDate>Sun, 16 Feb 2025 09:12:08 -0600</lastBuildDate>
+    <atom:link href="https://albertnath.github.io/hfc-blog/tags/binary-explotation/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Reversing Basicos: Arquitectura de Computadoras</title>
+      <link>https://albertnath.github.io/hfc-blog/posts/reversing-basics/</link>
+      <pubDate>Sun, 16 Feb 2025 09:12:08 -0600</pubDate>
+      <guid>https://albertnath.github.io/hfc-blog/posts/reversing-basics/</guid>
+      <description>&lt;h1 id=&#34;básicos&#34;&gt;Básicos&lt;/h1&gt;&#xA;&lt;p&gt;Toda la memoria está indexada en hexadecimal. En la memoria viven las instrucciones en ensamblador.&lt;/p&gt;&#xA;&lt;p&gt;Dependiendo de la arquitectura, tendremos entre 8 y 32 registros. Un registro puede verse como variables globales. Permiten realizar opreaciones aritmético-lógicas según su tipo. El tamaño de estos registros depende de la arquitectura del procesador (32 o 64 bits).&lt;/p&gt;&#xA;&lt;p&gt;Si los números que manejamos son más grandes que el tamaño máximo de nuestros registros, tendremos que &lt;strong&gt;dividir el número entre más de un registro&lt;/strong&gt;. Si a pesar de esto el espacio es insuficiente, tendremos que echar mano de &lt;strong&gt;la memoria&lt;/strong&gt; que no esté ocupada.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
