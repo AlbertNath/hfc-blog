@@ -9,6 +9,7 @@ pagination.pagerSize = 5
 
 [taxonomies]
 author = "authors"
+tag = "tags"
 
 # Required for Chroma and the custom syntax highlighting.
 [markup.highlight]
