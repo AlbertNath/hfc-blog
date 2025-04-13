@@ -1,0 +1,14 @@
+{{ define "main" }}
+<h1>Autores</h1>
+
+{{ if .Data.Terms }}
+<ul>
+  {{ range .Data.Terms }}
+  <li>
+    <a href="{{ .Page.RelPermalink }}"
+      >{{ .Page.Title }} ({{ .Count }} posts)</a
+    >
+  </li>
+  {{ end }}
+</ul>
+{{ end }} {{ end }}
