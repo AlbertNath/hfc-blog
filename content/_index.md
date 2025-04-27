@@ -4,8 +4,8 @@ draft = false
 title = 'Home'
 +++
 
-Un showcase sencillito.
+Bienvenid@.
 
-{{< image src="img/mainlogo.jpg" alt="Example image" position="center" >}}
+_El conocimiento crece cuando se comparte_.
 
-<!-- ![HFCLogo](/img/mainlogo.jpg) -->
+{{< image src="img/mainlogo.jpg" alt="HFC Logo" position="center" >}}
