@@ -6,14 +6,21 @@
     <description>Recent content in Home on Hackers Fight Club Blog</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Thu, 20 Feb 2025 21:44:12 -0600</lastBuildDate>
+    <lastBuildDate>Sun, 20 Apr 2025 13:21:10 -0600</lastBuildDate>
     <atom:link href="https://albertnath.github.io/hfc-blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>HTB Cyber Apocalypse 2025 | CyberAttack WriteUp</title>
+      <link>https://albertnath.github.io/hfc-blog/posts/htb-cyber-apocalypse-2025/</link>
+      <pubDate>Sun, 20 Apr 2025 13:21:10 -0600</pubDate>
+      <guid>https://albertnath.github.io/hfc-blog/posts/htb-cyber-apocalypse-2025/</guid>
+      <description>&lt;h1 id=&#34;htb-cyber-apocalypse-2025--cyberattack-writeup&#34;&gt;HTB Cyber Apocalypse 2025 | CyberAttack WriteUp&lt;/h1&gt;&#xA;&lt;h2 id=&#34;introducción&#34;&gt;Introducción&lt;/h2&gt;&#xA;&lt;p&gt;Recientemente se llevó a cabo el CTF anual de HackTheBox &amp;ldquo;Cyber Apocalypse&amp;rdquo;. Uno de los retos que más me gustó dentro de la categoría &amp;ldquo;Web&amp;rdquo; fue &amp;ldquo;Cyber Attack&amp;rdquo;. Como todos los retos de este CTF, este está ambientado en el mundo fantástico de Eldoria. Se nos presenta una aplicación web destinada a atacar a los enemigos de Malakar.&lt;/p&gt;&#xA;&lt;p&gt;A grandes rasgos, el reto requería explotar una inyección CRLF, una vulnerabilidad de tipo SSRF y una inyección de comandos. Adicionalmente para lograr resolverlo, fue necesario comprender algo llamado &amp;ldquo;ambigüedad semántica&amp;rdquo; en servidores Apache y aplicar un pequeño truco en IPv6 para conseguir inyectar comandos. Para resolver el reto, se nos provee el código fuente de la aplicación y archivos de configuración del servidor web.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>Acerca de</title>
       <link>https://albertnath.github.io/hfc-blog/acerca-de/</link>
       <pubDate>Thu, 20 Feb 2025 21:44:12 -0600</pubDate>
       <guid>https://albertnath.github.io/hfc-blog/acerca-de/</guid>
-      <description>&lt;h1 id=&#34;hackers-fight-club-blog&#34;&gt;Hackers Fight Club Blog&lt;/h1&gt;&#xA;&lt;p&gt;Blog con contenido acerca de ciberseguridad.&lt;/p&gt;&#xA;&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam elementum justo vitae nulla fringilla, ultricies aliquam magna dignissim. Etiam at ante arcu. Sed nisl sem, blandit et sem et, iaculis dapibus eros. Aliquam efficitur pretium lacus, eu facilisis eros congue laoreet. Duis venenatis mattis nisi sit amet tempus. Cras ut nulla et velit hendrerit vulputate. Donec iaculis vitae lectus eu egestas. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.&lt;/p&gt;</description>
+      <description>&lt;h1 id=&#34;hackers-fight-club-blog&#34;&gt;Hackers Fight Club Blog&lt;/h1&gt;&#xA;&lt;p&gt;Blog con contenido acerca de ciberseguridad.&lt;/p&gt;&#xA;&#xA;&lt;img src=&#34;https://albertnath.github.io/hfc-blog/img/mainlogo.jpg&#34;  alt=&#34;HFC Logo&#34;  class=&#34;center&#34;    /&gt;</description>
     </item>
     <item>
       <title>HTB-Init-test-skills</title>
@@ -21,27 +28,6 @@
       <pubDate>Sun, 16 Feb 2025 09:12:30 -0600</pubDate>
       <guid>https://albertnath.github.io/hfc-blog/posts/htb-init-test-skills/</guid>
       <description>&lt;h1 id=&#34;module-getting-started-knowledge-check&#34;&gt;Module Getting Started: Knowledge check&lt;/h1&gt;&#xA;&lt;p&gt;We get an IP adress target &lt;code&gt;$TARGET&lt;/code&gt; which we have to pwn.&lt;/p&gt;&#xA;&lt;p&gt;First, we make a simple nmap scan to get open services, versions and ports:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;nmap -sV --open -oA start-skills-init-recon &lt;span class=&#34;nv&#34;&gt;$TARGET&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;We get two services:&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-sh&#34; data-lang=&#34;sh&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;PORT   STATE SERVICE VERSION&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 &lt;span class=&#34;o&#34;&gt;(&lt;/span&gt;Ubuntu Linux&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; protocol 2.0&lt;span class=&#34;o&#34;&gt;)&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;80/tcp open  http    Apache httpd 2.4.41 &lt;span class=&#34;o&#34;&gt;((&lt;/span&gt;Ubuntu&lt;span class=&#34;o&#34;&gt;))&lt;/span&gt;&#xA;&lt;/span&gt;&lt;/span&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;Service Info: OS: Linux&lt;span class=&#34;p&#34;&gt;;&lt;/span&gt; CPE: cpe:/o:linux:linux_kernel&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;The second seems to be a web server, running a page as the port is 80, for http. We run&#xA;a scan with &lt;code&gt;whatweb&lt;/code&gt;:&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Another Post</title>
-      <link>https://albertnath.github.io/hfc-blog/posts/another-post/</link>
-      <pubDate>Sun, 16 Feb 2025 09:12:08 -0600</pubDate>
-      <guid>https://albertnath.github.io/hfc-blog/posts/another-post/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>HTB Cyber Apocalypse 2025 | CyberAttack WriteUp</title>
-      <link>https://albertnath.github.io/hfc-blog/posts/writeup-test/</link>
-      <pubDate>Sun, 16 Feb 2025 09:12:08 -0600</pubDate>
-      <guid>https://albertnath.github.io/hfc-blog/posts/writeup-test/</guid>
-      <description>&lt;h1 id=&#34;introducción&#34;&gt;Introducción&lt;/h1&gt;&#xA;&lt;p&gt;Recientemente se llevó a cabo el CTF anual de HackTheBox &amp;ldquo;Cyber Apocalypse&amp;rdquo;. Uno de los retos que más me gustó dentro de la categoría &amp;ldquo;Web&amp;rdquo; fue &amp;ldquo;Cyber Attack&amp;rdquo;. Como todos los retos de este CTF, este está ambientado en el mundo fantástico de Eldoria. Se nos presenta una aplicación web destinada a atacar a los enemigos de Malakar.&lt;/p&gt;&#xA;&lt;p&gt;A grandes rasgos, el reto requería explotar una inyección CRLF, una vulnerabilidad de tipo SSRF y una inyección de comandos. Adicionalmente para lograr resolverlo, fue necesario comprender algo llamado &amp;ldquo;ambigüedad semántica&amp;rdquo; en servidores Apache y aplicar un pequeño truco en IPv6 para conseguir inyectar comandos. Para resolver el reto, se nos provee el código fuente de la aplicación y archivos de configuración del servidor web.&lt;/p&gt;</description>
-    </item>
-    <item>
-      <title>Reversing Basicos: Arquitectura de Computadoras</title>
-      <link>https://albertnath.github.io/hfc-blog/posts/reversing-basics/</link>
-      <pubDate>Sun, 16 Feb 2025 09:12:08 -0600</pubDate>
-      <guid>https://albertnath.github.io/hfc-blog/posts/reversing-basics/</guid>
-      <description>&lt;h1 id=&#34;básicos&#34;&gt;Básicos&lt;/h1&gt;&#xA;&lt;p&gt;Toda la memoria está indexada en hexadecimal. En la memoria viven las instrucciones en ensamblador.&lt;/p&gt;&#xA;&lt;p&gt;Dependiendo de la arquitectura, tendremos entre 8 y 32 registros. Un registro puede verse como variables globales. Permiten realizar opreaciones aritmético-lógicas según su tipo. El tamaño de estos registros depende de la arquitectura del procesador (32 o 64 bits).&lt;/p&gt;&#xA;&lt;p&gt;Si los números que manejamos son más grandes que el tamaño máximo de nuestros registros, tendremos que &lt;strong&gt;dividir el número entre más de un registro&lt;/strong&gt;. Si a pesar de esto el espacio es insuficiente, tendremos que echar mano de &lt;strong&gt;la memoria&lt;/strong&gt; que no esté ocupada.&lt;/p&gt;</description>
     </item>
   </channel>
 </rss>

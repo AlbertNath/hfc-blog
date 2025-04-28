@@ -6,8 +6,22 @@
     <description>Recent content in Tags on Hackers Fight Club Blog</description>
     <generator>Hugo</generator>
     <language>en</language>
-    <lastBuildDate>Sun, 16 Feb 2025 09:12:30 -0600</lastBuildDate>
+    <lastBuildDate>Sun, 20 Apr 2025 13:21:10 -0600</lastBuildDate>
     <atom:link href="https://albertnath.github.io/hfc-blog/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Web Hacking</title>
+      <link>https://albertnath.github.io/hfc-blog/tags/web-hacking/</link>
+      <pubDate>Sun, 20 Apr 2025 13:21:10 -0600</pubDate>
+      <guid>https://albertnath.github.io/hfc-blog/tags/web-hacking/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Writeup</title>
+      <link>https://albertnath.github.io/hfc-blog/tags/writeup/</link>
+      <pubDate>Sun, 20 Apr 2025 13:21:10 -0600</pubDate>
+      <guid>https://albertnath.github.io/hfc-blog/tags/writeup/</guid>
+      <description></description>
+    </item>
     <item>
       <title>Pentesting</title>
       <link>https://albertnath.github.io/hfc-blog/tags/pentesting/</link>
@@ -20,41 +34,6 @@
       <link>https://albertnath.github.io/hfc-blog/tags/revshells/</link>
       <pubDate>Sun, 16 Feb 2025 09:12:30 -0600</pubDate>
       <guid>https://albertnath.github.io/hfc-blog/tags/revshells/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Binary Explotation</title>
-      <link>https://albertnath.github.io/hfc-blog/tags/binary-explotation/</link>
-      <pubDate>Sun, 16 Feb 2025 09:12:08 -0600</pubDate>
-      <guid>https://albertnath.github.io/hfc-blog/tags/binary-explotation/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>HTB</title>
-      <link>https://albertnath.github.io/hfc-blog/tags/htb/</link>
-      <pubDate>Sun, 16 Feb 2025 09:12:08 -0600</pubDate>
-      <guid>https://albertnath.github.io/hfc-blog/tags/htb/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Reversing</title>
-      <link>https://albertnath.github.io/hfc-blog/tags/reversing/</link>
-      <pubDate>Sun, 16 Feb 2025 09:12:08 -0600</pubDate>
-      <guid>https://albertnath.github.io/hfc-blog/tags/reversing/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Web</title>
-      <link>https://albertnath.github.io/hfc-blog/tags/web/</link>
-      <pubDate>Sun, 16 Feb 2025 09:12:08 -0600</pubDate>
-      <guid>https://albertnath.github.io/hfc-blog/tags/web/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title>Writeup</title>
-      <link>https://albertnath.github.io/hfc-blog/tags/writeup/</link>
-      <pubDate>Sun, 16 Feb 2025 09:12:08 -0600</pubDate>
-      <guid>https://albertnath.github.io/hfc-blog/tags/writeup/</guid>
       <description></description>
     </item>
   </channel>
