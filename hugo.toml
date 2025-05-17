@@ -1,11 +1,10 @@
 baseurl = "https://albertnath.github.io/hfc-blog/"
 canonifyURLs = true
-languageCode = "en-us"
+languageCode = "en"
 # Add it only if you keep the theme in the `themes` directory.
 # Remove it if you use the theme as a remote Hugo Module.
 theme = "terminal"
 pagination.pagerSize = 5
-#canonifyURLs = true
 
 [taxonomies]
 author = "authors"
@@ -13,7 +12,7 @@ tag = "tags"
 
 # Required for Chroma and the custom syntax highlighting.
 [markup.highlight]
-noClasses = false
+noClasses = true
 
 [params]
 # dir name of your main content (default is `content/posts`).
@@ -78,39 +77,43 @@ creator = ""
 site = ""
 
 [languages]
-[languages.en]
+[languages.es]
 languageName = "Spanish"
 title = "Hackers Fight Club Blog"
 
-[languages.en.params]
+[languages.es.params]
 subtitle = "Hackers Fight Club Blog"
 owner = ""
 keywords = ""
 copyright = ""
-menuMore = "Show more"
-readMore = "Read more"
-readOtherPosts = "Read other posts"
-newerPosts = "Newer posts"
-olderPosts = "Older posts"
-missingContentMessage = "Page not found..."
-missingBackButtonLabel = "Back to home page"
-minuteReadingTime = "min read"
-words = "words"
+menuMore = "Más"
+readMore = "Leer más"
+readOtherPosts = "Más posts"
+newerPosts = "Posts nuevos"
+olderPosts = "Posts antiguos"
+missingContentMessage = "Página no encontrada..."
+missingBackButtonLabel = "Página principal"
+minuteReadingTime = "min. de lectura"
+words = "palabras"
 
-[languages.en.params.logo]
+[languages.es.params.logo]
 logoText = "Hackers Fight Club Blog"
-logoHomeLink = "/"
+logoHomeLink = "/hfc-blog"
 
-[languages.en.menu]
-[[languages.en.menu.main]]
+[languages.es.menu]
+[[languages.es.menu.main]]
 identifier = "acerca-de"
 name = "Acerca De"
 url = "/acerca-de"
-[[languages.en.menu.main]]
+[[languages.es.menu.main]]
 identifier = "autores"
 name = "Autores"
 url = "/authors"
-[[languages.en.menu.main]]
+[[languages.es.menu.main]]
+identifier = "categorias"
+name = "Categorías"
+url = "/tags"
+[[languages.es.menu.main]]
 identifier = "posts"
 name = "Posts"
 url = "/posts"

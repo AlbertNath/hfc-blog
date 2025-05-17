@@ -6,11 +6,12 @@ author = "corrupter"
 authors = ["corrupter"]
 authorTwitter = "" #do not include @
 cover = ""
-tags = ["Writeup", "Pentesting", "Revshells"]
+tags = ["Writeup", "Pentesting"]
 keywords = ["", ""]
 description = ""
 showFullContent = false
 hideComments = true 
+draft = true 
 +++
 
 # Module Getting Started: Knowledge check
