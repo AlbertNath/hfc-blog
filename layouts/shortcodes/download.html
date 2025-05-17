@@ -1,0 +1,7 @@
+<!-- layouts/shortcodes/download-button.html -->
+<a href="{{ .Get "src" }}" 
+   type="{{ .Get "type" | default "application/octet-stream" }}"
+   download="{{ with .Get "filename" }}{{ . }}{{ else }}true{{ end }}"
+   class="{{ .Get "class" | default "button" }}">
+   {{ .Inner | default "Download" }}
+</a>
