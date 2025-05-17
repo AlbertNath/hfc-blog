@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
-	<meta name="generator" content="Hugo 0.147.0">
+	<meta name="generator" content="Hugo 0.147.3">
   
     <title>Hackers Fight Club Blog</title>
   
@@ -76,7 +76,7 @@
 
 
 
-<meta property="og:locale" content="en" />
+<meta property="og:locale" content="es" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Hackers Fight Club Blog">
 <meta property="og:description" content="Hackers Fight Club Blog" />
@@ -113,7 +113,7 @@
   <header class="header">
   <div class="header__inner">
     <div class="header__logo">
-      <a href="https://albertnath.github.io/hfc-blog/">
+      <a href="https://albertnath.github.io/hfc-blog/hfc-blog">
   <div class="logo">
     Hackers Fight Club Blog
   </div>
@@ -132,6 +132,10 @@
       
         
           <li><a href="https://albertnath.github.io/hfc-blog/authors">Autores</a></li>
+        
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/tags">Categorías</a></li>
         
       
         
@@ -160,9 +164,24 @@
         
       
         
-          <li><a href="https://albertnath.github.io/hfc-blog/posts" >Posts</a></li>
+          <li><a href="https://albertnath.github.io/hfc-blog/tags" >Categorías</a></li>
         
       
+      
+        <li>
+          <ul class="menu">
+            <li class="menu__trigger">Más&nbsp;▾</li>
+            <li>
+              <ul class="menu__dropdown">
+                
+                  
+                    <li><a href="https://albertnath.github.io/hfc-blog/posts" >Posts</a></li>
+                  
+                
+              </ul>
+            </li>
+          </ul>
+        </li>
       
     
   </ul>
@@ -173,121 +192,17 @@
 
 
   <div class="content">
-    
-  
-    <div class="index-content ">
-      <p>Bienvenid@.</p>
+     
+<div class="index-content ">
+  <p>Bienvenid@.</p>
 <p><em>El conocimiento crece cuando se comparte</em>.</p>
 
 <img src="img/mainlogo.jpg"  alt="HFC Logo"  class="center"    />
 
 
 
-    </div>
-  
-  <div class="posts">
-    
-    
-
-    
-    
-      
-    
-    
-
-    
-      <article class="post on-list">
-        <h2 class="post-title">
-          <a href="https://albertnath.github.io/hfc-blog/posts/htb-cyber-apocalypse-2025/">HTB Cyber Apocalypse 2025 | CyberAttack WriteUp</a>
-        </h2>
-
-        <div class="post-meta"><time class="post-date">20-04-2025</time><span class="post-author">vir</span></div>
-
-        
-          <span class="post-tags">
-            
-            #<a href="https://albertnath.github.io/hfc-blog/tags/writeup/">Writeup</a>&nbsp;
-            
-            #<a href="https://albertnath.github.io/hfc-blog/tags/web-hacking/">Web hacking</a>&nbsp;
-            
-          </span>
-        
-
-        
-
-
-        <div class="post-content">
-          
-            <h1 id="htb-cyber-apocalypse-2025--cyberattack-writeup">HTB Cyber Apocalypse 2025 | CyberAttack WriteUp</h1>
-<h2 id="introducción">Introducción</h2>
-<p>Recientemente se llevó a cabo el CTF anual de HackTheBox &ldquo;Cyber Apocalypse&rdquo;. Uno de los retos que más me gustó dentro de la categoría &ldquo;Web&rdquo; fue &ldquo;Cyber Attack&rdquo;. Como todos los retos de este CTF, este está ambientado en el mundo fantástico de Eldoria. Se nos presenta una aplicación web destinada a atacar a los enemigos de Malakar.</p>
-<p>A grandes rasgos, el reto requería explotar una inyección CRLF, una vulnerabilidad de tipo SSRF y una inyección de comandos. Adicionalmente para lograr resolverlo, fue necesario comprender algo llamado &ldquo;ambigüedad semántica&rdquo; en servidores Apache y aplicar un pequeño truco en IPv6 para conseguir inyectar comandos. Para resolver el reto, se nos provee el código fuente de la aplicación y archivos de configuración del servidor web.</p>
-          
-        </div>
-
-        
-          <div>
-            <a class="read-more button inline" href="https://albertnath.github.io/hfc-blog/posts/htb-cyber-apocalypse-2025/">[Read more]</a>
-          </div>
-        
-      </article>
-    
-      <article class="post on-list">
-        <h2 class="post-title">
-          <a href="https://albertnath.github.io/hfc-blog/posts/htb-init-test-skills/">HTB-Init-test-skills</a>
-        </h2>
-
-        <div class="post-meta"><time class="post-date">16-02-2025</time><span class="post-author">corrupter</span></div>
-
-        
-          <span class="post-tags">
-            
-            #<a href="https://albertnath.github.io/hfc-blog/tags/writeup/">Writeup</a>&nbsp;
-            
-            #<a href="https://albertnath.github.io/hfc-blog/tags/pentesting/">Pentesting</a>&nbsp;
-            
-            #<a href="https://albertnath.github.io/hfc-blog/tags/revshells/">Revshells</a>&nbsp;
-            
-          </span>
-        
-
-        
-
-
-        <div class="post-content">
-          
-            <h1 id="module-getting-started-knowledge-check">Module Getting Started: Knowledge check</h1>
-<p>We get an IP adress target <code>$TARGET</code> which we have to pwn.</p>
-<p>First, we make a simple nmap scan to get open services, versions and ports:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">nmap -sV --open -oA start-skills-init-recon <span class="nv">$TARGET</span>
-</span></span></code></pre></div><p>We get two services:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-sh" data-lang="sh"><span class="line"><span class="cl">PORT   STATE SERVICE VERSION
-</span></span><span class="line"><span class="cl">22/tcp open  ssh     OpenSSH 8.2p1 Ubuntu 4ubuntu0.1 <span class="o">(</span>Ubuntu Linux<span class="p">;</span> protocol 2.0<span class="o">)</span>
-</span></span><span class="line"><span class="cl">80/tcp open  http    Apache httpd 2.4.41 <span class="o">((</span>Ubuntu<span class="o">))</span>
-</span></span><span class="line"><span class="cl">Service Info: OS: Linux<span class="p">;</span> CPE: cpe:/o:linux:linux_kernel
-</span></span></code></pre></div><p>The second seems to be a web server, running a page as the port is 80, for http. We run
-a scan with <code>whatweb</code>:</p>
-          
-        </div>
-
-        
-          <div>
-            <a class="read-more button inline" href="https://albertnath.github.io/hfc-blog/posts/htb-init-test-skills/">[Read more]</a>
-          </div>
-        
-      </article>
-    
-
-    <div class="pagination">
-  <div class="pagination__buttons">
-    
-    
-    
-  </div>
 </div>
-
-  </div>
-
+ 
   </div>
 
   

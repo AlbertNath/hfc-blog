@@ -4,8 +4,14 @@ draft = false
 title = 'Acerca de'
 +++
 
-# Hackers Fight Club Blog
+Bienvenidos al blog de Hackers Fight Club, una comunidad apasionada por la ciberseguridad y la tecnología.
 
-Blog con contenido acerca de ciberseguridad.
+Nuestro objetivo es fomentar el aprendizaje, la colaboración y el intercambio de conocimientos. Con este blog, esperamos acercarnos un poco más a lograrlo.
+
+Recuerda, el conocimiento crece cuando se comparte.
 
 {{< image src="/img/mainlogo.jpg" alt="HFC Logo" position="center" >}}
+
+## ¿Quieres contribuir?
+
+Revisa nuestros [lineamientos](/contrib).
