@@ -6,15 +6,8 @@
     <description>Recent content in Home on Hackers Fight Club Blog</description>
     <generator>Hugo</generator>
     <language>es</language>
-    <lastBuildDate>Sat, 17 May 2025 15:20:55 -0600</lastBuildDate>
+    <lastBuildDate>Thu, 15 May 2025 13:21:10 -0600</lastBuildDate>
     <atom:link href="https://albertnath.github.io/hfc-blog/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Contribuye</title>
-      <link>https://albertnath.github.io/hfc-blog/contrib/</link>
-      <pubDate>Sat, 17 May 2025 15:20:55 -0600</pubDate>
-      <guid>https://albertnath.github.io/hfc-blog/contrib/</guid>
-      <description>&lt;h1 id=&#34;documentación-y-lineamientos-del-blog--hfc&#34;&gt;Documentación y lineamientos del blog | HFC&lt;/h1&gt;&#xA;&lt;h2 id=&#34;url&#34;&gt;URL&lt;/h2&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://blog.hackersfight.club/&#34;&gt;https://blog.hackersfight.club/&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;introducción&#34;&gt;Introducción&lt;/h2&gt;&#xA;&lt;p&gt;El blog tiene por objetivos:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Crear contenido de interés para la comunidad de seguridad.&lt;/li&gt;&#xA;&lt;li&gt;Ayudar a todos los autores/colaboradores a crear su portafolio de publicaciones, con el fin de mejorar su CV.&lt;/li&gt;&#xA;&lt;li&gt;Ayudar a hacer más grande la agrupación, mediante la colaboración activa de sus miembros.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Para lograr estos objetivos, es necesario mantener cierto orden y calidad en las publicaciones. Por lo tanto, los miembros&#xA;de la grupación que colaboren en este proyecto deben tener claridad sobre el proceso que seguiremos para crear nuevas entradas&#xA;y las reglas a seguir al momento de redactar las mismas. Es por esto que creamos esta documentación.&lt;/p&gt;</description>
-    </item>
     <item>
       <title>HTB Cyber Apocalypse 2025 | CyberAttack WriteUp</title>
       <link>https://albertnath.github.io/hfc-blog/posts/htb_cyber_apocalypse_2025_cyberattack/</link>
@@ -27,7 +20,7 @@
       <link>https://albertnath.github.io/hfc-blog/acerca-de/</link>
       <pubDate>Thu, 20 Feb 2025 21:44:12 -0600</pubDate>
       <guid>https://albertnath.github.io/hfc-blog/acerca-de/</guid>
-      <description>&lt;p&gt;Bienvenidos al blog de Hackers Fight Club, una comunidad apasionada por la ciberseguridad y la tecnología.&lt;/p&gt;&#xA;&lt;p&gt;Nuestro objetivo es fomentar el aprendizaje, la colaboración y el intercambio de conocimientos. Con este blog, esperamos acercarnos un poco más a lograrlo.&lt;/p&gt;&#xA;&lt;p&gt;Recuerda, el conocimiento crece cuando se comparte.&lt;/p&gt;&#xA;&#xA;&lt;img src=&#34;https://albertnath.github.io/hfc-blog/img/mainlogo.jpg&#34;  alt=&#34;HFC Logo&#34;  class=&#34;center&#34;    /&gt;&#xA;&#xA;&#xA;&lt;h2 id=&#34;quieres-contribuir&#34;&gt;¿Quieres contribuir?&lt;/h2&gt;&#xA;&lt;p&gt;Revisa nuestros &lt;a href=&#34;https://albertnath.github.io/hfc-blog/contrib/&#34;&gt;lineamientos&lt;/a&gt;.&lt;/p&gt;</description>
+      <description>&lt;p&gt;Bienvenidos al blog de Hackers Fight Club, una comunidad apasionada por la ciberseguridad y la tecnología.&lt;/p&gt;&#xA;&lt;p&gt;Nuestro objetivo es fomentar el aprendizaje, la colaboración y el intercambio de conocimientos. Con este blog, esperamos acercarnos un poco más a lograrlo.&lt;/p&gt;&#xA;&lt;p&gt;Recuerda, el conocimiento crece cuando se comparte.&lt;/p&gt;&#xA;&#xA;&lt;img src=&#34;https://albertnath.github.io/hfc-blog/img/mainlogo.jpg&#34;  alt=&#34;HFC Logo&#34;  class=&#34;center&#34;    /&gt;</description>
     </item>
   </channel>
 </rss>
