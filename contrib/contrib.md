@@ -1,7 +1,9 @@
 +++
 date = '2025-05-17T15:20:55-06:00'
-draft = true 
+draft = true
 title = 'Contribuye'
+url = '/contrib'
+layout = "404"
 +++
 
 # Documentación y lineamientos del blog | HFC
