@@ -11,7 +11,3 @@ Nuestro objetivo es fomentar el aprendizaje, la colaboración y el intercambio d
 Recuerda, el conocimiento crece cuando se comparte.
 
 {{< image src="/img/mainlogo.jpg" alt="HFC Logo" position="center" >}}
-
-## ¿Quieres contribuir?
-
-Revisa nuestros [lineamientos](/contrib).

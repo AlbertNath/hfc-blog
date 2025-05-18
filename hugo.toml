@@ -98,7 +98,7 @@ words = "palabras"
 
 [languages.es.params.logo]
 logoText = "Hackers Fight Club Blog"
-logoHomeLink = "/hfc-blog"
+logoHomeLink = "/"
 
 [languages.es.menu]
 [[languages.es.menu.main]]
@@ -109,10 +109,10 @@ url = "/acerca-de"
 identifier = "autores"
 name = "Autores"
 url = "/authors"
-[[languages.es.menu.main]]
-identifier = "categorias"
-name = "Categorías"
-url = "/tags"
+# [[languages.es.menu.main]]
+# identifier = "categorias"
+# name = "Categorías"
+# url = "/tags"
 [[languages.es.menu.main]]
 identifier = "posts"
 name = "Posts"
