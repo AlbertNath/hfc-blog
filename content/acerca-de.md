@@ -1,6 +1,6 @@
 +++
 date = '2025-02-20T21:44:12-06:00'
-draft = false 
+draft = false
 title = 'Acerca de'
 +++
 
@@ -11,7 +11,3 @@ Nuestro objetivo es fomentar el aprendizaje, la colaboración y el intercambio d
 Recuerda, el conocimiento crece cuando se comparte.
 
 {{< image src="/img/mainlogo.jpg" alt="HFC Logo" position="center" >}}
-
-## ¿Quieres contribuir?
-
-Revisa nuestros [lineamientos](/contrib).

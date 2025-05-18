@@ -20,7 +20,7 @@ noClasses = true
 contentTypeName = "posts"
 
 # if you set this to 0, only submenu trigger will be visible
-showMenuItems = 3
+showMenuItems = 4
 
 # show selector to switch language
 showLanguageSelector = false
@@ -98,7 +98,7 @@ words = "palabras"
 
 [languages.es.params.logo]
 logoText = "Hackers Fight Club Blog"
-logoHomeLink = "/hfc-blog"
+logoHomeLink = "/"
 
 [languages.es.menu]
 [[languages.es.menu.main]]
