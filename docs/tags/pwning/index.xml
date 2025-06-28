@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Ookami on Hackers Fight Club Blog</title>
-    <link>https://albertnath.github.io/hfc-blog/authors/ookami/</link>
-    <description>Recent content in Ookami on Hackers Fight Club Blog</description>
+    <title>Pwning on Hackers Fight Club Blog</title>
+    <link>https://albertnath.github.io/hfc-blog/tags/pwning/</link>
+    <description>Recent content in Pwning on Hackers Fight Club Blog</description>
     <generator>Hugo</generator>
     <language>es</language>
     <lastBuildDate>Fri, 06 Jun 2025 09:12:48 -0600</lastBuildDate>
-    <atom:link href="https://albertnath.github.io/hfc-blog/authors/ookami/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://albertnath.github.io/hfc-blog/tags/pwning/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>shell_shop</title>
       <link>https://albertnath.github.io/hfc-blog/posts/shell_shop/</link>
