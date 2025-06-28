@@ -6,20 +6,62 @@
     <description>Recent content in Tags on Hackers Fight Club Blog</description>
     <generator>Hugo</generator>
     <language>es</language>
-    <lastBuildDate>Thu, 15 May 2025 13:21:10 -0600</lastBuildDate>
+    <lastBuildDate>Thu, 12 Jun 2025 13:14:58 -0600</lastBuildDate>
     <atom:link href="https://albertnath.github.io/hfc-blog/tags/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>Web Hacking</title>
-      <link>https://albertnath.github.io/hfc-blog/tags/web-hacking/</link>
-      <pubDate>Thu, 15 May 2025 13:21:10 -0600</pubDate>
-      <guid>https://albertnath.github.io/hfc-blog/tags/web-hacking/</guid>
+      <title>Red Team</title>
+      <link>https://albertnath.github.io/hfc-blog/tags/red-team/</link>
+      <pubDate>Thu, 12 Jun 2025 13:14:58 -0600</pubDate>
+      <guid>https://albertnath.github.io/hfc-blog/tags/red-team/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Secure Coding</title>
+      <link>https://albertnath.github.io/hfc-blog/tags/secure-coding/</link>
+      <pubDate>Thu, 12 Jun 2025 13:14:58 -0600</pubDate>
+      <guid>https://albertnath.github.io/hfc-blog/tags/secure-coding/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Web</title>
+      <link>https://albertnath.github.io/hfc-blog/tags/web/</link>
+      <pubDate>Thu, 12 Jun 2025 13:14:58 -0600</pubDate>
+      <guid>https://albertnath.github.io/hfc-blog/tags/web/</guid>
       <description></description>
     </item>
     <item>
       <title>Writeup</title>
       <link>https://albertnath.github.io/hfc-blog/tags/writeup/</link>
-      <pubDate>Thu, 15 May 2025 13:21:10 -0600</pubDate>
+      <pubDate>Thu, 12 Jun 2025 13:14:58 -0600</pubDate>
       <guid>https://albertnath.github.io/hfc-blog/tags/writeup/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Linux</title>
+      <link>https://albertnath.github.io/hfc-blog/tags/linux/</link>
+      <pubDate>Fri, 06 Jun 2025 09:12:48 -0600</pubDate>
+      <guid>https://albertnath.github.io/hfc-blog/tags/linux/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Pwning</title>
+      <link>https://albertnath.github.io/hfc-blog/tags/pwning/</link>
+      <pubDate>Fri, 06 Jun 2025 09:12:48 -0600</pubDate>
+      <guid>https://albertnath.github.io/hfc-blog/tags/pwning/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Reversing</title>
+      <link>https://albertnath.github.io/hfc-blog/tags/reversing/</link>
+      <pubDate>Fri, 06 Jun 2025 09:12:48 -0600</pubDate>
+      <guid>https://albertnath.github.io/hfc-blog/tags/reversing/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Web Hacking</title>
+      <link>https://albertnath.github.io/hfc-blog/tags/web-hacking/</link>
+      <pubDate>Thu, 15 May 2025 13:21:10 -0600</pubDate>
+      <guid>https://albertnath.github.io/hfc-blog/tags/web-hacking/</guid>
       <description></description>
     </item>
   </channel>

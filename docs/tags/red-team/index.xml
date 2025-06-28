@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Red Team on Hackers Fight Club Blog</title>
+    <link>https://albertnath.github.io/hfc-blog/tags/red-team/</link>
+    <description>Recent content in Red Team on Hackers Fight Club Blog</description>
+    <generator>Hugo</generator>
+    <language>es</language>
+    <lastBuildDate>Thu, 12 Jun 2025 13:14:58 -0600</lastBuildDate>
+    <atom:link href="https://albertnath.github.io/hfc-blog/tags/red-team/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>NahamCon CTF 2025 | Infinite Queue</title>
+      <link>https://albertnath.github.io/hfc-blog/posts/nahamcon_ctf_2025_infinite_queue/</link>
+      <pubDate>Thu, 12 Jun 2025 13:14:58 -0600</pubDate>
+      <guid>https://albertnath.github.io/hfc-blog/posts/nahamcon_ctf_2025_infinite_queue/</guid>
+      <description>&lt;h2 id=&#34;introducción&#34;&gt;Introducción&lt;/h2&gt;&#xA;&lt;p&gt;Recientemente se llevó a cabo una de las conferencias virtuales más notorias de&#xA;ciberseguridad: &amp;ldquo;NahamCon&amp;rdquo; y, como es tradición, acompañado de esta se realizó su&#xA;respectivo CTF.&lt;/p&gt;&#xA;&lt;p&gt;Dicho CTF contaba con retos en diversas áreas ya clásicas en competencias de este estilo;&#xA;particularmente, este &lt;em&gt;writeup&lt;/em&gt; se centra en uno de la categoría &lt;em&gt;Web&lt;/em&gt;: &lt;em&gt;inifinite queue&lt;/em&gt;&#xA;que nos sitúa hasta el final de fila ficticia para adquirir boletos del tour de una banda famosa.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>shell_shop</title>
+      <link>https://albertnath.github.io/hfc-blog/posts/shell_shop/</link>
+      <pubDate>Fri, 06 Jun 2025 09:12:48 -0600</pubDate>
+      <guid>https://albertnath.github.io/hfc-blog/posts/shell_shop/</guid>
+      <description>&lt;h1 id=&#34;bugcrowd-student-qualifier--shell-shop-writeup&#34;&gt;Bugcrowd Student Qualifier | Shell Shop Writeup&lt;/h1&gt;&#xA;&lt;!-- raw HTML omitted --&gt;&#xA;&lt;h2 id=&#34;descripción&#34;&gt;Descripción&lt;/h2&gt;&#xA;&lt;blockquote&gt;&#xA;&lt;p&gt;&lt;strong&gt;Categoría&lt;/strong&gt;: &lt;em&gt;Pwn&lt;/em&gt; &amp;gt; &lt;strong&gt;Dificultad&lt;/strong&gt;: Media&lt;/p&gt;&lt;/blockquote&gt;&#xA;&lt;p&gt;Para este reto, se nos brindó un &lt;strong&gt;comprimido&lt;/strong&gt; &lt;code&gt;pwn_shellstore.zip&lt;/code&gt; del &lt;strong&gt;ejecutable principal&lt;/strong&gt; &lt;code&gt;shell_shop&lt;/code&gt;, acompañado de las librerías necesarias en un directorio &lt;code&gt;glibc&lt;/code&gt;.&#xA;La idea es analizar estos recursos para preparar un &lt;code&gt;exploit&lt;/code&gt; contra este binario como servicio, en un contenedor &lt;code&gt;docker&lt;/code&gt; que desplegaba la página del &lt;em&gt;CTF&lt;/em&gt;.&lt;/p&gt;&#xA;&lt;p&gt;En cuanto al &lt;strong&gt;ejecutable&lt;/strong&gt;, este despliega un menú básico para la compra de un par de productos fantasiosos y una opción para terminar el programa, no sin antes preguntar si deseas ser notificado cuando la tienda reaparezca.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

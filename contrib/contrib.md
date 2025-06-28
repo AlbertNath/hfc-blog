@@ -1,11 +1,3 @@
-+++
-date = '2025-05-17T15:20:55-06:00'
-draft = true
-title = 'Contribuye'
-url = '/contrib'
-layout = "404"
-+++
-
 # Documentación y lineamientos del blog | HFC
 
 ## URL
@@ -58,11 +50,7 @@ Antes de publicarse, cada entrada pasará por una revisión de calidad. Pero, pa
   - `content/posts/[nombre_de_tu_entrada].md`: aquí pudes escribir tu contribución.
   - `static/img/[nombre_de_tu_entrada]/`: si es **absoultamente necesario** , puedes poner las imágenes en este directorio.
 
-  **Es importante que respetes la estructura creada**. Puedes descargar el script
-  {{< download src="/downloads/code/build-workspace.sh"
-    type="application/x-sh" filename="build-workspace.sh"  class="btn">}}
-  aquí.
-  {{</download >}}
+  **Es importante que respetes la estructura creada**. Puedes descargar el script [aquí](../static/downloads/code/build-workspace.sh).
 
 - Usa doble numeral ( ## ) para los títulos de las diferentes secciones.
 - Usa comillas para referenciar títulos (p. ej. el título de la máquina de HTB).
