@@ -2,8 +2,26 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
+    <loc>https://albertnath.github.io/hfc-blog/tags/android/</loc>
+    <lastmod>2025-08-07T20:27:25-06:00</lastmod>
+  </url><url>
     <loc>https://albertnath.github.io/hfc-blog/authors/</loc>
-    <lastmod>2025-06-12T13:14:58-06:00</lastmod>
+    <lastmod>2025-08-07T20:27:25-06:00</lastmod>
+  </url><url>
+    <loc>https://albertnath.github.io/hfc-blog/posts/del-hook-a-la-evasi%C3%B3n-con-frida/</loc>
+    <lastmod>2025-08-07T20:27:25-06:00</lastmod>
+  </url><url>
+    <loc>https://albertnath.github.io/hfc-blog/authors/lorne/</loc>
+    <lastmod>2025-08-07T20:27:25-06:00</lastmod>
+  </url><url>
+    <loc>https://albertnath.github.io/hfc-blog/tags/mobile/</loc>
+    <lastmod>2025-08-07T20:27:25-06:00</lastmod>
+  </url><url>
+    <loc>https://albertnath.github.io/hfc-blog/posts/</loc>
+    <lastmod>2025-08-07T20:27:25-06:00</lastmod>
+  </url><url>
+    <loc>https://albertnath.github.io/hfc-blog/tags/</loc>
+    <lastmod>2025-08-07T20:27:25-06:00</lastmod>
   </url><url>
     <loc>https://albertnath.github.io/hfc-blog/authors/corrupter/</loc>
     <lastmod>2025-06-12T13:14:58-06:00</lastmod>
@@ -11,16 +29,10 @@
     <loc>https://albertnath.github.io/hfc-blog/posts/nahamcon_ctf_2025_infinite_queue/</loc>
     <lastmod>2025-06-12T13:14:58-06:00</lastmod>
   </url><url>
-    <loc>https://albertnath.github.io/hfc-blog/posts/</loc>
-    <lastmod>2025-06-12T13:14:58-06:00</lastmod>
-  </url><url>
     <loc>https://albertnath.github.io/hfc-blog/tags/red-team/</loc>
     <lastmod>2025-06-12T13:14:58-06:00</lastmod>
   </url><url>
     <loc>https://albertnath.github.io/hfc-blog/tags/secure-coding/</loc>
-    <lastmod>2025-06-12T13:14:58-06:00</lastmod>
-  </url><url>
-    <loc>https://albertnath.github.io/hfc-blog/tags/</loc>
     <lastmod>2025-06-12T13:14:58-06:00</lastmod>
   </url><url>
     <loc>https://albertnath.github.io/hfc-blog/tags/web/</loc>
