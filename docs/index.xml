@@ -6,8 +6,15 @@
     <description>Recent content in Home on Hackers Fight Club Blog</description>
     <generator>Hugo</generator>
     <language>es</language>
-    <lastBuildDate>Thu, 12 Jun 2025 13:14:58 -0600</lastBuildDate>
+    <lastBuildDate>Thu, 07 Aug 2025 20:27:25 -0600</lastBuildDate>
     <atom:link href="https://albertnath.github.io/hfc-blog/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Del hook a la evasión con Frida</title>
+      <link>https://albertnath.github.io/hfc-blog/posts/del-hook-a-la-evasi%C3%B3n-con-frida/</link>
+      <pubDate>Thu, 07 Aug 2025 20:27:25 -0600</pubDate>
+      <guid>https://albertnath.github.io/hfc-blog/posts/del-hook-a-la-evasi%C3%B3n-con-frida/</guid>
+      <description>&lt;blockquote&gt;&#xA;&lt;p&gt;Contexto: Este artículo habla sobre el uso de la herramienta Frida, utilizada para pruebas de penetración en entornos móviles como Android y iOS, su objetivo es enseñar a realizar scripts propios evitando depender de los ya existentes.&lt;/p&gt;&lt;/blockquote&gt;&#xA;&lt;h2 id=&#34;preparando-el-entorno&#34;&gt;Preparando el entorno&lt;/h2&gt;&#xA;&lt;p&gt;Para poder realizar nuestros ejercicios con frida, es necesario subir un binario de frida server que será el que nos permitirá hookear procesos. Es necesario que el dispositivo esté rooteado, por lo que basta con utilizar algun AVD que no tenga la API de Google Play, o uno rooteado con aplicaciones como Magisk y RootAVD.&lt;/p&gt;</description>
+    </item>
     <item>
       <title>NahamCon CTF 2025 | Infinite Queue</title>
       <link>https://albertnath.github.io/hfc-blog/posts/nahamcon_ctf_2025_infinite_queue/</link>
